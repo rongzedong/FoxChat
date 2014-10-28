@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">狐狐通讯录</string>
+    <string name="hello_world">你好</string>
+    <string name="action_settings">设置</string>
+    <string name="name">姓名</string>
+
+</resources>
