@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AbsListView;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
@@ -19,16 +20,21 @@ import com.wangyeming.custom.NewToast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
 
 public class LineActivity extends Activity {
 
     protected List<Map<String, String>> ContactDisplay = new ArrayList<Map<String, String>>();
+    protected List<Map<String, String>> ContactFilterDisplay = new ArrayList<Map<String, String>>();
     //protected ListView lt1 = (ListView) findViewById(R.id.list1);
     protected ListView lt1;
+    protected SearchView searchView;
 
     private static final String[] PHONES_PROJECTION = new String[] {
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
@@ -51,6 +57,8 @@ public class LineActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.line, menu);
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        setSearchViewListener();
         return true;
     }
 
@@ -106,12 +114,12 @@ public class LineActivity extends Activity {
     }
 
     //设置lisView布局
-    public void displayListView(){
+    public void displayListView(List<Map<String, String>> Display ){
         lt1 = (ListView) findViewById(R.id.list1);
         if(ContactDisplay == null){
             System.out.println("ContactDisplay is nil");
         }
-        SimpleAdapter adapter = new SimpleAdapter(this, ContactDisplay,
+        SimpleAdapter adapter = new SimpleAdapter(this, Display,
                 R.layout.list_item, new String[]{"name"}, new int[]{R.id.name});
         lt1.setAdapter(adapter);
     }
@@ -135,7 +143,7 @@ public class LineActivity extends Activity {
         public void handleMessage(android.os.Message msg) {
             ContactDisplay = (List<Map<String, String>>)msg.obj;
             try {
-                displayListView();
+                displayListView(ContactDisplay);
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -143,7 +151,7 @@ public class LineActivity extends Activity {
         }
     };
 
-    //设置ListView监听
+    //设置ListView监听---根据滑动位置Toast提示
     public void setListViewListener() {
         lt1.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -156,7 +164,6 @@ public class LineActivity extends Activity {
                     String name = ContactNameDisplay.get("name");
                     String surname = name.substring(0, 1);
                     Toast nameToast = NewToast.makeText(LineActivity.this, surname, Toast.LENGTH_SHORT);
-                    //nameToast.setGravity(Gravity.CENTER, 0, 0);
                     nameToast.show();
                 }
             }
@@ -166,4 +173,44 @@ public class LineActivity extends Activity {
         });
     }
 
+    //设置搜索框监听
+    public void setSearchViewListener(){
+        //监听输入框字符串变化
+        SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+            //输入框文字改变
+            public boolean onQueryTextChange(String newText) {
+                System.out.println("自动补全 "+ newText);
+                matchContact(newText);
+                return true;
+            }
+
+            //提交搜索请求
+            public boolean onQueryTextSubmit(String query) {
+               matchContact(query);
+               return true;
+            }
+        };
+        searchView.setOnQueryTextListener(queryTextListener);
+    }
+
+    //匹配输入文字
+    public void matchContact(String input){
+        ContactFilterDisplay.clear();
+        if(input.equals("")){
+            displayListView(ContactDisplay);
+        }
+        Iterator iterator = ContactDisplay.iterator();
+        while(iterator.hasNext()) {
+            Map<String, String> ContactNameDisplay =
+                    (Map<String, String>) iterator.next();
+            String name = ContactNameDisplay.get("name");
+            Pattern pattern = Pattern.compile(input);
+            Matcher matcher = pattern.matcher(name);
+            if(matcher.find()){
+                ContactNameDisplay.put("name", name);
+                ContactFilterDisplay.add(ContactNameDisplay);
+            }
+            displayListView(ContactFilterDisplay);
+        }
+    }
 }
