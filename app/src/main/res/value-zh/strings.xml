@@ -5,5 +5,7 @@
     <string name="hello_world">你好</string>
     <string name="action_settings">设置</string>
     <string name="name">姓名</string>
+    <string name="search_label">搜索</string>
+    <string name="search_hint">查找联系人</string>
 
 </resources>

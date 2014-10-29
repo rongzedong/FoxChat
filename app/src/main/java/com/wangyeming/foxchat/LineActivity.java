@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +23,7 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 public class LineActivity extends Activity {
 
     protected List<Map<String, String>> ContactDisplay = new ArrayList<Map<String, String>>();
-    protected ListView lt1;
+    protected ListView lt1 = (ListView) findViewById(R.id.list1);
 
     private static final String[] PHONES_PROJECTION = new String[] {
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
@@ -35,6 +37,7 @@ public class LineActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line);
+        //getActionBar().hide();//隐藏ActionBar
         runnableGetContacts();
     }
 
@@ -61,6 +64,7 @@ public class LineActivity extends Activity {
     /**得到手机通讯录联系人信息**/
     public void getPhoneContacts() {
         //String string = "";
+        List<Map<String, String>> ContactDisplayTmp = new ArrayList<Map<String, String>>();
         ContentResolver cr = getContentResolver();//得到ContentResolver对象
         Cursor cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, null, null, "sort_key");// 设置联系人光标,按汉语拼音排序
         System.out.println("PHONES_PROJECTION[0] "+ PHONES_PROJECTION[0] +  " PHONES_PROJECTION[1] "
@@ -73,8 +77,11 @@ public class LineActivity extends Activity {
             String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
             Map<String, String> ContactNameDisplay = new HashMap<String, String>();
             ContactNameDisplay.put("name", contact);
-            ContactDisplay.add(ContactNameDisplay);
+            ContactDisplayTmp.add(ContactNameDisplay);
             System.out.println("name "+ contact +" ");
+            Message message = Message.obtain();
+            message.obj = ContactDisplayTmp;
+            LineActivity.this.handler1.sendMessage(message);
             /*
             int index = cursorID.getColumnIndex(PHONES_PROJECTION[3]);//通过_id获取index值-- -1
             String ContactId = cursorID.getString(index);//获取联系人对应的ID号
@@ -95,7 +102,6 @@ public class LineActivity extends Activity {
 
     //设置lisView布局
     public void displayListView(){
-        lt1 = (ListView) findViewById(R.id.list1);
         if(ContactDisplay == null){
             System.out.println("ContactDisplay is nil");
         }
@@ -104,6 +110,7 @@ public class LineActivity extends Activity {
         lt1.setAdapter(adapter);
     }
 
+    //获取联系人信息线程
     public void runnableGetContacts(){
         System.out.println("start");
         Runnable runnable = new Runnable() {
@@ -111,14 +118,26 @@ public class LineActivity extends Activity {
             public void run(){
                 System.out.println("thread start!");
                 getPhoneContacts();
-                try {
-                    displayListView();
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
             }
         };
         new Thread(runnable).start();
     }
 
+    //处理联系人信息显示的handler
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            ContactDisplay = (List<Map<String, String>>)msg.obj;
+            try {
+                displayListView();
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    };
+
+    //设置ListView监听
+    public void setListViewListener() {
+
+    }
 }

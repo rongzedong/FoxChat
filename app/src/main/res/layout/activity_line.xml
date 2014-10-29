@@ -4,6 +4,8 @@
     android:layout_height="match_parent"
     tools:context=".LineActivity">
 
+
+
     <ListView
         android:id="@+id/list1"
         android:layout_width="match_parent"
