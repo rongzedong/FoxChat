@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.wangyeming.custom.NewToast;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -153,8 +155,8 @@ public class LineActivity extends Activity {
                             (Map<String, String>) view.getItemAtPosition(firstPos);
                     String name = ContactNameDisplay.get("name");
                     String surname = name.substring(0, 1);
-                    Toast nameToast = Toast.makeText(LineActivity.this, surname, Toast.LENGTH_SHORT);
-                    nameToast.setGravity(Gravity.CENTER, 0, 0);
+                    Toast nameToast = NewToast.makeText(LineActivity.this, surname, Toast.LENGTH_SHORT);
+                    //nameToast.setGravity(Gravity.CENTER, 0, 0);
                     nameToast.show();
                 }
             }
