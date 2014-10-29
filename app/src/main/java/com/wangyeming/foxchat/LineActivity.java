@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,11 +22,11 @@ import java.util.Map;
 
 import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
 
-
 public class LineActivity extends Activity {
 
     protected List<Map<String, String>> ContactDisplay = new ArrayList<Map<String, String>>();
-    protected ListView lt1 = (ListView) findViewById(R.id.list1);
+    //protected ListView lt1 = (ListView) findViewById(R.id.list1);
+    protected ListView lt1;
 
     private static final String[] PHONES_PROJECTION = new String[] {
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
@@ -102,6 +105,7 @@ public class LineActivity extends Activity {
 
     //设置lisView布局
     public void displayListView(){
+        lt1 = (ListView) findViewById(R.id.list1);
         if(ContactDisplay == null){
             System.out.println("ContactDisplay is nil");
         }
@@ -133,11 +137,31 @@ public class LineActivity extends Activity {
             }catch(Exception e){
                 e.printStackTrace();
             }
+            setListViewListener();
         }
     };
 
     //设置ListView监听
     public void setListViewListener() {
-
+        lt1.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                // 当不滚动时
+                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                    int firstPos = view.getFirstVisiblePosition()+1;
+                    Map<String, String> ContactNameDisplay =
+                            (Map<String, String>) view.getItemAtPosition(firstPos);
+                    String name = ContactNameDisplay.get("name");
+                    String surname = name.substring(0, 1);
+                    Toast nameToast = Toast.makeText(LineActivity.this, surname, Toast.LENGTH_SHORT);
+                    nameToast.setGravity(Gravity.CENTER, 0, 0);
+                    nameToast.show();
+                }
+            }
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            }
+        });
     }
+
 }
