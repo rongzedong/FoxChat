@@ -44,7 +44,7 @@ public class LineActivity extends Activity {
     protected TextView tv1;
     protected TextView tv2;
 
-    private static final String[] PHONES_PROJECTION = new String[] {
+    private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
             ContactsContract.CommonDataKinds.Photo.PHOTO_ID, //photo_id
@@ -78,36 +78,38 @@ public class LineActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void init(){
+    public void init() {
         getPhoneContacts();
         displayListView(ContactDisplay);
         setOnScrollListener();
         setOnItemClickListener();
     }
 
-    /**得到手机通讯录联系人信息**/
+    /**
+     * 得到手机通讯录联系人信息*
+     */
     public void getPhoneContacts() {
         //String string = "";
         cr = getContentResolver();//得到ContentResolver对象
         cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, null, null, "sort_key");// 设置联系人光标,按汉语拼音排序
-        System.out.println("PHONES_PROJECTION[0] "+ PHONES_PROJECTION[0] +  " PHONES_PROJECTION[1] "
-                + PHONES_PROJECTION[1] +" PHONES_PROJECTION[2] "+ PHONES_PROJECTION[2] +
-                " PHONES_PROJECTION[3] "+ PHONES_PROJECTION[3] + " PHONES_PROJECTION[4] "
+        System.out.println("PHONES_PROJECTION[0] " + PHONES_PROJECTION[0] + " PHONES_PROJECTION[1] "
+                + PHONES_PROJECTION[1] + " PHONES_PROJECTION[2] " + PHONES_PROJECTION[2] +
+                " PHONES_PROJECTION[3] " + PHONES_PROJECTION[3] + " PHONES_PROJECTION[4] "
                 + PHONES_PROJECTION[4]);
         readContact(); //读取联系人
         System.out.println(ContactDisplay.size());
     }
 
     //读取联系人
-    public void readContact(){
+    public void readContact() {
         Map<String, List<String>> contact_map = new HashMap<String, List<String>>();//存放单个联系人的各种信息
-        while(cursorID.moveToNext()){
+        while (cursorID.moveToNext()) {
             int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
             String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
             Map<String, String> ContactNameDisplay = new HashMap<String, String>();
             ContactNameDisplay.put("name", contact);
             ContactDisplay.add(ContactNameDisplay);
-            System.out.println("name "+ contact +" ");
+            System.out.println("name " + contact + " ");
             /*获取手机号*/
             int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
             System.out.println("index " + index);
@@ -127,7 +129,7 @@ public class LineActivity extends Activity {
     public List<String> readContactPhoneNum() {
         String string = "";//准备输出的字符串
         List<String> phone_num_list = new ArrayList<String>();//存放手机号的数组
-        while(phoneID.moveToNext()){
+        while (phoneID.moveToNext()) {
             String Number = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             phone_num_list.add(Number);
             string += (Number + " ");
@@ -137,9 +139,9 @@ public class LineActivity extends Activity {
     }
 
     //设置lisView布局
-    public void displayListView(List<Map<String, String>> Display ){
+    public void displayListView(List<Map<String, String>> Display) {
         lt1 = (ListView) findViewById(R.id.list1);
-        if(ContactDisplay == null){
+        if (ContactDisplay == null) {
             System.out.println("ContactDisplay is nil");
         }
         SimpleAdapter adapter = new SimpleAdapter(this, Display,
@@ -154,7 +156,7 @@ public class LineActivity extends Activity {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 // 当不滚动时
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                    int firstPos = view.getFirstVisiblePosition()+1;
+                    int firstPos = view.getFirstVisiblePosition() + 1;
                     Map<String, String> ContactNameDisplay =
                             (Map<String, String>) view.getItemAtPosition(firstPos);
                     String name = ContactNameDisplay.get("name");
@@ -163,6 +165,7 @@ public class LineActivity extends Activity {
                     nameToast.show();
                 }
             }
+
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             }
@@ -170,7 +173,7 @@ public class LineActivity extends Activity {
     }
 
     //设置ListView点击监听
-    public void setOnItemClickListener(){
+    public void setOnItemClickListener() {
         lt1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -180,39 +183,41 @@ public class LineActivity extends Activity {
     }
 
     //设置搜索框监听
-    public void setSearchViewListener(){
+    public void setSearchViewListener() {
         //监听输入框字符串变化
         SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
             //输入框文字改变
             public boolean onQueryTextChange(String newText) {
-                System.out.println("自动补全 "+ newText);
+                System.out.println("自动补全 " + newText);
                 matchContact(newText);
                 return true;
             }
 
             //提交搜索请求
             public boolean onQueryTextSubmit(String query) {
-               matchContact(query);
-               return true;
+                matchContact(query);
+                return true;
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
     }
 
     //匹配输入文字
-    public void matchContact(String input){
+    public void matchContact(String input) {
         ContactFilterDisplay.clear();
-        if(input.equals("")){
+        if (input.equals("")) {
             displayListView(ContactDisplay);
+            displayConclusion();
+            return;
         }
         Iterator iterator = ContactDisplay.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Map<String, String> ContactNameDisplay =
                     (Map<String, String>) iterator.next();
             String name = ContactNameDisplay.get("name");
             Pattern pattern = Pattern.compile(input);
             Matcher matcher = pattern.matcher(name);
-            if(matcher.find()){
+            if (matcher.find()) {
                 ContactNameDisplay.put("name", name);
                 ContactFilterDisplay.add(ContactNameDisplay);
             }
@@ -221,14 +226,23 @@ public class LineActivity extends Activity {
         }
     }
 
-    //显示搜索结果统计
-    public void displayConclusion(List<Map<String, String>> Display){
-        int total_num = this.ContactDisplay.size();
-        int match_num = Display.size();
-        String str1 = "所有联系人";
-        String str2 = "找到"+ match_num + "个联系人";
+    //输入为空时不显示结果统计
+    public void displayConclusion() {
         tv1 = (TextView) findViewById(R.id.tV1);
         tv2 = (TextView) findViewById(R.id.tV2);
+        tv1.setVisibility(8);
+        tv2.setVisibility(8);
+
+    }
+
+    //显示搜索结果统计
+    public void displayConclusion(List<Map<String, String>> Display) {
+        int total_num = this.ContactDisplay.size();
+        int match_num = Display.size();
+        tv1 = (TextView) findViewById(R.id.tV1);
+        tv2 = (TextView) findViewById(R.id.tV2);
+        String str1 = "所有联系人";
+        String str2 = "找到" + match_num + "个联系人";
         tv1.setText(str1);
         tv1.setVisibility(0);
         tv2.setText(str2);
