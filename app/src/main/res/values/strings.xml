@@ -9,5 +9,6 @@
     <string name="search_hint">search for contact</string>
     <string name="menu_search">search</string>
     <string name="result_conclusion">Total num</string>
+    <string name="title_activity_contact_detail">ContactDetailActivity</string>
 
 </resources>
