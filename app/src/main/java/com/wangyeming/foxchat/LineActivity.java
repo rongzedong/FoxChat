@@ -14,6 +14,7 @@ import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wangyeming.custom.NewToast;
@@ -35,6 +36,8 @@ public class LineActivity extends Activity {
     //protected ListView lt1 = (ListView) findViewById(R.id.list1);
     protected ListView lt1;
     protected SearchView searchView;
+    protected TextView tv1;
+    protected TextView tv2;
 
     private static final String[] PHONES_PROJECTION = new String[] {
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
@@ -210,7 +213,22 @@ public class LineActivity extends Activity {
                 ContactNameDisplay.put("name", name);
                 ContactFilterDisplay.add(ContactNameDisplay);
             }
+            displayConclusion(ContactFilterDisplay);
             displayListView(ContactFilterDisplay);
         }
+    }
+
+    //显示搜索结果统计
+    public void displayConclusion(List<Map<String, String>> Display){
+        int total_num = this.ContactDisplay.size();
+        int match_num = Display.size();
+        String str1 = "所有联系人";
+        String str2 = "找到"+ match_num + "个联系人";
+        tv1 = (TextView) findViewById(R.id.tV1);
+        tv2 = (TextView) findViewById(R.id.tV2);
+        tv1.setText(str1);
+        tv1.setVisibility(0);
+        tv2.setText(str2);
+        tv2.setVisibility(0);
     }
 }

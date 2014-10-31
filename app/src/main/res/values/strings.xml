@@ -8,5 +8,6 @@
     <string name="search_label">search</string>
     <string name="search_hint">search for contact</string>
     <string name="menu_search">search</string>
+    <string name="result_conclusion">Total num</string>
 
 </resources>
