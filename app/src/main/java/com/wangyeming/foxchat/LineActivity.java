@@ -2,8 +2,12 @@ package com.wangyeming.foxchat;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
@@ -21,6 +26,8 @@ import android.widget.Toast;
 
 import com.wangyeming.custom.NewToast;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,12 +40,14 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 
 public class LineActivity extends Activity {
 
-    protected Map<String, Map<String, List<String>>> Contact = new HashMap<String, Map<String, List<String>>>();
+    protected Map<String, Map<String, Object>> ContactSimple = new HashMap<String, Map<String, Object>>();
+    protected Map<String, Map<String, Map<String, String>>> ContactNumMap = new HashMap<String, Map<String, Map<String, String>>>();
     protected List<Map<String, String>> ContactDisplay = new ArrayList<Map<String, String>>();
     protected List<Map<String, String>> ContactFilterDisplay = new ArrayList<Map<String, String>>();
     protected ContentResolver cr;
     protected Cursor cursorID; //联系人游标
     protected Cursor phoneID;  //手机号游标
+    protected Cursor photoID;  //头像游标
     protected ListView lt1;
     protected SearchView searchView;
     protected TextView tv1;
@@ -102,40 +111,67 @@ public class LineActivity extends Activity {
 
     //读取联系人
     public void readContact() {
-        Map<String, List<String>> contact_map = new HashMap<String, List<String>>();//存放单个联系人的各种信息
+        String ContactName = "";//排除联系人重复
         while (cursorID.moveToNext()) {
+            Map<String, Object> contact_map = new HashMap<String, Object>() ;//一个联系人所有手机号
             int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
             String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
-            Map<String, String> ContactNameDisplay = new HashMap<String, String>();
-            ContactNameDisplay.put("name", contact);
-            ContactDisplay.add(ContactNameDisplay);
-            System.out.println("name " + contact + " ");
-            /*获取手机号*/
-            int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
-            System.out.println("index " + index);
-            String ContactId = cursorID.getString(index);//获取联系人对应的ID号
-            phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                    ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=" + ContactId, null, null);//设置手机号光标
-            List<String> phone_num_list = readContactPhoneNum();//读取手机号
-            contact_map.put("phone_num", phone_num_list); //存储手机号Map 手机号->list
-            //其他操作
-            Contact.put(contact, contact_map);
-            System.out.println("--------------------------");
+            if (contact.equals(ContactName)) {
+                ContactName = contact;
+                continue;
+            } else {
+                ContactName = contact;
+                Map<String, String> ContactNameDisplay = new HashMap<String, String>();
+                ContactNameDisplay.put("name", contact);
+                System.out.println("姓名 "+ contact +" ");
+                ContactDisplay.add(ContactNameDisplay);
+                int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
+                String ContactId = cursorID.getString(index);//获取联系人对应的ID号
+                phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                        PHONES_PROJECTION[4] + "=" + ContactId, null, null);//设置手机号光标
+                /*获取手机号*/
+                Map<String, Map<String, String>> phone_num_map = readContactPhoneNum();//读取手机号
+                ContactNumMap.put(contact, phone_num_map); //存储手机号Map 姓名->手机号map
+                /*获取联系人头像*/
+                Uri photo_uri = readContactPhoneBim();
+                contact_map.put("photo_url", photo_uri); //存储头像Map 头像url->list
+                ContactSimple.put(contact, contact_map);
+                //其他操作
+                System.out.println("--------------------------");
+            }
         }
         cursorID.close();
     }
 
+    //读取联系人头像
+    public Uri readContactPhoneBim() {
+        String photo_string = cursorID.getString(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
+        Uri photo_uri;
+        if (photo_string == null) {
+            //没有头像
+            photo_uri = Uri.parse("content://com.android.contacts/display_photo/38");
+        } else {
+            photo_uri = Uri.parse(photo_string);
+        }
+        //InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), photo_uri);
+        //Bitmap bmp_head = BitmapFactory.decodeStream(input);
+        return photo_uri;
+    }
+
     //读取联系人手机号
-    public List<String> readContactPhoneNum() {
-        String string = "";//准备输出的字符串
-        List<String> phone_num_list = new ArrayList<String>();//存放手机号的数组
+    public Map<String, Map<String, String>> readContactPhoneNum() {
+        Map<String, Map<String, String>> phone_num_map = new HashMap<String, Map<String, String>>();
         while (phoneID.moveToNext()) {
-            String Number = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            phone_num_list.add(Number);
-            string += (Number + " ");
+            Map<String, String> phone_num_attribute_map = new HashMap<String, String>();
+            String phoneNumber = phoneID.getString(phoneID.getColumnIndex(PHONES_PROJECTION[1]));
+            String phoneNumberType = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+            System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
+            phone_num_attribute_map.put("Type", phoneNumberType);
+            phone_num_attribute_map.put("Location", "北京");
+            phone_num_map.put(phoneNumber, phone_num_attribute_map);
         }
         phoneID.close();
-        return phone_num_list;
+        return phone_num_map;
     }
 
     //设置lisView布局
