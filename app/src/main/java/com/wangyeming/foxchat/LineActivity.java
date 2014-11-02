@@ -44,6 +44,7 @@ public class LineActivity extends Activity {
     protected Map<String, Map<String, Map<String, String>>> ContactNumMap = new HashMap<String, Map<String, Map<String, String>>>();
     protected List<Map<String, String>> ContactDisplay = new ArrayList<Map<String, String>>();
     protected List<Map<String, String>> ContactFilterDisplay = new ArrayList<Map<String, String>>();
+    protected List<String> ContactIdList = new ArrayList<String>();
     protected ContentResolver cr;
     protected Cursor cursorID; //联系人游标
     protected Cursor phoneID;  //手机号游标
@@ -127,17 +128,20 @@ public class LineActivity extends Activity {
                 ContactDisplay.add(ContactNameDisplay);
                 int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
                 String ContactId = cursorID.getString(index);//获取联系人对应的ID号
+                ContactIdList.add(ContactId);
+                /*
                 phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                         PHONES_PROJECTION[4] + "=" + ContactId, null, null);//设置手机号光标
-                /*获取手机号*/
+                //获取手机号
                 Map<String, Map<String, String>> phone_num_map = readContactPhoneNum();//读取手机号
                 ContactNumMap.put(contact, phone_num_map); //存储手机号Map 姓名->手机号map
-                /*获取联系人头像*/
+                //获取联系人头像
                 Uri photo_uri = readContactPhoneBim();
                 contact_map.put("photo_url", photo_uri); //存储头像Map 头像url->list
                 ContactSimple.put(contact, contact_map);
                 //其他操作
                 System.out.println("--------------------------");
+                */
             }
         }
         cursorID.close();
@@ -213,7 +217,11 @@ public class LineActivity extends Activity {
         lt1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                startActivity(new Intent(LineActivity.this, ContactDetailActivity.class));
+                String ContactId = ContactIdList.get(arg2);
+                System.out.println("111111111111  "+ContactId);
+                Intent intent = new Intent(LineActivity.this, ContactDetailActivity.class);
+                intent.putExtra("ContactId", ContactId);
+                startActivity(intent);
             }
         });
     }
