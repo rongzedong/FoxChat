@@ -28,7 +28,7 @@
         <activity
             android:name=".ContactDetailActivity"
             android:label="@string/title_activity_contact_detail"
-            android:theme="@android:style/Theme.Holo.NoActionBar">
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar">
         </activity>
     </application>
 

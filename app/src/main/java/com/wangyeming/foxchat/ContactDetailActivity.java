@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -22,9 +23,8 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 
 public class ContactDetailActivity extends Activity {
 
-    protected List<Map<String, String>> ContactDisplay = new ArrayList<Map<String, String>>();
+    protected List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
     protected ListView lt2;
-    Map<String, Map<String, String>> PhoneNumMap = new HashMap<String, Map<String, String>>();
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
@@ -38,8 +38,8 @@ public class ContactDetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_detail);
-        displayListView(ContactDisplay);
-        getContactMessage();
+        getContactMessage();//获取联系人信息
+        displayListView();
     }
 
 
@@ -68,7 +68,7 @@ public class ContactDetailActivity extends Activity {
         String ContactId = intent.getStringExtra("ContactId");
         System.out.println(ContactId);
         Uri photo_uri = readContactPhoneBim(ContactId);
-        //PhoneNumMap = readContactPhoneNum(ContactId);
+        readContactPhoneNum(ContactId);
     }
 
     //读取联系人头像
@@ -87,36 +87,44 @@ public class ContactDetailActivity extends Activity {
         }
         //InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), photo_uri);
         //Bitmap bmp_head = BitmapFactory.decodeStream(input);
+        ImageView imageView = (ImageView) findViewById(R.id.pic1);
+        imageView.setImageURI(photo_uri);
         return photo_uri;
     }
 
     //读取联系人手机号
-    public Map<String, Map<String, String>> readContactPhoneNum(String ContactId) {
+    public void readContactPhoneNum(String ContactId) {
         ContentResolver cr = getContentResolver();//得到ContentResolver对象
-        Map<String, Map<String, String>> phone_num_map = new HashMap<String, Map<String, String>>();
         Cursor phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 PHONES_PROJECTION[4] + "=" + ContactId, null, null);//设置手机号光标
         while (phoneID.moveToNext()) {
-            Map<String, String> phone_num_attribute_map = new HashMap<String, String>();
+            Map<String, Object> PhoneNumMap = new HashMap<String, Object>();
             String phoneNumber = phoneID.getString(phoneID.getColumnIndex(PHONES_PROJECTION[1]));
             String phoneNumberType = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
-            phone_num_attribute_map.put("Type", phoneNumberType);
-            phone_num_attribute_map.put("Location", "北京");
-            phone_num_map.put(phoneNumber, phone_num_attribute_map);
+            PhoneNumMap.put("phone_icon", R.drawable.ios8_dialer_icon);
+            PhoneNumMap.put("phone_num",phoneNumber);
+            PhoneNumMap.put("phone_type", phoneNumberType);
+            PhoneNumMap.put("phone_location", "北京");
+            ContactDisplay.add(PhoneNumMap);
         }
         phoneID.close();
-        return phone_num_map;
     }
 
     //设置lisView布局
-    public void displayListView(List<Map<String, String>> Display ){
+    public void displayListView(){
         lt2 = (ListView) findViewById(R.id.list2);
         if(ContactDisplay == null){
             System.out.println("ContactDisplay is nil");
         }
-        SimpleAdapter adapter = new SimpleAdapter(this, Display,
-                R.layout.list_item1, new String[]{"phone_num","phone_type","phone_location"}, new int[]{R.id.phone_num,R.id.phone_type, R.id.phone_location});
+        for(Map<String, Object> map: ContactDisplay){
+            System.out.println("1111111111111111111111");
+            System.out.println(map.get("phone_num"));
+            System.out.println(map.get("phone_type"));
+            System.out.println(map.get("phone_location"));
+        }
+        SimpleAdapter adapter = new SimpleAdapter(this, ContactDisplay,
+                R.layout.list_item2, new String[]{"phone_icon", "phone_num","phone_type","phone_location"}, new int[]{R.id.phone1, R.id.phone_num,R.id.phone_type, R.id.phone_location});
         lt2.setAdapter(adapter);
     }
 }
