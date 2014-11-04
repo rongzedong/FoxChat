@@ -33,6 +33,12 @@ public class ContactDetailActivity extends Activity {
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,  //contact_id
             ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY //sort_key
     };
+    private static final Map<String, String> PHONE_TYPE = new HashMap<String, String>(){
+        {
+            put("0", "自定义"); put("1", "住宅");put("2", "手机");put("3", "单位");
+            put("4", "传真");put("5", "");put("6", "");put("7", "其他");
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +107,11 @@ public class ContactDetailActivity extends Activity {
             Map<String, Object> PhoneNumMap = new HashMap<String, Object>();
             String phoneNumber = phoneID.getString(phoneID.getColumnIndex(PHONES_PROJECTION[1]));
             String phoneNumberType = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+            String phoneNumberTypeTrans = PHONE_TYPE.get(phoneNumberType);
             System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
             PhoneNumMap.put("phone_icon", R.drawable.ios8_dialer_icon);
             PhoneNumMap.put("phone_num",phoneNumber);
-            PhoneNumMap.put("phone_type", phoneNumberType);
+            PhoneNumMap.put("phone_type", phoneNumberTypeTrans);
             PhoneNumMap.put("phone_location", "北京");
             ContactDisplay.add(PhoneNumMap);
         }

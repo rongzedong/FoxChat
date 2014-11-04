@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:src="@drawable/contact_pic_demo"
-        android:scaleType="fitXY"/>
+        android:scaleType="centerCrop"/>
 
     <ListView
         android:id="@+id/list2"
