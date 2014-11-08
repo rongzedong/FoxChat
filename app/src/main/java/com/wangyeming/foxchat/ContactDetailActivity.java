@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +27,8 @@ public class ContactDetailActivity extends Activity {
 
     protected List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
     protected ListView lt2;
+    protected TextView tv1;
+    protected String contactName;
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
@@ -36,7 +40,7 @@ public class ContactDetailActivity extends Activity {
     private static final Map<String, String> PHONE_TYPE = new HashMap<String, String>(){
         {
             put("0", "自定义"); put("1", "住宅");put("2", "手机");put("3", "单位");
-            put("4", "传真");put("5", "");put("6", "");put("7", "其他");
+            put("4", "传真");put("5", "");put("6", "");put("7", "其他");put("12","总机");
         }
     };
 
@@ -73,8 +77,16 @@ public class ContactDetailActivity extends Activity {
         Intent intent = getIntent();
         String ContactId = intent.getStringExtra("ContactId");
         System.out.println(ContactId);
+        readContactName(ContactId);
         Uri photo_uri = readContactPhoneBim(ContactId);
         readContactPhoneNum(ContactId);
+    }
+
+    //读取联系人姓名
+    public void readContactName(String ContactId) {
+        Cursor cursorID = getContentResolver().query(CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[4] + "=" + ContactId, null, "sort_key");
+        cursorID.moveToNext();
+        contactName = cursorID.getString(cursorID.getColumnIndex(PHONES_PROJECTION[0]));
     }
 
     //读取联系人头像
@@ -100,26 +112,39 @@ public class ContactDetailActivity extends Activity {
 
     //读取联系人手机号
     public void readContactPhoneNum(String ContactId) {
+        Map<String, Object> phoneIconMap = new HashMap<String, Object>(){
+            {
+                put("1", R.drawable.type_icon_phone);
+                put("0", null);
+            }
+        };
         ContentResolver cr = getContentResolver();//得到ContentResolver对象
         Cursor phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 PHONES_PROJECTION[4] + "=" + ContactId, null, null);//设置手机号光标
+        String isFirstNum = "1";
         while (phoneID.moveToNext()) {
             Map<String, Object> PhoneNumMap = new HashMap<String, Object>();
             String phoneNumber = phoneID.getString(phoneID.getColumnIndex(PHONES_PROJECTION[1]));
             String phoneNumberType = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+            System.out.println(phoneNumberType);
             String phoneNumberTypeTrans = PHONE_TYPE.get(phoneNumberType);
             System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
-            PhoneNumMap.put("phone_icon", R.drawable.ios8_dialer_icon);
+            //PhoneNumMap.put("phone_icon", phoneIconMap.get(isFirstNum));
+            PhoneNumMap.put("phone_png",R.drawable.type_icon_phone);
             PhoneNumMap.put("phone_num",phoneNumber);
             PhoneNumMap.put("phone_type", phoneNumberTypeTrans);
             PhoneNumMap.put("phone_location", "北京");
+            PhoneNumMap.put("message_png", R.drawable.ic_send_sms_p);
             ContactDisplay.add(PhoneNumMap);
+            isFirstNum = "0";
         }
         phoneID.close();
     }
 
     //设置lisView布局
     public void displayListView(){
+        tv1 = (TextView) findViewById(R.id.contactName);
+        tv1.setText(contactName);
         lt2 = (ListView) findViewById(R.id.list2);
         if(ContactDisplay == null){
             System.out.println("ContactDisplay is nil");
@@ -131,7 +156,13 @@ public class ContactDetailActivity extends Activity {
             System.out.println(map.get("phone_location"));
         }
         SimpleAdapter adapter = new SimpleAdapter(this, ContactDisplay,
-                R.layout.list_item2, new String[]{"phone_icon", "phone_num","phone_type","phone_location"}, new int[]{R.id.phone1, R.id.phone_num,R.id.phone_type, R.id.phone_location});
+                R.layout.list_item2, new String[]{ "phone_png", "phone_num","phone_type","phone_location","message_png"}, new int[]{ R.id.phone, R.id.phone_num,R.id.phone_type, R.id.phone_location, R.id.mes1});
         lt2.setAdapter(adapter);
+    }
+
+    //返回主页面按钮
+    public void backToMain(View view){
+        Intent intent = new Intent(this, LineActivity.class);
+        startActivity(intent);
     }
 }

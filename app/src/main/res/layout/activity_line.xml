@@ -5,13 +5,6 @@
     android:orientation="vertical"
     tools:context=".LineActivity">
 
-    <ImageView
-        android:id="@+id/pic"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:src="@drawable/contact_pic_demo"
-        android:scaleType="centerCrop"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

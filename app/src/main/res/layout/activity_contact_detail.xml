@@ -3,19 +3,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:scrollbars="vertical"
     tools:context="com.wangyeming.foxchat.ContactDetailActivity">
 
-    <ImageView
-        android:id="@+id/pic1"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:src="@drawable/contact_pic_demo"
-        android:scaleType="centerCrop"/>
-
-    <ListView
-        android:id="@+id/list2"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:smoothScrollbar="true"></ListView>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/pic1"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/contact_pic_demo" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/v5_title_bar_back_button_medium_normal_light"
+                android:onClick="backToMain" />
+
+            <TextView
+                android:id="@+id/contactName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:text="@string/name"
+                android:textColor="#CCCCCC"
+                android:textSize="34dp" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <ListView
+            android:id="@+id/list2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"></ListView>
+    </LinearLayout>
 
 </LinearLayout>
