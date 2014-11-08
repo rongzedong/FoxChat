@@ -76,7 +76,7 @@ public class ContactDetailActivity extends Activity {
     public void getContactMessage(){
         Intent intent = getIntent();
         String ContactId = intent.getStringExtra("ContactId");
-        System.out.println(ContactId);
+        //System.out.println(ContactId);
         readContactName(ContactId);
         Uri photo_uri = readContactPhoneBim(ContactId);
         readContactPhoneNum(ContactId);
@@ -95,7 +95,7 @@ public class ContactDetailActivity extends Activity {
         Cursor cursorID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[4] + "=" + ContactId, null, "sort_key");
         cursorID.moveToFirst();
         String photo_string = cursorID.getString(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
-        System.out.println("this 3" +photo_string);
+        //System.out.println("this 3" +photo_string);
         Uri photo_uri;
         if (photo_string == null) {
             //没有头像
@@ -126,9 +126,9 @@ public class ContactDetailActivity extends Activity {
             Map<String, Object> PhoneNumMap = new HashMap<String, Object>();
             String phoneNumber = phoneID.getString(phoneID.getColumnIndex(PHONES_PROJECTION[1]));
             String phoneNumberType = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-            System.out.println(phoneNumberType);
+            //System.out.println(phoneNumberType);
             String phoneNumberTypeTrans = PHONE_TYPE.get(phoneNumberType);
-            System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
+            //System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
             //PhoneNumMap.put("phone_icon", phoneIconMap.get(isFirstNum));
             PhoneNumMap.put("phone_png",R.drawable.type_icon_phone);
             PhoneNumMap.put("phone_num",phoneNumber);
@@ -147,13 +147,7 @@ public class ContactDetailActivity extends Activity {
         tv1.setText(contactName);
         lt2 = (ListView) findViewById(R.id.list2);
         if(ContactDisplay == null){
-            System.out.println("ContactDisplay is nil");
-        }
-        for(Map<String, Object> map: ContactDisplay){
-            System.out.println("1111111111111111111111");
-            System.out.println(map.get("phone_num"));
-            System.out.println(map.get("phone_type"));
-            System.out.println(map.get("phone_location"));
+            //System.out.println("ContactDisplay is nil");
         }
         SimpleAdapter adapter = new SimpleAdapter(this, ContactDisplay,
                 R.layout.list_item2, new String[]{ "phone_png", "phone_num","phone_type","phone_location","message_png"}, new int[]{ R.id.phone, R.id.phone_num,R.id.phone_type, R.id.phone_location, R.id.mes1});

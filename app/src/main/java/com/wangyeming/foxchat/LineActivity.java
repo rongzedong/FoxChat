@@ -45,6 +45,7 @@ public class LineActivity extends Activity {
     protected List<Map<String, String>> ContactDisplay = new ArrayList<Map<String, String>>();
     protected List<Map<String, String>> ContactFilterDisplay = new ArrayList<Map<String, String>>();
     protected List<String> ContactIdList = new ArrayList<String>();
+    protected List<String> ContactIdFilterList = new ArrayList<String>();
     protected ContentResolver cr;
     protected Cursor cursorID; //联系人游标
     protected Cursor phoneID;  //手机号游标
@@ -122,13 +123,16 @@ public class LineActivity extends Activity {
                 continue;
             } else {
                 ContactName = contact;
-                Map<String, String> ContactNameDisplay = new HashMap<String, String>();
-                ContactNameDisplay.put("name", contact);
-                System.out.println("姓名 "+ contact +" ");
-                ContactDisplay.add(ContactNameDisplay);
                 int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
                 String ContactId = cursorID.getString(index);//获取联系人对应的ID号
+                Map<String, String> ContactNameDisplay = new HashMap<String, String>();
+                ContactNameDisplay.put("name", contact);
+                ContactNameDisplay.put("contactId", ContactId);
+                System.out.println("姓名 "+ contact +" ");
+                ContactDisplay.add(ContactNameDisplay);
+                ContactFilterDisplay.add(ContactNameDisplay);
                 ContactIdList.add(ContactId);
+                ContactIdFilterList.add(ContactId);
                 /*
                 phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                         PHONES_PROJECTION[4] + "=" + ContactId, null, null);//设置手机号光标
@@ -216,8 +220,11 @@ public class LineActivity extends Activity {
     public void setOnItemClickListener() {
         lt1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                String ContactId = ContactIdList.get(arg2);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id ) {
+                System.out.println("position " + position + " id " +id);
+                String ContactId = ContactFilterDisplay.get(position).get("contactId");
+                System.out.println("ContactId "+ContactId);
+                //String ContactId = ContactIdList.get(position);
                 System.out.println("111111111111  "+ContactId);
                 Intent intent = new Intent(LineActivity.this, ContactDetailActivity.class);
                 intent.putExtra("ContactId", ContactId);
@@ -250,6 +257,7 @@ public class LineActivity extends Activity {
     public void matchContact(String input) {
         ContactFilterDisplay.clear();
         if (input.equals("")) {
+            ContactFilterDisplay = ContactDisplay;
             displayListView(ContactDisplay);
             displayConclusion();
             return;
@@ -259,10 +267,12 @@ public class LineActivity extends Activity {
             Map<String, String> ContactNameDisplay =
                     (Map<String, String>) iterator.next();
             String name = ContactNameDisplay.get("name");
+            String contactId = ContactNameDisplay.get("contactId");
             Pattern pattern = Pattern.compile(input);
             Matcher matcher = pattern.matcher(name);
             if (matcher.find()) {
                 ContactNameDisplay.put("name", name);
+                ContactNameDisplay.put("contactId", contactId );
                 ContactFilterDisplay.add(ContactNameDisplay);
             }
             displayConclusion(ContactFilterDisplay);
