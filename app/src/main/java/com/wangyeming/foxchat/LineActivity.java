@@ -139,7 +139,7 @@ public class LineActivity extends Activity {
      */
     public void getPhoneContacts() {
         //String string = "";
-        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, null, null, "sort_key");// 设置联系人光标,按汉语拼音排序
+        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?",  new String[] {"0"}, "sort_key");// 设置联系人光标,按汉语拼音排序
         System.out.println("PHONES_PROJECTION[0] " + PHONES_PROJECTION[0] + " PHONES_PROJECTION[1] "
                 + PHONES_PROJECTION[1] + " PHONES_PROJECTION[2] " + PHONES_PROJECTION[2] +
                 " PHONES_PROJECTION[3] " + PHONES_PROJECTION[3] + " PHONES_PROJECTION[4] "
