@@ -14,6 +14,7 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -41,23 +42,19 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 
 public class LineActivity extends Activity {
 
-    protected Map<String, Map<String, Object>> ContactSimple = new HashMap<String, Map<String, Object>>();
-    protected Map<String, Map<String, Map<String, String>>> ContactNumMap = new HashMap<String, Map<String, Map<String, String>>>();
     protected List<Map<String, String>> ContactDisplay = new ArrayList<Map<String, String>>();
     protected List<Map<String, String>> ContactFilterDisplay = new ArrayList<Map<String, String>>();
-    protected List<Map<String, String>> StarredContactDisplay = new ArrayList<Map<String, String>>();
+    protected List<Map<String, String>> contactDisplayNoCata = new ArrayList<Map<String, String>>();
     protected List<String> ContactIdList = new ArrayList<String>();
     protected List<String> ContactIdFilterList = new ArrayList<String>();
     protected ContentResolver cr;
     protected Cursor cursorID; //联系人游标
-    protected Cursor phoneID;  //手机号游标
-    protected Cursor photoID;  //头像游标
-    protected ListView lt1;  //收藏联系人
-    protected ListView lt2;  //全部联系人
+    protected ListView lt1;
     protected SearchView searchView;
     protected TextView tv1;
     protected TextView tv2;
     protected Toast nameToast;
+    protected boolean isSearch = false;
 
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
@@ -94,27 +91,61 @@ public class LineActivity extends Activity {
     }
 
     public void init() {
-        cr= getContentResolver();
-        getStarredContact();
+        cr = getContentResolver();
         getPhoneContacts();
         displayListView(ContactDisplay);
+
         setOnScrollListener();
         setOnItemClickListener();
-        displayStaredListView(StarredContactDisplay);
     }
 
-    /*
-     * 获取手机通讯录星标联系人
+    /**
+     * 得到手机通讯录联系人信息*
      */
-    public void getStarredContact() {
-        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[] {"1"}, "sort_key");// 设置星标联系人光标,按汉语拼音排序
-        System.out.println("读取星标联系人");
+    public void getPhoneContacts() {
         readStarredContact(); //读取星标联系人
+        readContact(); //读取非星标联系人
+    }
+
+    //读取联系人
+    public void readContact() {
+        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[]{"0"}, "sort_key");// 设置联系人光标,按汉语拼音排序
+        String ContactName = "";//排除联系人重复
+        Map<String, String> catalogueDisplay = new HashMap<String, String>();
+        catalogueDisplay.put("catalogue", "其他联系人");
+        ContactDisplay.add(catalogueDisplay);
+        while (cursorID.moveToNext()) {
+            Map<String, Object> contact_map = new HashMap<String, Object>();//一个联系人所有手机号
+            int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
+            String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
+            if (contact.equals(ContactName)) {
+                ContactName = contact;
+                continue;
+            } else {
+                ContactName = contact;
+                int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
+                String ContactId = cursorID.getString(index);//获取联系人对应的ID号
+                Map<String, String> ContactNameDisplay = new HashMap<String, String>();
+                ContactNameDisplay.put("name", contact);
+                ContactNameDisplay.put("contactId", ContactId);
+                System.out.println("姓名 " + contact + " ");
+                ContactDisplay.add(ContactNameDisplay);
+                contactDisplayNoCata.add(ContactNameDisplay);
+                ContactFilterDisplay.add(ContactNameDisplay);
+                ContactIdList.add(ContactId);
+                ContactIdFilterList.add(ContactId);
+            }
+        }
+        cursorID.close();
     }
 
     //读取星标联系人
     public void readStarredContact() {
+        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[]{"1"}, "sort_key");// 设置星标联系人光标,按汉语拼音排序
         String ContactName = "";//排除联系人重复
+        Map<String, String> catalogueDisplay = new HashMap<String, String>();
+        catalogueDisplay.put("catalogue", "星标联系人");
+        ContactDisplay.add(catalogueDisplay);
         while (cursorID.moveToNext()) {
             int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
             String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
@@ -129,45 +160,8 @@ public class LineActivity extends Activity {
                 ContactNameDisplay.put("name", contact);
                 System.out.println("姓名 " + contact + " ");
                 ContactNameDisplay.put("contactId", ContactId);
-                StarredContactDisplay.add(ContactNameDisplay);
-            }
-        }
-        cursorID.close();
-    }
-
-   /**
-     * 得到手机通讯录联系人信息*
-     */
-    public void getPhoneContacts() {
-        //String string = "";
-        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?",  new String[] {"0"}, "sort_key");// 设置联系人光标,按汉语拼音排序
-        System.out.println("PHONES_PROJECTION[0] " + PHONES_PROJECTION[0] + " PHONES_PROJECTION[1] "
-                + PHONES_PROJECTION[1] + " PHONES_PROJECTION[2] " + PHONES_PROJECTION[2] +
-                " PHONES_PROJECTION[3] " + PHONES_PROJECTION[3] + " PHONES_PROJECTION[4] "
-                + PHONES_PROJECTION[4]);
-        readContact(); //读取联系人
-        System.out.println(ContactDisplay.size());
-    }
-
-    //读取联系人
-    public void readContact() {
-        String ContactName = "";//排除联系人重复
-        while (cursorID.moveToNext()) {
-            Map<String, Object> contact_map = new HashMap<String, Object>() ;//一个联系人所有手机号
-            int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
-            String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
-            if (contact.equals(ContactName)) {
-                ContactName = contact;
-                continue;
-            } else {
-                ContactName = contact;
-                int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
-                String ContactId = cursorID.getString(index);//获取联系人对应的ID号
-                Map<String, String> ContactNameDisplay = new HashMap<String, String>();
-                ContactNameDisplay.put("name", contact);
-                ContactNameDisplay.put("contactId", ContactId);
-                System.out.println("姓名 "+ contact +" ");
                 ContactDisplay.add(ContactNameDisplay);
+                contactDisplayNoCata.add(ContactNameDisplay);
                 ContactFilterDisplay.add(ContactNameDisplay);
                 ContactIdList.add(ContactId);
                 ContactIdFilterList.add(ContactId);
@@ -176,86 +170,40 @@ public class LineActivity extends Activity {
         cursorID.close();
     }
 
-    //读取联系人头像
-    public Uri readContactPhoneBim() {
-        String photo_string = cursorID.getString(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
-        Uri photo_uri;
-        if (photo_string == null) {
-            //没有头像
-            photo_uri = Uri.parse("content://com.android.contacts/display_photo/38");
-        } else {
-            photo_uri = Uri.parse(photo_string);
-        }
-        //InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), photo_uri);
-        //Bitmap bmp_head = BitmapFactory.decodeStream(input);
-        return photo_uri;
-    }
-
-    //读取联系人手机号
-    public Map<String, Map<String, String>> readContactPhoneNum() {
-        Map<String, Map<String, String>> phone_num_map = new HashMap<String, Map<String, String>>();
-        while (phoneID.moveToNext()) {
-            Map<String, String> phone_num_attribute_map = new HashMap<String, String>();
-            String phoneNumber = phoneID.getString(phoneID.getColumnIndex(PHONES_PROJECTION[1]));
-            String phoneNumberType = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-            System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
-            phone_num_attribute_map.put("Type", phoneNumberType);
-            phone_num_attribute_map.put("Location", "北京");
-            phone_num_map.put(phoneNumber, phone_num_attribute_map);
-        }
-        phoneID.close();
-        return phone_num_map;
-    }
-
-    //设置lisView布局
-    public void displayStaredListView(List<Map<String, String>> Display) {
-        lt1 = (ListView) findViewById(R.id.list1);
-        if (ContactDisplay == null) {
-            System.out.println("StarredContactDisplay is nil");
-        }
-        MyAdapter adapter = new MyAdapter(Display, this);
-        //SimpleAdapter adapter = new SimpleAdapter(this, Display,
-                //R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
-        lt1.setAdapter(adapter);
-    }
-
     //设置lisView布局
     public void displayListView(List<Map<String, String>> Display) {
-        lt2 = (ListView) findViewById(R.id.list2);
-        if (ContactDisplay == null) {
+        lt1 = (ListView) findViewById(R.id.list1);
+        if (Display == null) {
             System.out.println("ContactDisplay is nil");
         }
         MyAdapter adapter = new MyAdapter(Display, this);
-                //SimpleAdapter adapter = new SimpleAdapter(this, Display,
-                //R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
-        lt2.setAdapter(adapter);
+        //SimpleAdapter adapter = new SimpleAdapter(this, Display,
+        //R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
+        lt1.setAdapter(adapter);
     }
 
     //设置ListView滑动监听---根据滑动位置Toast提示
     public void setOnScrollListener() {
-        lt2.setOnScrollListener(new AbsListView.OnScrollListener() {
+        lt1.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (nameToast != null) {
+                    nameToast.cancel();
+                }
                 int firstPos = view.getFirstVisiblePosition() + 1;
                 Map<String, String> ContactNameDisplay =
                         (Map<String, String>) view.getItemAtPosition(firstPos);
                 String name = ContactNameDisplay.get("name");
-                String surname = name.substring(0, 1);
-                if(nameToast != null) {
-                    nameToast.cancel();
+                if (name == null) {
+                    System.out.println("name is null");
+                    return;
                 }
+                String surname = name.substring(0, 1);
                 nameToast = NewToast.makeText(LineActivity.this, surname, Toast.LENGTH_SHORT);
                 nameToast.show();
                 /*
                 // 当不滚动时
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                    int firstPos = view.getFirstVisiblePosition() + 1;
-                    Map<String, String> ContactNameDisplay =
-                            (Map<String, String>) view.getItemAtPosition(firstPos);
-                    String name = ContactNameDisplay.get("name");
-                    String surname = name.substring(0, 1);
-                    Toast nameToast = NewToast.makeText(LineActivity.this, surname, Toast.LENGTH_SHORT);
-                    nameToast.show();
                 }
                 */
             }
@@ -268,14 +216,18 @@ public class LineActivity extends Activity {
 
     //设置ListView点击监听
     public void setOnItemClickListener() {
-        lt2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lt1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id ) {
-                System.out.println("position " + position + " id " +id);
-                String ContactId = ContactFilterDisplay.get(position).get("contactId");
-                System.out.println("ContactId "+ContactId);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println("position " + position + " id " + id);
+                List<Map<String, String>> displayTmp = isSearch ? ContactFilterDisplay : ContactDisplay;
+                if (displayTmp.get(position).get("contactId") == null) {
+                    return;
+                }
+                String ContactId = displayTmp.get(position).get("contactId");
+                System.out.println("ContactId " + ContactId);
                 //String ContactId = ContactIdList.get(position);
-                System.out.println("111111111111  "+ContactId);
+                System.out.println("111111111111  " + ContactId);
                 Intent intent = new Intent(LineActivity.this, ContactDetailActivity.class);
                 intent.putExtra("ContactId", ContactId);
                 startActivity(intent);
@@ -301,14 +253,37 @@ public class LineActivity extends Activity {
             }
         };
         searchView.setOnQueryTextListener(queryTextListener);
+        //监听searchView被点击
+        SearchView.OnClickListener clickListener = new SearchView.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                System.out.println("click");
+                isSearch = true;
+                displayListView(contactDisplayNoCata);
+            }
+        };
+        searchView.setOnSearchClickListener(clickListener);
+        //监听searchView关闭
+        SearchView.OnCloseListener closeListener = new SearchView.OnCloseListener() {
+
+            @Override
+            public boolean onClose() {
+                System.out.println("close");
+                isSearch = false;
+                displayListView(ContactDisplay);
+                return false;
+            }
+        };
+        searchView.setOnCloseListener(closeListener);
     }
 
     //匹配输入文字
     public void matchContact(String input) {
         ContactFilterDisplay.clear();
         if (input.equals("")) {
-            ContactFilterDisplay = ContactDisplay;
-            displayListView(ContactDisplay);
+            ContactFilterDisplay = isSearch ? contactDisplayNoCata : ContactDisplay;
+            displayListView(ContactFilterDisplay);
             displayConclusion();
             return;
         }
@@ -317,12 +292,15 @@ public class LineActivity extends Activity {
             Map<String, String> ContactNameDisplay =
                     (Map<String, String>) iterator.next();
             String name = ContactNameDisplay.get("name");
+            if (name == null) {
+                continue;
+            }
             String contactId = ContactNameDisplay.get("contactId");
             Pattern pattern = Pattern.compile(input);
             Matcher matcher = pattern.matcher(name);
             if (matcher.find()) {
                 ContactNameDisplay.put("name", name);
-                ContactNameDisplay.put("contactId", contactId );
+                ContactNameDisplay.put("contactId", contactId);
                 ContactFilterDisplay.add(ContactNameDisplay);
             }
             displayConclusion(ContactFilterDisplay);

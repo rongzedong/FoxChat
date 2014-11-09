@@ -19,6 +19,7 @@
             android:text="@string/result_conclusion"
             android:textSize="15dp"
             android:visibility="gone" />
+
         <TextView
             android:id="@+id/tV2"
             android:layout_width="match_parent"
@@ -31,26 +32,8 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/starred_contact"
-        android:textColor="#778899" />
-
     <ListView
         android:id="@+id/list1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        android:smoothScrollbar="true"></ListView>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/contact"
-        android:textColor="#778899" />
-
-    <ListView
-        android:id="@+id/list2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:smoothScrollbar="true"></ListView>

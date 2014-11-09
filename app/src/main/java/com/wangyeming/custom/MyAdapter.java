@@ -23,14 +23,14 @@ public class MyAdapter extends BaseAdapter {
     private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
     private LayoutInflater mInflater = null;
 
-    public MyAdapter(List<Map<String, String>> data, Context context){
+    public MyAdapter(List<Map<String, String>> data, Context context) {
         this.data = data;
         mInflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return data == null ? 0: data.size();
+        return data == null ? 0 : data.size();
     }
 
     @Override
@@ -51,6 +51,7 @@ public class MyAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.list_item1,
                     null);
             //holder.image = (ImageView) convertView.findViewById(R.id.image);
+            holder.catalogue = (TextView) convertView.findViewById(R.id.catalogue);
             holder.name = (TextView) convertView.findViewById(R.id.name);
             convertView.setTag(holder);
         } else {
@@ -59,12 +60,22 @@ public class MyAdapter extends BaseAdapter {
 
         //一般按如下方式将数据与UI联系起来
         //holder.image.setImageResource(mData.get(position).getmIcon());
-        holder.name.setText(data.get(position).get("name"));
+        if (data.get(position).get("catalogue") == null) {
+            holder.catalogue.setVisibility(8);
+        } else {
+            holder.catalogue.setText(data.get(position).get("catalogue"));
+        }
+        if (data.get(position).get("name") == null) {
+            holder.name.setVisibility(8);
+        } else {
+            holder.name.setText(data.get(position).get("name"));
+        }
         return convertView;
     }
 
     class ViewHolder {
         //public ImageView image;
+        public TextView catalogue;
         public TextView name;
     }
 }
