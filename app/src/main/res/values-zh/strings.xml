@@ -8,5 +8,7 @@
     <string name="search_label">搜索</string>
     <string name="search_hint">查找联系人</string>
     <string name="result_conclusion">总数</string>
+    <string name="starred_contact">星标联系人</string>
+    <string name="contact">联系人</string>
 
 </resources>

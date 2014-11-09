@@ -10,5 +10,7 @@
     <string name="menu_search">search</string>
     <string name="result_conclusion">Total num</string>
     <string name="title_activity_contact_detail">ContactDetailActivity</string>
+    <string name="starred_contact">starred contacts</string>
+    <string name="contact">contacts</string>
 
 </resources>

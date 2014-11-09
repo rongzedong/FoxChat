@@ -44,13 +44,15 @@ public class LineActivity extends Activity {
     protected Map<String, Map<String, Map<String, String>>> ContactNumMap = new HashMap<String, Map<String, Map<String, String>>>();
     protected List<Map<String, String>> ContactDisplay = new ArrayList<Map<String, String>>();
     protected List<Map<String, String>> ContactFilterDisplay = new ArrayList<Map<String, String>>();
+    protected List<Map<String, String>> StarredContactDisplay = new ArrayList<Map<String, String>>();
     protected List<String> ContactIdList = new ArrayList<String>();
     protected List<String> ContactIdFilterList = new ArrayList<String>();
     protected ContentResolver cr;
     protected Cursor cursorID; //联系人游标
     protected Cursor phoneID;  //手机号游标
     protected Cursor photoID;  //头像游标
-    protected ListView lt1;
+    protected ListView lt1;  //收藏联系人
+    protected ListView lt2;  //全部联系人
     protected SearchView searchView;
     protected TextView tv1;
     protected TextView tv2;
@@ -91,18 +93,44 @@ public class LineActivity extends Activity {
     }
 
     public void init() {
+        cr= getContentResolver();
+        getStarredContact();
         getPhoneContacts();
         displayListView(ContactDisplay);
         setOnScrollListener();
         setOnItemClickListener();
+        displayStaredListView(StarredContactDisplay);
     }
 
-    /**
+    /*
+     * 获取手机通讯录星标联系人
+     */
+    public void getStarredContact() {
+        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[] {"1"}, "sort_key");// 设置星标联系人光标,按汉语拼音排序
+        System.out.println("读取星标联系人");
+        readStarredContact(); //读取星标联系人
+    }
+
+    //读取星标联系人
+    public void readStarredContact() {
+        while (cursorID.moveToNext()) {
+            int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
+            String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
+            int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
+            String ContactId = cursorID.getString(index);//获取联系人对应的ID号
+            Map<String, String> ContactNameDisplay = new HashMap<String, String>();
+            ContactNameDisplay.put("name", contact);
+            System.out.println("姓名 "+ contact +" ");
+            ContactNameDisplay.put("contactId", ContactId);
+            StarredContactDisplay.add(ContactNameDisplay);
+        }
+    }
+
+   /**
      * 得到手机通讯录联系人信息*
      */
     public void getPhoneContacts() {
         //String string = "";
-        cr = getContentResolver();//得到ContentResolver对象
         cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, null, null, "sort_key");// 设置联系人光标,按汉语拼音排序
         System.out.println("PHONES_PROJECTION[0] " + PHONES_PROJECTION[0] + " PHONES_PROJECTION[1] "
                 + PHONES_PROJECTION[1] + " PHONES_PROJECTION[2] " + PHONES_PROJECTION[2] +
@@ -184,19 +212,30 @@ public class LineActivity extends Activity {
     }
 
     //设置lisView布局
-    public void displayListView(List<Map<String, String>> Display) {
+    public void displayStaredListView(List<Map<String, String>> Display) {
         lt1 = (ListView) findViewById(R.id.list1);
         if (ContactDisplay == null) {
-            System.out.println("ContactDisplay is nil");
+            System.out.println("StarredContactDisplay is nil");
         }
         SimpleAdapter adapter = new SimpleAdapter(this, Display,
                 R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
         lt1.setAdapter(adapter);
     }
 
+    //设置lisView布局
+    public void displayListView(List<Map<String, String>> Display) {
+        lt2 = (ListView) findViewById(R.id.list2);
+        if (ContactDisplay == null) {
+            System.out.println("ContactDisplay is nil");
+        }
+        SimpleAdapter adapter = new SimpleAdapter(this, Display,
+                R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
+        lt2.setAdapter(adapter);
+    }
+
     //设置ListView滑动监听---根据滑动位置Toast提示
     public void setOnScrollListener() {
-        lt1.setOnScrollListener(new AbsListView.OnScrollListener() {
+        lt2.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 int firstPos = view.getFirstVisiblePosition() + 1;
@@ -231,7 +270,7 @@ public class LineActivity extends Activity {
 
     //设置ListView点击监听
     public void setOnItemClickListener() {
-        lt1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lt2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id ) {
                 System.out.println("position " + position + " id " +id);
