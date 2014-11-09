@@ -54,6 +54,7 @@ public class LineActivity extends Activity {
     protected SearchView searchView;
     protected TextView tv1;
     protected TextView tv2;
+    protected Toast nameToast;
 
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
@@ -198,6 +199,17 @@ public class LineActivity extends Activity {
         lt1.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
+                int firstPos = view.getFirstVisiblePosition() + 1;
+                Map<String, String> ContactNameDisplay =
+                        (Map<String, String>) view.getItemAtPosition(firstPos);
+                String name = ContactNameDisplay.get("name");
+                String surname = name.substring(0, 1);
+                if(nameToast != null) {
+                    nameToast.cancel();
+                }
+                nameToast = NewToast.makeText(LineActivity.this, surname, Toast.LENGTH_SHORT);
+                nameToast.show();
+                /*
                 // 当不滚动时
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     int firstPos = view.getFirstVisiblePosition() + 1;
@@ -208,6 +220,7 @@ public class LineActivity extends Activity {
                     Toast nameToast = NewToast.makeText(LineActivity.this, surname, Toast.LENGTH_SHORT);
                     nameToast.show();
                 }
+                */
             }
 
             @Override

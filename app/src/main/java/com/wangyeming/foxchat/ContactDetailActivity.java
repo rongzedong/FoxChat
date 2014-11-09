@@ -87,6 +87,7 @@ public class ContactDetailActivity extends Activity {
         Cursor cursorID = getContentResolver().query(CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[4] + "=" + ContactId, null, "sort_key");
         cursorID.moveToNext();
         contactName = cursorID.getString(cursorID.getColumnIndex(PHONES_PROJECTION[0]));
+        cursorID.close();
     }
 
     //读取联系人头像
@@ -107,6 +108,7 @@ public class ContactDetailActivity extends Activity {
         //Bitmap bmp_head = BitmapFactory.decodeStream(input);
         ImageView imageView = (ImageView) findViewById(R.id.pic1);
         imageView.setImageURI(photo_uri);
+        cursorID.close();
         return photo_uri;
     }
 
