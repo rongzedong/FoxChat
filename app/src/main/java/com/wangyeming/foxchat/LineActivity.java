@@ -24,6 +24,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wangyeming.custom.MyAdapter;
 import com.wangyeming.custom.NewToast;
 
 import java.io.InputStream;
@@ -212,8 +213,9 @@ public class LineActivity extends Activity {
         if (ContactDisplay == null) {
             System.out.println("StarredContactDisplay is nil");
         }
-        SimpleAdapter adapter = new SimpleAdapter(this, Display,
-                R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
+        MyAdapter adapter = new MyAdapter(Display, this);
+        //SimpleAdapter adapter = new SimpleAdapter(this, Display,
+                //R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
         lt1.setAdapter(adapter);
     }
 
@@ -223,8 +225,9 @@ public class LineActivity extends Activity {
         if (ContactDisplay == null) {
             System.out.println("ContactDisplay is nil");
         }
-        SimpleAdapter adapter = new SimpleAdapter(this, Display,
-                R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
+        MyAdapter adapter = new MyAdapter(Display, this);
+                //SimpleAdapter adapter = new SimpleAdapter(this, Display,
+                //R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
         lt2.setAdapter(adapter);
     }
 
