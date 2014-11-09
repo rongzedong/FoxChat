@@ -113,17 +113,25 @@ public class LineActivity extends Activity {
 
     //读取星标联系人
     public void readStarredContact() {
+        String ContactName = "";//排除联系人重复
         while (cursorID.moveToNext()) {
             int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
             String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
-            int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
-            String ContactId = cursorID.getString(index);//获取联系人对应的ID号
-            Map<String, String> ContactNameDisplay = new HashMap<String, String>();
-            ContactNameDisplay.put("name", contact);
-            System.out.println("姓名 "+ contact +" ");
-            ContactNameDisplay.put("contactId", ContactId);
-            StarredContactDisplay.add(ContactNameDisplay);
+            if (contact.equals(ContactName)) {
+                ContactName = contact;
+                continue;
+            } else {
+                ContactName = contact;
+                int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
+                String ContactId = cursorID.getString(index);//获取联系人对应的ID号
+                Map<String, String> ContactNameDisplay = new HashMap<String, String>();
+                ContactNameDisplay.put("name", contact);
+                System.out.println("姓名 " + contact + " ");
+                ContactNameDisplay.put("contactId", ContactId);
+                StarredContactDisplay.add(ContactNameDisplay);
+            }
         }
+        cursorID.close();
     }
 
    /**
@@ -162,19 +170,6 @@ public class LineActivity extends Activity {
                 ContactFilterDisplay.add(ContactNameDisplay);
                 ContactIdList.add(ContactId);
                 ContactIdFilterList.add(ContactId);
-                /*
-                phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                        PHONES_PROJECTION[4] + "=" + ContactId, null, null);//设置手机号光标
-                //获取手机号
-                Map<String, Map<String, String>> phone_num_map = readContactPhoneNum();//读取手机号
-                ContactNumMap.put(contact, phone_num_map); //存储手机号Map 姓名->手机号map
-                //获取联系人头像
-                Uri photo_uri = readContactPhoneBim();
-                contact_map.put("photo_url", photo_uri); //存储头像Map 头像url->list
-                ContactSimple.put(contact, contact_map);
-                //其他操作
-                System.out.println("--------------------------");
-                */
             }
         }
         cursorID.close();

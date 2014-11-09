@@ -68,8 +68,8 @@
       <file leaf-file-name="LineActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-2.4409223" vertical-offset="3630" max-vertical-offset="7700">
-              <caret line="124" column="56" selection-start-line="124" selection-start-column="56" selection-end-line="124" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.6340058" vertical-offset="1650" max-vertical-offset="7590">
+              <caret line="131" column="13" selection-start-line="131" selection-start-column="13" selection-end-line="131" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -1431,7 +1431,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java</url>
-          <line>238</line>
+          <line>233</line>
           <properties />
         </line-breakpoint>
       </breakpoints>
@@ -1879,8 +1879,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.4409223" vertical-offset="3630" max-vertical-offset="7700">
-          <caret line="124" column="56" selection-start-line="124" selection-start-column="56" selection-end-line="124" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.6340058" vertical-offset="1650" max-vertical-offset="7590">
+          <caret line="131" column="13" selection-start-line="131" selection-start-column="13" selection-end-line="131" selection-end-column="13" />
           <folding />
         </state>
       </provider>
