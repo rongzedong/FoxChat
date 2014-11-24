@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingTop="20dp"
-        android:src="@drawable/type_icon_phone" />
+        android:visibility="visible" />
 
     <LinearLayout
         android:layout_width="wrap_content"

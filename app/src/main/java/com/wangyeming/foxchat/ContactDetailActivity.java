@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.wangyeming.custom.ContactDetailAdapter;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -121,12 +123,6 @@ public class ContactDetailActivity extends Activity {
 
     //读取联系人手机号
     public void readContactPhoneNum(String ContactId) {
-        Map<String, Object> phoneIconMap = new HashMap<String, Object>() {
-            {
-                put("1", R.drawable.type_icon_phone);
-                put("0", null);
-            }
-        };
         ContentResolver cr = getContentResolver();//得到ContentResolver对象
         Cursor phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 PHONES_PROJECTION[4] + "=" + ContactId, null, null);//设置手机号光标
@@ -158,8 +154,10 @@ public class ContactDetailActivity extends Activity {
         if (ContactDisplay == null) {
             //System.out.println("ContactDisplay is nil");
         }
-        SimpleAdapter adapter = new SimpleAdapter(this, ContactDisplay,
-                R.layout.list_item2, new String[]{"phone_png", "phone_num", "phone_type", "phone_location", "message_png"}, new int[]{R.id.phone, R.id.phone_num, R.id.phone_type, R.id.phone_location, R.id.mes1});
+        System.out.println(ContactDisplay.size());
+        ContactDetailAdapter adapter = new ContactDetailAdapter(ContactDisplay, this);
+        // SimpleAdapter adapter = new SimpleAdapter(this, ContactDisplay,
+               //  R.layout.list_item2, new String[]{"phone_png", "phone_num", "phone_type", "phone_location", "message_png"}, new int[]{R.id.phone, R.id.phone_num, R.id.phone_type, R.id.phone_location, R.id.mes1});
         lt2.setAdapter(adapter);
     }
 

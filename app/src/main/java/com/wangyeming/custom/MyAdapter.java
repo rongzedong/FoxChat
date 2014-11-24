@@ -66,7 +66,6 @@ public class MyAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
         //一般按如下方式将数据与UI联系起来
         //holder.image.setImageResource(mData.get(position).getmIcon());
         if (data.get(position).get("catalogue") == null) {
