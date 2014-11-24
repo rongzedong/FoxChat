@@ -19,7 +19,7 @@ public class NewToast extends Toast {
         super(context);
     }
 
-    public static Toast makeText(Context context,  CharSequence text, int duration) {
+    public static Toast makeText(Context context, CharSequence text, int duration) {
         Toast result = new Toast(context);
 
         //获取LayoutInflater对象

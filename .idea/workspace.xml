@@ -65,24 +65,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LineActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="LineActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.15780999" vertical-offset="3202" max-vertical-offset="7194">
-              <caret line="188" column="81" selection-start-line="188" selection-start-column="81" selection-end-line="188" selection-end-column="81" />
+            <state vertical-scroll-proportion="-11.16129" vertical-offset="3812" max-vertical-offset="7150">
+              <caret line="227" column="61" selection-start-line="227" selection-start-column="61" selection-end-line="227" selection-end-column="61" />
               <folding>
-                <element signature="e#1321#1342#0" expanded="true" />
-                <element signature="e#1422#1443#0" expanded="true" />
-                <element signature="e#1523#1544#0" expanded="true" />
-                <element signature="e#3782#3798#0" expanded="true" />
-                <element signature="e#5426#5442#0" expanded="true" />
-                <element signature="e#6168#6184#0" expanded="true" />
-                <element signature="e#8569#9507#0" expanded="true" />
-                <element signature="e#9496#9497#0" expanded="true" />
-                <element signature="e#10227#10486#0" expanded="true" />
-                <element signature="e#10475#10476#0" expanded="true" />
-                <element signature="e#10624#10902#0" expanded="true" />
-                <element signature="e#10891#10892#0" expanded="true" />
+                <element signature="e#8569#9375#0" expanded="true" />
+                <element signature="e#9364#9365#0" expanded="true" />
+                <element signature="e#10095#10354#0" expanded="true" />
+                <element signature="e#10343#10344#0" expanded="true" />
+                <element signature="e#10492#10770#0" expanded="true" />
+                <element signature="e#10759#10760#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,27 +85,20 @@
       <file leaf-file-name="ContactDetailActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/ContactDetailActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1584" max-vertical-offset="3454">
+            <state vertical-scroll-proportion="0.0" vertical-offset="308" max-vertical-offset="3454">
               <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MyAdapter.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MyAdapter.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/custom/MyAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="978" max-vertical-offset="1914">
-              <caret line="65" column="70" selection-start-line="65" selection-start-column="61" selection-end-line="65" selection-end-column="70" />
+            <state vertical-scroll-proportion="0.56269115" vertical-offset="1040" max-vertical-offset="2024">
+              <caret line="70" column="72" selection-start-line="70" selection-start-column="72" selection-end-line="70" selection-end-column="72" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#520#541#0" expanded="true" />
-                <element signature="e#786#787#0" expanded="true" />
-                <element signature="e#839#840#0" expanded="true" />
-                <element signature="e#896#897#0" expanded="true" />
-                <element signature="e#937#938#0" expanded="true" />
-                <element signature="e#994#995#0" expanded="true" />
-                <element signature="e#1018#1019#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -120,9 +107,12 @@
       <file leaf-file-name="activity_line.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_line.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-22.733334" vertical-offset="88" max-vertical-offset="1012">
-              <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
-              <folding />
+            <state vertical-scroll-proportion="-14.666667" vertical-offset="44" max-vertical-offset="1012">
+              <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+              <folding>
+                <element signature="e#600#635#0" expanded="true" />
+                <element signature="e#667#700#0" expanded="true" />
+              </folding>
             </state>
           </provider>
           <provider editor-type-id="android-designer">
@@ -133,13 +123,10 @@
       <file leaf-file-name="list_item1.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item1.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="792">
-              <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+            <state vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="484">
+              <caret line="10" column="43" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="43" />
               <folding>
-                <element signature="e#301#315#0" expanded="true" />
-                <element signature="e#525#560#0" expanded="true" />
-                <element signature="e#691#705#0" expanded="true" />
-                <element signature="e#953#988#0" expanded="true" />
+                <element signature="e#459#494#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -844,11 +831,11 @@
         <option value="$PROJECT_DIR$/app/.gitignore" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/ContactDetailActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/value-zh/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/custom/MyAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_line.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item1.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/line.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item1.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_line.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/custom/MyAdapter.java" />
       </list>
     </option>
   </component>
@@ -886,7 +873,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1205,8 +1191,9 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1277,19 +1264,6 @@
       <option name="PORT" value="5005" />
       <method />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <method />
-    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -1315,6 +1289,19 @@
       <envs />
       <properties />
       <listeners />
+      <method />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -1423,7 +1410,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="0" width="1932" height="1092" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1438,14 +1425,14 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17438105" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25080732" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26264802" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32994652" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23048128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23048128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32831" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
@@ -1478,23 +1465,13 @@
           <url>file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java</url>
           <line>187</line>
           <properties />
+          <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="1" />
+      <option name="time" value="2" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_line.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="352" max-vertical-offset="484">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="154" max-vertical-offset="704">
@@ -1508,18 +1485,12 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="132" max-vertical-offset="1782">
           <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
           <folding>
-            <element signature="e#1321#1342#0" expanded="true" />
-            <element signature="e#1422#1443#0" expanded="true" />
-            <element signature="e#1523#1544#0" expanded="true" />
-            <element signature="e#3782#3798#0" expanded="true" />
-            <element signature="e#5426#5442#0" expanded="true" />
-            <element signature="e#6168#6184#0" expanded="true" />
-            <element signature="e#8569#9507#0" expanded="true" />
-            <element signature="e#9496#9497#0" expanded="true" />
-            <element signature="e#10227#10486#0" expanded="true" />
-            <element signature="e#10475#10476#0" expanded="true" />
-            <element signature="e#10624#10902#0" expanded="true" />
-            <element signature="e#10891#10892#0" expanded="true" />
+            <element signature="e#8569#9375#0" expanded="true" />
+            <element signature="e#9364#9365#0" expanded="true" />
+            <element signature="e#10095#10354#0" expanded="true" />
+            <element signature="e#10343#10344#0" expanded="true" />
+            <element signature="e#10492#10770#0" expanded="true" />
+            <element signature="e#10759#10760#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1528,7 +1499,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="352" max-vertical-offset="484">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#600#635#0" expanded="true" />
+            <element signature="e#667#700#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -1548,18 +1522,12 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1139" max-vertical-offset="1782">
           <caret line="72" column="47" selection-start-line="72" selection-start-column="47" selection-end-line="72" selection-end-column="47" />
           <folding>
-            <element signature="e#1321#1342#0" expanded="true" />
-            <element signature="e#1422#1443#0" expanded="true" />
-            <element signature="e#1523#1544#0" expanded="true" />
-            <element signature="e#3782#3798#0" expanded="true" />
-            <element signature="e#5426#5442#0" expanded="true" />
-            <element signature="e#6168#6184#0" expanded="true" />
-            <element signature="e#8569#9507#0" expanded="true" />
-            <element signature="e#9496#9497#0" expanded="true" />
-            <element signature="e#10227#10486#0" expanded="true" />
-            <element signature="e#10475#10476#0" expanded="true" />
-            <element signature="e#10624#10902#0" expanded="true" />
-            <element signature="e#10891#10892#0" expanded="true" />
+            <element signature="e#8569#9375#0" expanded="true" />
+            <element signature="e#9364#9365#0" expanded="true" />
+            <element signature="e#10095#10354#0" expanded="true" />
+            <element signature="e#10343#10344#0" expanded="true" />
+            <element signature="e#10492#10770#0" expanded="true" />
+            <element signature="e#10759#10760#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1568,7 +1536,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="352" max-vertical-offset="484">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#600#635#0" expanded="true" />
+            <element signature="e#667#700#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -1588,18 +1559,12 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="836" max-vertical-offset="1782">
           <caret line="46" column="20" selection-start-line="46" selection-start-column="20" selection-end-line="46" selection-end-column="20" />
           <folding>
-            <element signature="e#1321#1342#0" expanded="true" />
-            <element signature="e#1422#1443#0" expanded="true" />
-            <element signature="e#1523#1544#0" expanded="true" />
-            <element signature="e#3782#3798#0" expanded="true" />
-            <element signature="e#5426#5442#0" expanded="true" />
-            <element signature="e#6168#6184#0" expanded="true" />
-            <element signature="e#8569#9507#0" expanded="true" />
-            <element signature="e#9496#9497#0" expanded="true" />
-            <element signature="e#10227#10486#0" expanded="true" />
-            <element signature="e#10475#10476#0" expanded="true" />
-            <element signature="e#10624#10902#0" expanded="true" />
-            <element signature="e#10891#10892#0" expanded="true" />
+            <element signature="e#8569#9375#0" expanded="true" />
+            <element signature="e#9364#9365#0" expanded="true" />
+            <element signature="e#10095#10354#0" expanded="true" />
+            <element signature="e#10343#10344#0" expanded="true" />
+            <element signature="e#10492#10770#0" expanded="true" />
+            <element signature="e#10759#10760#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1608,7 +1573,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="352" max-vertical-offset="484">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#600#635#0" expanded="true" />
+            <element signature="e#667#700#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -1628,18 +1596,12 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="301" max-vertical-offset="1804">
           <caret line="26" column="27" selection-start-line="26" selection-start-column="27" selection-end-line="26" selection-end-column="27" />
           <folding>
-            <element signature="e#1321#1342#0" expanded="true" />
-            <element signature="e#1422#1443#0" expanded="true" />
-            <element signature="e#1523#1544#0" expanded="true" />
-            <element signature="e#3782#3798#0" expanded="true" />
-            <element signature="e#5426#5442#0" expanded="true" />
-            <element signature="e#6168#6184#0" expanded="true" />
-            <element signature="e#8569#9507#0" expanded="true" />
-            <element signature="e#9496#9497#0" expanded="true" />
-            <element signature="e#10227#10486#0" expanded="true" />
-            <element signature="e#10475#10476#0" expanded="true" />
-            <element signature="e#10624#10902#0" expanded="true" />
-            <element signature="e#10891#10892#0" expanded="true" />
+            <element signature="e#8569#9375#0" expanded="true" />
+            <element signature="e#9364#9365#0" expanded="true" />
+            <element signature="e#10095#10354#0" expanded="true" />
+            <element signature="e#10343#10344#0" expanded="true" />
+            <element signature="e#10492#10770#0" expanded="true" />
+            <element signature="e#10759#10760#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1648,7 +1610,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="352" max-vertical-offset="484">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#600#635#0" expanded="true" />
+            <element signature="e#667#700#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -1668,18 +1633,12 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="242" max-vertical-offset="1694">
           <caret line="30" column="18" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="18" />
           <folding>
-            <element signature="e#1321#1342#0" expanded="true" />
-            <element signature="e#1422#1443#0" expanded="true" />
-            <element signature="e#1523#1544#0" expanded="true" />
-            <element signature="e#3782#3798#0" expanded="true" />
-            <element signature="e#5426#5442#0" expanded="true" />
-            <element signature="e#6168#6184#0" expanded="true" />
-            <element signature="e#8569#9507#0" expanded="true" />
-            <element signature="e#9496#9497#0" expanded="true" />
-            <element signature="e#10227#10486#0" expanded="true" />
-            <element signature="e#10475#10476#0" expanded="true" />
-            <element signature="e#10624#10902#0" expanded="true" />
-            <element signature="e#10891#10892#0" expanded="true" />
+            <element signature="e#8569#9375#0" expanded="true" />
+            <element signature="e#9364#9365#0" expanded="true" />
+            <element signature="e#10095#10354#0" expanded="true" />
+            <element signature="e#10343#10344#0" expanded="true" />
+            <element signature="e#10492#10770#0" expanded="true" />
+            <element signature="e#10759#10760#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1688,7 +1647,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="352" max-vertical-offset="484">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#600#635#0" expanded="true" />
+            <element signature="e#667#700#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -1708,18 +1670,12 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="528" max-vertical-offset="1122">
           <caret line="43" column="8" selection-start-line="43" selection-start-column="8" selection-end-line="43" selection-end-column="8" />
           <folding>
-            <element signature="e#1321#1342#0" expanded="true" />
-            <element signature="e#1422#1443#0" expanded="true" />
-            <element signature="e#1523#1544#0" expanded="true" />
-            <element signature="e#3782#3798#0" expanded="true" />
-            <element signature="e#5426#5442#0" expanded="true" />
-            <element signature="e#6168#6184#0" expanded="true" />
-            <element signature="e#8569#9507#0" expanded="true" />
-            <element signature="e#9496#9497#0" expanded="true" />
-            <element signature="e#10227#10486#0" expanded="true" />
-            <element signature="e#10475#10476#0" expanded="true" />
-            <element signature="e#10624#10902#0" expanded="true" />
-            <element signature="e#10891#10892#0" expanded="true" />
+            <element signature="e#8569#9375#0" expanded="true" />
+            <element signature="e#9364#9365#0" expanded="true" />
+            <element signature="e#10095#10354#0" expanded="true" />
+            <element signature="e#10343#10344#0" expanded="true" />
+            <element signature="e#10492#10770#0" expanded="true" />
+            <element signature="e#10759#10760#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1728,7 +1684,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="352" max-vertical-offset="484">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#600#635#0" expanded="true" />
+            <element signature="e#667#700#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -1748,18 +1707,12 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="741" max-vertical-offset="969">
           <caret line="47" column="16" selection-start-line="47" selection-start-column="16" selection-end-line="47" selection-end-column="16" />
           <folding>
-            <element signature="e#1321#1342#0" expanded="true" />
-            <element signature="e#1422#1443#0" expanded="true" />
-            <element signature="e#1523#1544#0" expanded="true" />
-            <element signature="e#3782#3798#0" expanded="true" />
-            <element signature="e#5426#5442#0" expanded="true" />
-            <element signature="e#6168#6184#0" expanded="true" />
-            <element signature="e#8569#9507#0" expanded="true" />
-            <element signature="e#9496#9497#0" expanded="true" />
-            <element signature="e#10227#10486#0" expanded="true" />
-            <element signature="e#10475#10476#0" expanded="true" />
-            <element signature="e#10624#10902#0" expanded="true" />
-            <element signature="e#10891#10892#0" expanded="true" />
+            <element signature="e#8569#9375#0" expanded="true" />
+            <element signature="e#9364#9365#0" expanded="true" />
+            <element signature="e#10095#10354#0" expanded="true" />
+            <element signature="e#10343#10344#0" expanded="true" />
+            <element signature="e#10492#10770#0" expanded="true" />
+            <element signature="e#10759#10760#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1768,7 +1721,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="304" max-vertical-offset="418">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#600#635#0" expanded="true" />
+            <element signature="e#667#700#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -1788,18 +1744,12 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="483" max-vertical-offset="1122">
           <caret line="47" column="16" selection-start-line="47" selection-start-column="16" selection-end-line="47" selection-end-column="16" />
           <folding>
-            <element signature="e#1321#1342#0" expanded="true" />
-            <element signature="e#1422#1443#0" expanded="true" />
-            <element signature="e#1523#1544#0" expanded="true" />
-            <element signature="e#3782#3798#0" expanded="true" />
-            <element signature="e#5426#5442#0" expanded="true" />
-            <element signature="e#6168#6184#0" expanded="true" />
-            <element signature="e#8569#9507#0" expanded="true" />
-            <element signature="e#9496#9497#0" expanded="true" />
-            <element signature="e#10227#10486#0" expanded="true" />
-            <element signature="e#10475#10476#0" expanded="true" />
-            <element signature="e#10624#10902#0" expanded="true" />
-            <element signature="e#10891#10892#0" expanded="true" />
+            <element signature="e#8569#9375#0" expanded="true" />
+            <element signature="e#9364#9365#0" expanded="true" />
+            <element signature="e#10095#10354#0" expanded="true" />
+            <element signature="e#10343#10344#0" expanded="true" />
+            <element signature="e#10492#10770#0" expanded="true" />
+            <element signature="e#10759#10760#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1808,7 +1758,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="352" max-vertical-offset="484">
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#600#635#0" expanded="true" />
+            <element signature="e#667#700#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -1828,18 +1781,12 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="924">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1321#1342#0" expanded="true" />
-            <element signature="e#1422#1443#0" expanded="true" />
-            <element signature="e#1523#1544#0" expanded="true" />
-            <element signature="e#3782#3798#0" expanded="true" />
-            <element signature="e#5426#5442#0" expanded="true" />
-            <element signature="e#6168#6184#0" expanded="true" />
-            <element signature="e#8569#9507#0" expanded="true" />
-            <element signature="e#9496#9497#0" expanded="true" />
-            <element signature="e#10227#10486#0" expanded="true" />
-            <element signature="e#10475#10476#0" expanded="true" />
-            <element signature="e#10624#10902#0" expanded="true" />
-            <element signature="e#10891#10892#0" expanded="true" />
+            <element signature="e#8569#9375#0" expanded="true" />
+            <element signature="e#9364#9365#0" expanded="true" />
+            <element signature="e#10095#10354#0" expanded="true" />
+            <element signature="e#10343#10344#0" expanded="true" />
+            <element signature="e#10492#10770#0" expanded="true" />
+            <element signature="e#10759#10760#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1848,7 +1795,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="484">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#600#635#0" expanded="true" />
+            <element signature="e#667#700#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -1983,32 +1933,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15172414" vertical-offset="0" max-vertical-offset="6600">
           <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/custom/MyAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="978" max-vertical-offset="1914">
-          <caret line="65" column="70" selection-start-line="65" selection-start-column="61" selection-end-line="65" selection-end-column="70" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#520#541#0" expanded="true" />
-            <element signature="e#786#787#0" expanded="true" />
-            <element signature="e#839#840#0" expanded="true" />
-            <element signature="e#896#897#0" expanded="true" />
-            <element signature="e#937#938#0" expanded="true" />
-            <element signature="e#994#995#0" expanded="true" />
-            <element signature="e#1018#1019#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/ContactDetailActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2508" max-vertical-offset="3300">
-          <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2020,11 +1944,37 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/sdk/platforms/android-20/android.jar!/java/util/List.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33233082" vertical-offset="87" max-vertical-offset="1342">
+          <caret line="15" column="9" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-11.16129" vertical-offset="3812" max-vertical-offset="7150">
+          <caret line="227" column="61" selection-start-line="227" selection-start-column="61" selection-end-line="227" selection-end-column="61" />
+          <folding>
+            <element signature="e#8569#9375#0" expanded="true" />
+            <element signature="e#9364#9365#0" expanded="true" />
+            <element signature="e#10095#10354#0" expanded="true" />
+            <element signature="e#10343#10344#0" expanded="true" />
+            <element signature="e#10492#10770#0" expanded="true" />
+            <element signature="e#10759#10760#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_line.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-22.733334" vertical-offset="88" max-vertical-offset="1012">
-          <caret line="35" column="30" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
-          <folding />
+        <state vertical-scroll-proportion="-14.666667" vertical-offset="44" max-vertical-offset="1012">
+          <caret line="22" column="17" selection-start-line="22" selection-start-column="17" selection-end-line="22" selection-end-column="17" />
+          <folding>
+            <element signature="e#600#635#0" expanded="true" />
+            <element signature="e#667#700#0" expanded="true" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="android-designer">
@@ -2033,13 +1983,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item1.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="792">
-          <caret line="10" column="32" selection-start-line="10" selection-start-column="32" selection-end-line="10" selection-end-column="32" />
+        <state vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="484">
+          <caret line="10" column="43" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="43" />
           <folding>
-            <element signature="e#301#315#0" expanded="true" />
-            <element signature="e#525#560#0" expanded="true" />
-            <element signature="e#691#705#0" expanded="true" />
-            <element signature="e#953#988#0" expanded="true" />
+            <element signature="e#459#494#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2047,23 +1994,20 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/ContactDetailActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15780999" vertical-offset="3202" max-vertical-offset="7194">
-          <caret line="188" column="81" selection-start-line="188" selection-start-column="81" selection-end-line="188" selection-end-column="81" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="2508" max-vertical-offset="3300">
+          <caret line="34" column="20" selection-start-line="34" selection-start-column="20" selection-end-line="34" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/custom/MyAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.56269115" vertical-offset="1040" max-vertical-offset="2024">
+          <caret line="70" column="72" selection-start-line="70" selection-start-column="72" selection-end-line="70" selection-end-column="72" />
           <folding>
-            <element signature="e#1321#1342#0" expanded="true" />
-            <element signature="e#1422#1443#0" expanded="true" />
-            <element signature="e#1523#1544#0" expanded="true" />
-            <element signature="e#3782#3798#0" expanded="true" />
-            <element signature="e#5426#5442#0" expanded="true" />
-            <element signature="e#6168#6184#0" expanded="true" />
-            <element signature="e#8569#9507#0" expanded="true" />
-            <element signature="e#9496#9497#0" expanded="true" />
-            <element signature="e#10227#10486#0" expanded="true" />
-            <element signature="e#10475#10476#0" expanded="true" />
-            <element signature="e#10624#10902#0" expanded="true" />
-            <element signature="e#10891#10892#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

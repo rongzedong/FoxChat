@@ -1,6 +1,8 @@
 package com.wangyeming.custom;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,13 @@ import java.util.Map;
  * 基础适配器
  */
 public class MyAdapter extends BaseAdapter {
+
+    private String colorCatalog = "#778899";
+    private String colorName = "#000000";
+    private int sizeCatalog = 14;
+    private int sizeName = 18;
+    private int heightCatalog = 70;
+    private int heightName = 100;
 
     private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
     private LayoutInflater mInflater = null;
@@ -51,7 +60,7 @@ public class MyAdapter extends BaseAdapter {
             convertView = mInflater.inflate(R.layout.list_item1,
                     null);
             //holder.image = (ImageView) convertView.findViewById(R.id.image);
-            holder.catalogue = (TextView) convertView.findViewById(R.id.catalogue);
+            //holder.catalogue = (TextView) convertView.findViewById(R.id.catalogue);
             holder.name = (TextView) convertView.findViewById(R.id.name);
             convertView.setTag(holder);
         } else {
@@ -61,21 +70,23 @@ public class MyAdapter extends BaseAdapter {
         //一般按如下方式将数据与UI联系起来
         //holder.image.setImageResource(mData.get(position).getmIcon());
         if (data.get(position).get("catalogue") == null) {
-            holder.catalogue.setVisibility(8);
-        } else {
-            holder.catalogue.setText(data.get(position).get("catalogue"));
-        }
-        if (data.get(position).get("name") == null) {
-            holder.name.setVisibility(8);
-        } else {
             holder.name.setText(data.get(position).get("name"));
+            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeName);
+            holder.name.setTextColor(Color.parseColor(colorName));
+            holder.name.setHeight(heightName);
+            // holder.name.getLayoutParams().height = heightName;
+        } else {
+            holder.name.setText(data.get(position).get("catalogue"));
+            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeCatalog);
+            holder.name.setTextColor(Color.parseColor(colorCatalog)); // Color.BLACK
+            holder.name.setHeight(heightCatalog);
+            // holder.name.getLayoutParams().height = heightCatalog;
         }
         return convertView;
     }
 
     class ViewHolder {
         //public ImageView image;
-        public TextView catalogue;
         public TextView name;
     }
 }

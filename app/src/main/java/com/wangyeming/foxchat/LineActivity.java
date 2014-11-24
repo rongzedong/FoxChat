@@ -226,8 +226,6 @@ public class LineActivity extends Activity {
                 }
                 String ContactId = displayTmp.get(position).get("contactId");
                 System.out.println("ContactId " + ContactId);
-                //String ContactId = ContactIdList.get(position);
-                System.out.println("111111111111  " + ContactId);
                 Intent intent = new Intent(LineActivity.this, ContactDetailActivity.class);
                 intent.putExtra("ContactId", ContactId);
                 startActivity(intent);

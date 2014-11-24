@@ -37,10 +37,17 @@ public class ContactDetailActivity extends Activity {
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,  //contact_id
             ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY //sort_key
     };
-    private static final Map<String, String> PHONE_TYPE = new HashMap<String, String>(){
+    private static final Map<String, String> PHONE_TYPE = new HashMap<String, String>() {
         {
-            put("0", "自定义"); put("1", "住宅");put("2", "手机");put("3", "单位");
-            put("4", "传真");put("5", "");put("6", "");put("7", "其他");put("12","总机");
+            put("0", "自定义");
+            put("1", "住宅");
+            put("2", "手机");
+            put("3", "单位");
+            put("4", "传真");
+            put("5", "");
+            put("6", "");
+            put("7", "其他");
+            put("12", "总机");
         }
     };
 
@@ -73,7 +80,7 @@ public class ContactDetailActivity extends Activity {
     }
 
     //读取联系人信息
-    public void getContactMessage(){
+    public void getContactMessage() {
         Intent intent = getIntent();
         String ContactId = intent.getStringExtra("ContactId");
         //System.out.println(ContactId);
@@ -114,7 +121,7 @@ public class ContactDetailActivity extends Activity {
 
     //读取联系人手机号
     public void readContactPhoneNum(String ContactId) {
-        Map<String, Object> phoneIconMap = new HashMap<String, Object>(){
+        Map<String, Object> phoneIconMap = new HashMap<String, Object>() {
             {
                 put("1", R.drawable.type_icon_phone);
                 put("0", null);
@@ -132,8 +139,8 @@ public class ContactDetailActivity extends Activity {
             String phoneNumberTypeTrans = PHONE_TYPE.get(phoneNumberType);
             //System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
             //PhoneNumMap.put("phone_icon", phoneIconMap.get(isFirstNum));
-            PhoneNumMap.put("phone_png",R.drawable.type_icon_phone);
-            PhoneNumMap.put("phone_num",phoneNumber);
+            PhoneNumMap.put("phone_png", R.drawable.type_icon_phone);
+            PhoneNumMap.put("phone_num", phoneNumber);
             PhoneNumMap.put("phone_type", phoneNumberTypeTrans);
             PhoneNumMap.put("phone_location", "北京");
             PhoneNumMap.put("message_png", R.drawable.ic_send_sms_p);
@@ -144,20 +151,20 @@ public class ContactDetailActivity extends Activity {
     }
 
     //设置lisView布局
-    public void displayListView(){
+    public void displayListView() {
         tv1 = (TextView) findViewById(R.id.contactName);
         tv1.setText(contactName);
         lt2 = (ListView) findViewById(R.id.list2);
-        if(ContactDisplay == null){
+        if (ContactDisplay == null) {
             //System.out.println("ContactDisplay is nil");
         }
         SimpleAdapter adapter = new SimpleAdapter(this, ContactDisplay,
-                R.layout.list_item2, new String[]{ "phone_png", "phone_num","phone_type","phone_location","message_png"}, new int[]{ R.id.phone, R.id.phone_num,R.id.phone_type, R.id.phone_location, R.id.mes1});
+                R.layout.list_item2, new String[]{"phone_png", "phone_num", "phone_type", "phone_location", "message_png"}, new int[]{R.id.phone, R.id.phone_num, R.id.phone_type, R.id.phone_location, R.id.mes1});
         lt2.setAdapter(adapter);
     }
 
     //返回主页面按钮
-    public void backToMain(View view){
+    public void backToMain(View view) {
         Intent intent = new Intent(this, LineActivity.class);
         startActivity(intent);
     }

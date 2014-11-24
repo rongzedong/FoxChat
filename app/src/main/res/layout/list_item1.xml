@@ -1,28 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/catalogue"
-        android:text="@string/name"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:textSize="14dp"
-        android:textColor="#778899"
-        android:typeface="sans"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:gravity="center_horizontal|center_vertical" />
 
     <TextView
         android:id="@+id/name"
         android:text="@string/name"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:scrollbars="vertical"
-        android:textSize="18dp"
-        android:textColor="#000000"
+        android:layout_height="fill_parent"
         android:typeface="sans"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:gravity="center_horizontal|center_vertical" />
