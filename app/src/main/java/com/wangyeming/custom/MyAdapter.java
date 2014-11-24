@@ -27,7 +27,7 @@ public class MyAdapter extends BaseAdapter {
     private int sizeCatalog = 14;
     private int sizeName = 18;
     private int heightCatalog = 70;
-    private int heightName = 100;
+    private int heightName = 120;
 
     private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
     private LayoutInflater mInflater = null;
