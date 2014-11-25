@@ -76,6 +76,7 @@ public class LineActivity extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        setContentView(R.layout.activity_line);
         init();
     }
 
@@ -109,12 +110,22 @@ public class LineActivity extends Activity {
      * 得到手机通讯录联系人信息*
      */
     public void getPhoneContacts() {
+        clearData(); //清除缓存数据
         readStarredContact(); //读取星标联系人
         readContact(); //读取非星标联系人
     }
 
+    //清除缓存数据
+    public void clearData(){
+        ContactDisplay.clear();
+        ContactFilterDisplay.clear();
+        contactDisplayNoCata.clear();
+        ContactIdList.clear();
+        ContactIdFilterList.clear();
+    }
     //读取联系人
     public void readContact() {
+        System.out.println("读取未收藏联系人。。。");
         cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[]{"0"}, "sort_key");// 设置联系人光标,按汉语拼音排序
         String ContactName = "";//排除联系人重复
         Map<String, Object> catalogueDisplay = new HashMap<String, Object>();
@@ -147,6 +158,7 @@ public class LineActivity extends Activity {
 
     //读取星标联系人
     public void readStarredContact() {
+        System.out.println("读取收藏了联系人。。。");
         cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[]{"1"}, "sort_key");// 设置星标联系人光标,按汉语拼音排序
         String ContactName = "";//排除联系人重复
         Map<String, Object> catalogueDisplay = new HashMap<String, Object>();
