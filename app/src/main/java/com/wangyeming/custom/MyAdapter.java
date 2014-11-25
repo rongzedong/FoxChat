@@ -29,10 +29,10 @@ public class MyAdapter extends BaseAdapter {
     private int heightCatalog = 70;
     private int heightName = 120;
 
-    private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+    private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
     private LayoutInflater mInflater = null;
 
-    public MyAdapter(List<Map<String, String>> data, Context context) {
+    public MyAdapter(List<Map<String, Object>> data, Context context) {
         this.data = data;
         mInflater = LayoutInflater.from(context);
     }
@@ -69,13 +69,13 @@ public class MyAdapter extends BaseAdapter {
         //一般按如下方式将数据与UI联系起来
         //holder.image.setImageResource(mData.get(position).getmIcon());
         if (data.get(position).get("catalogue") == null) {
-            holder.name.setText(data.get(position).get("name"));
+            holder.name.setText((String) data.get(position).get("name"));
             holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeName);
             holder.name.setTextColor(Color.parseColor(colorName));
             holder.name.setHeight(heightName);
             // holder.name.getLayoutParams().height = heightName;
         } else {
-            holder.name.setText(data.get(position).get("catalogue"));
+            holder.name.setText((String) data.get(position).get("catalogue"));
             holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeCatalog);
             holder.name.setTextColor(Color.parseColor(colorCatalog)); // Color.BLACK
             holder.name.setHeight(heightCatalog);

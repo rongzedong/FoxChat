@@ -42,11 +42,11 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 
 public class LineActivity extends Activity {
 
-    protected List<Map<String, String>> ContactDisplay = new ArrayList<Map<String, String>>();
-    protected List<Map<String, String>> ContactFilterDisplay = new ArrayList<Map<String, String>>();
-    protected List<Map<String, String>> contactDisplayNoCata = new ArrayList<Map<String, String>>();
-    protected List<String> ContactIdList = new ArrayList<String>();
-    protected List<String> ContactIdFilterList = new ArrayList<String>();
+    protected List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
+    protected List<Map<String, Object>> ContactFilterDisplay = new ArrayList<Map<String, Object>>();
+    protected List<Map<String, Object>> contactDisplayNoCata = new ArrayList<Map<String, Object>>();
+    protected List<Long> ContactIdList = new ArrayList<Long>();
+    protected List<Long> ContactIdFilterList = new ArrayList<Long>();
     protected ContentResolver cr;
     protected Cursor cursorID; //联系人游标
     protected ListView lt1;
@@ -73,6 +73,12 @@ public class LineActivity extends Activity {
         init();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        init();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -95,7 +101,6 @@ public class LineActivity extends Activity {
         cr = getContentResolver();
         getPhoneContacts();
         displayListView(ContactDisplay);
-
         setOnScrollListener();
         setOnItemClickListener();
     }
@@ -112,7 +117,7 @@ public class LineActivity extends Activity {
     public void readContact() {
         cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[]{"0"}, "sort_key");// 设置联系人光标,按汉语拼音排序
         String ContactName = "";//排除联系人重复
-        Map<String, String> catalogueDisplay = new HashMap<String, String>();
+        Map<String, Object> catalogueDisplay = new HashMap<String, Object>();
         catalogueDisplay.put("catalogue", "其他联系人");
         ContactDisplay.add(catalogueDisplay);
         while (cursorID.moveToNext()) {
@@ -125,8 +130,8 @@ public class LineActivity extends Activity {
             } else {
                 ContactName = contact;
                 int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
-                String ContactId = cursorID.getString(index);//获取联系人对应的ID号
-                Map<String, String> ContactNameDisplay = new HashMap<String, String>();
+                Long ContactId = cursorID.getLong(index);//获取联系人对应的ID号
+                Map<String, Object> ContactNameDisplay = new HashMap<String, Object>();
                 ContactNameDisplay.put("name", contact);
                 ContactNameDisplay.put("contactId", ContactId);
                 System.out.println("姓名 " + contact + " ");
@@ -144,7 +149,7 @@ public class LineActivity extends Activity {
     public void readStarredContact() {
         cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[]{"1"}, "sort_key");// 设置星标联系人光标,按汉语拼音排序
         String ContactName = "";//排除联系人重复
-        Map<String, String> catalogueDisplay = new HashMap<String, String>();
+        Map<String, Object> catalogueDisplay = new HashMap<String, Object>();
         catalogueDisplay.put("catalogue", "星标联系人");
         ContactDisplay.add(catalogueDisplay);
         while (cursorID.moveToNext()) {
@@ -156,8 +161,8 @@ public class LineActivity extends Activity {
             } else {
                 ContactName = contact;
                 int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
-                String ContactId = cursorID.getString(index);//获取联系人对应的ID号
-                Map<String, String> ContactNameDisplay = new HashMap<String, String>();
+                Long ContactId = cursorID.getLong(index);//获取联系人对应的ID号
+                Map<String, Object> ContactNameDisplay = new HashMap<String, Object>();
                 ContactNameDisplay.put("name", contact);
                 System.out.println("姓名 " + contact + " ");
                 ContactNameDisplay.put("contactId", ContactId);
@@ -172,7 +177,7 @@ public class LineActivity extends Activity {
     }
 
     //设置lisView布局
-    public void displayListView(List<Map<String, String>> Display) {
+    public void displayListView(List<Map<String, Object>> Display) {
         lt1 = (ListView) findViewById(R.id.list1);
         if (Display == null) {
             System.out.println("ContactDisplay is nil");
@@ -221,11 +226,11 @@ public class LineActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("position " + position + " id " + id);
-                List<Map<String, String>> displayTmp = isSearch ? ContactFilterDisplay : ContactDisplay;
+                List<Map<String, Object>> displayTmp = isSearch ? ContactFilterDisplay : ContactDisplay;
                 if (displayTmp.get(position).get("contactId") == null) {
                     return;
                 }
-                String ContactId = displayTmp.get(position).get("contactId");
+                Long ContactId = (Long) displayTmp.get(position).get("contactId");
                 System.out.println("ContactId " + ContactId);
                 Intent intent = new Intent(LineActivity.this, ContactDetailActivity.class);
                 intent.putExtra("ContactId", ContactId);
@@ -288,13 +293,13 @@ public class LineActivity extends Activity {
         }
         Iterator iterator = ContactDisplay.iterator();
         while (iterator.hasNext()) {
-            Map<String, String> ContactNameDisplay =
-                    (Map<String, String>) iterator.next();
-            String name = ContactNameDisplay.get("name");
+            Map<String, Object> ContactNameDisplay =
+                    (Map<String, Object>) iterator.next();
+            String name = (String) ContactNameDisplay.get("name");
             if (name == null) {
                 continue;
             }
-            String contactId = ContactNameDisplay.get("contactId");
+            Long contactId = (Long) ContactNameDisplay.get("contactId");
             Pattern pattern = Pattern.compile(input);
             Matcher matcher = pattern.matcher(name);
             if (matcher.find()) {
@@ -317,7 +322,7 @@ public class LineActivity extends Activity {
     }
 
     //显示搜索结果统计
-    public void displayConclusion(List<Map<String, String>> Display) {
+    public void displayConclusion(List<Map<String, Object>> Display) {
         int total_num = this.ContactDisplay.size();
         int match_num = Display.size();
         tv1 = (TextView) findViewById(R.id.tV1);

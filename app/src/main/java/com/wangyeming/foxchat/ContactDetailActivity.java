@@ -37,7 +37,7 @@ public class ContactDetailActivity extends Activity {
     protected ListView lt2;
     protected TextView tv1;
     protected String contactName;
-    protected String ContactId;
+    protected Long ContactId;
     protected Long RawContactId;
     protected ContentResolver cr;
     protected Button starButton;
@@ -50,7 +50,7 @@ public class ContactDetailActivity extends Activity {
             ContactsContract.CommonDataKinds.Photo.PHOTO_URI,//
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,  //contact_id
             ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY, //sort_key
-            ContactsContract.CommonDataKinds.Photo.RAW_CONTACT_ID,
+            ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID,
             ContactsContract.CommonDataKinds.Phone.STARRED
     };
     private static final Map<String, String> PHONE_TYPE = new HashMap<String, String>() {
@@ -105,7 +105,7 @@ public class ContactDetailActivity extends Activity {
     //读取联系人信息
     public void getContactMessage() {
         Intent intent = getIntent();
-        ContactId = intent.getStringExtra("ContactId");
+        ContactId = intent.getLongExtra("ContactId", 1);
         //System.out.println(ContactId);
         readContactName(ContactId);
         Uri photo_uri = readContactPhoneBim(ContactId);
@@ -113,7 +113,7 @@ public class ContactDetailActivity extends Activity {
     }
 
     //读取联系人姓名
-    public void readContactName(String ContactId) {
+    public void readContactName(Long ContactId) {
         Cursor cursorID = getContentResolver().query(CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[4] + "=" + ContactId, null, "sort_key");
         cursorID.moveToNext();
         contactName = cursorID.getString(cursorID.getColumnIndex(PHONES_PROJECTION[0]));
@@ -121,7 +121,7 @@ public class ContactDetailActivity extends Activity {
     }
 
     //读取联系人头像
-    public Uri readContactPhoneBim(String ContactId) {
+    public Uri readContactPhoneBim(Long ContactId) {
         Cursor cursorID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[4] + "=" + ContactId, null, "sort_key");
         cursorID.moveToFirst();
         RawContactId = cursorID.getLong(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
@@ -147,7 +147,7 @@ public class ContactDetailActivity extends Activity {
     }
 
     //读取联系人手机号
-    public void readContactPhoneNum(String ContactId) {
+    public void readContactPhoneNum(Long ContactId) {
         ContentResolver cr = getContentResolver();//得到ContentResolver对象
         Cursor phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 PHONES_PROJECTION[4] + "=" + ContactId, null, null);//设置手机号光标
@@ -216,9 +216,10 @@ public class ContactDetailActivity extends Activity {
 
     //收藏联系人
     public void starContact(View view) {
+        Uri rawContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, RawContactId);
+        Uri ContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, ContactId);
+        ContentValues values = new ContentValues();
         if (isStarred) {
-            Uri rawContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, RawContactId);
-            ContentValues values = new ContentValues();
             values.put(ContactsContract.CommonDataKinds.Phone.STARRED, 0);
             starButton.setBackground(this.getResources().getDrawable(R.drawable.unfavorite_icon_normal_dark));
             starTextView.setText("收藏");
@@ -226,8 +227,6 @@ public class ContactDetailActivity extends Activity {
             cr.update(rawContactUri, values, null, null);
             isStarred = false;
         } else {
-            Uri rawContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, RawContactId);
-            ContentValues values = new ContentValues();
             values.put(ContactsContract.CommonDataKinds.Phone.STARRED, 1);
             starButton.setBackground(this.getResources().getDrawable(R.drawable.favorite_icon_normal_dark));
             starTextView.setText("取消收藏");
