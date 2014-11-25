@@ -2,20 +2,26 @@ package com.wangyeming.foxchat;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wangyeming.custom.ContactDetailAdapter;
+import com.wangyeming.custom.NewToast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,13 +37,21 @@ public class ContactDetailActivity extends Activity {
     protected ListView lt2;
     protected TextView tv1;
     protected String contactName;
+    protected String ContactId;
+    protected Long RawContactId;
+    protected ContentResolver cr;
+    protected Button starButton;
+    protected TextView starTextView;
+    protected boolean isStarred = false;
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
             ContactsContract.CommonDataKinds.Photo.PHOTO_ID, //photo_id
             ContactsContract.CommonDataKinds.Photo.PHOTO_URI,//
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,  //contact_id
-            ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY //sort_key
+            ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY, //sort_key
+            ContactsContract.CommonDataKinds.Photo.RAW_CONTACT_ID,
+            ContactsContract.CommonDataKinds.Phone.STARRED
     };
     private static final Map<String, String> PHONE_TYPE = new HashMap<String, String>() {
         {
@@ -57,8 +71,15 @@ public class ContactDetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_detail);
+        init();
+
+    }
+
+    public void init() {
+        cr = getContentResolver();
         getContactMessage();//获取联系人信息
-        displayListView();
+        displayListView(); //显示listView
+        displayStarred(); //设置收藏/未收藏的图标
     }
 
 
@@ -84,7 +105,7 @@ public class ContactDetailActivity extends Activity {
     //读取联系人信息
     public void getContactMessage() {
         Intent intent = getIntent();
-        String ContactId = intent.getStringExtra("ContactId");
+        ContactId = intent.getStringExtra("ContactId");
         //System.out.println(ContactId);
         readContactName(ContactId);
         Uri photo_uri = readContactPhoneBim(ContactId);
@@ -101,9 +122,13 @@ public class ContactDetailActivity extends Activity {
 
     //读取联系人头像
     public Uri readContactPhoneBim(String ContactId) {
-        ContentResolver cr = getContentResolver();//得到ContentResolver对象
         Cursor cursorID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[4] + "=" + ContactId, null, "sort_key");
         cursorID.moveToFirst();
+        RawContactId = cursorID.getLong(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
+        System.out.println(RawContactId);
+        int starred = cursorID.getInt(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.STARRED));
+        System.out.println("starred "+ starred);
+        isStarred =  starred == 1 ? true : false;
         String photo_string = cursorID.getString(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
         //System.out.println("this 3" +photo_string);
         Uri photo_uri;
@@ -126,7 +151,6 @@ public class ContactDetailActivity extends Activity {
         ContentResolver cr = getContentResolver();//得到ContentResolver对象
         Cursor phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 PHONES_PROJECTION[4] + "=" + ContactId, null, null);//设置手机号光标
-        String isFirstNum = "1";
         while (phoneID.moveToNext()) {
             Map<String, Object> PhoneNumMap = new HashMap<String, Object>();
             String phoneNumber = phoneID.getString(phoneID.getColumnIndex(PHONES_PROJECTION[1]));
@@ -141,7 +165,6 @@ public class ContactDetailActivity extends Activity {
             PhoneNumMap.put("phone_location", "北京");
             PhoneNumMap.put("message_png", R.drawable.ic_send_sms_p);
             ContactDisplay.add(PhoneNumMap);
-            isFirstNum = "0";
         }
         phoneID.close();
     }
@@ -157,8 +180,21 @@ public class ContactDetailActivity extends Activity {
         System.out.println(ContactDisplay.size());
         ContactDetailAdapter adapter = new ContactDetailAdapter(ContactDisplay, this);
         // SimpleAdapter adapter = new SimpleAdapter(this, ContactDisplay,
-               //  R.layout.list_item2, new String[]{"phone_png", "phone_num", "phone_type", "phone_location", "message_png"}, new int[]{R.id.phone, R.id.phone_num, R.id.phone_type, R.id.phone_location, R.id.mes1});
+        //  R.layout.list_item2, new String[]{"phone_png", "phone_num", "phone_type", "phone_location", "message_png"}, new int[]{R.id.phone, R.id.phone_num, R.id.phone_type, R.id.phone_location, R.id.mes1});
         lt2.setAdapter(adapter);
+    }
+
+    //设置收藏/未收藏的图标
+    public void displayStarred(){
+        starButton = (Button) findViewById(R.id.starButton);
+        starTextView = (TextView) findViewById(R.id.starText);
+        if (isStarred) {
+            starButton.setBackground(this.getResources().getDrawable(R.drawable.favorite_icon_normal_dark));
+            starTextView.setText("取消收藏");
+        } else {
+            starButton.setBackground(this.getResources().getDrawable(R.drawable.unfavorite_icon_normal_dark));
+            starTextView.setText("收藏");
+        }
     }
 
     //返回主页面按钮
@@ -174,12 +210,30 @@ public class ContactDetailActivity extends Activity {
     }
 
     //发送联系人详细信息
-    public void sendContactDetail(View view){
+    public void sendContactDetail(View view) {
 
     }
 
     //收藏联系人
-    public void starContact(){
-
+    public void starContact(View view) {
+        if (isStarred) {
+            Uri rawContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, RawContactId);
+            ContentValues values = new ContentValues();
+            values.put(ContactsContract.CommonDataKinds.Phone.STARRED, 0);
+            starButton.setBackground(this.getResources().getDrawable(R.drawable.unfavorite_icon_normal_dark));
+            starTextView.setText("收藏");
+            //String Where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND   " + ContactsContract.Data.MIMETYPE + " = ?";
+            cr.update(rawContactUri, values, null, null);
+            isStarred = false;
+        } else {
+            Uri rawContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, RawContactId);
+            ContentValues values = new ContentValues();
+            values.put(ContactsContract.CommonDataKinds.Phone.STARRED, 1);
+            starButton.setBackground(this.getResources().getDrawable(R.drawable.favorite_icon_normal_dark));
+            starTextView.setText("取消收藏");
+            //String Where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND   " + ContactsContract.Data.MIMETYPE + " = ?";
+            cr.update(rawContactUri, values, null, null);
+            isStarred = true;
+        }
     }
 }

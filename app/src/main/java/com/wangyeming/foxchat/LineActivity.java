@@ -62,7 +62,8 @@ public class LineActivity extends Activity {
             ContactsContract.CommonDataKinds.Photo.PHOTO_ID, //photo_id
             ContactsContract.CommonDataKinds.Photo.PHOTO_URI,//
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,  //contact_id
-            ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY //sort_key
+            ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY, //sort_key
+            ContactsContract.CommonDataKinds.Photo.RAW_CONTACT_ID
     };
 
     @Override

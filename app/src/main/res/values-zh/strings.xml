@@ -13,4 +13,7 @@
     <string name="edit">编辑</string>
     <string name="send">发送</string>
     <string name="star">收藏</string>
+    <string name="cancel_edit">取消</string>
+    <string name="ensure_edit">确定</string>
+    <string name="delete_contact">删除联系人(慎重)</string>
 </resources>

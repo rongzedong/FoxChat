@@ -60,10 +60,8 @@ public class ContactDetailAdapter extends BaseAdapter {
         }
         //一般按如下方式将数据与UI联系起来
         if (position == 0) {
-            System.out.println("isFirst");
             holder.phone.setVisibility(0);
         } else {
-            System.out.println("not first");
             holder.phone.setVisibility(4);
         }
         holder.phone.setImageResource(R.drawable.type_icon_phone);

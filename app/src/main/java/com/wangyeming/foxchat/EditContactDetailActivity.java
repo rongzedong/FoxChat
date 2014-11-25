@@ -1,6 +1,9 @@
 package com.wangyeming.foxchat;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,10 +33,30 @@ public class EditContactDetailActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_delete) {
+            deleteContact();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
+
+    //删除联系人
+    public void deleteContact() {
+        Dialog alertDialog = new AlertDialog.Builder(this).setTitle("确定删除该联系人？").
+                setIcon(android.R.drawable.ic_dialog_info).
+                setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //删除联系人
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                 }).create();
+        alertDialog.show();
+    }
+
 }

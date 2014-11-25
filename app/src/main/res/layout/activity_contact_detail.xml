@@ -70,6 +70,7 @@
             android:layout_gravity="center">
 
             <Button
+                android:id="@+id/starButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
@@ -77,6 +78,7 @@
                 android:onClick="starContact" />
 
             <TextView
+                android:id="@+id/starText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|center_vertical"
