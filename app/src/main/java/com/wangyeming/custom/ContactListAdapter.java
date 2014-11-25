@@ -2,6 +2,9 @@ package com.wangyeming.custom;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,12 +18,14 @@ import com.wangyeming.foxchat.R;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Wang on 2014/11/9.
  * 基础适配器
  */
-public class MyAdapter extends BaseAdapter {
+public class ContactListAdapter extends BaseAdapter {
 
     private String colorCatalog = "#778899";
     private String colorName = "#000000";
@@ -31,10 +36,17 @@ public class MyAdapter extends BaseAdapter {
 
     private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
     private LayoutInflater mInflater = null;
+    private String keyWord = new String();
 
-    public MyAdapter(List<Map<String, Object>> data, Context context) {
+    public ContactListAdapter(List<Map<String, Object>> data, Context context) {
         this.data = data;
         mInflater = LayoutInflater.from(context);
+    }
+
+    public ContactListAdapter(List<Map<String, Object>> data, String keyWord, Context context) {
+        this.data = data;
+        mInflater = LayoutInflater.from(context);
+        this.keyWord = keyWord;
     }
 
     @Override
@@ -59,8 +71,6 @@ public class MyAdapter extends BaseAdapter {
             holder = new ViewHolder();
             convertView = mInflater.inflate(R.layout.list_item1,
                     null);
-            //holder.image = (ImageView) convertView.findViewById(R.id.image);
-            //holder.catalogue = (TextView) convertView.findViewById(R.id.catalogue);
             holder.name = (TextView) convertView.findViewById(R.id.name);
             convertView.setTag(holder);
         } else {
@@ -69,23 +79,36 @@ public class MyAdapter extends BaseAdapter {
         //一般按如下方式将数据与UI联系起来
         //holder.image.setImageResource(mData.get(position).getmIcon());
         if (data.get(position).get("catalogue") == null) {
-            holder.name.setText((String) data.get(position).get("name"));
+            String name = (String) data.get(position).get("name");
             holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeName);
             holder.name.setTextColor(Color.parseColor(colorName));
             holder.name.setHeight(heightName);
-            // holder.name.getLayoutParams().height = heightName;
+            if(! keyWord.isEmpty()){
+                System.out.println("搜索字高亮 " + keyWord);
+                SpannableString sp = new SpannableString(name);
+                Pattern p = Pattern.compile(keyWord);
+                Matcher m = p.matcher(name);
+                while(m.find()){
+                    int start = m.start();
+                    int end = m.end();
+                    System.out.println("start "+start+"end "+end);
+                    sp.setSpan(new ForegroundColorSpan(Color.parseColor("#ff6600")),
+                            start ,end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                holder.name.setText(sp);
+            } else {
+                holder.name.setText(name);
+            }
         } else {
             holder.name.setText((String) data.get(position).get("catalogue"));
             holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeCatalog);
             holder.name.setTextColor(Color.parseColor(colorCatalog)); // Color.BLACK
             holder.name.setHeight(heightCatalog);
-            // holder.name.getLayoutParams().height = heightCatalog;
         }
         return convertView;
     }
 
     class ViewHolder {
-        //public ImageView image;
         public TextView name;
     }
 }

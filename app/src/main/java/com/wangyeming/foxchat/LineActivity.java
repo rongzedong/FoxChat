@@ -2,34 +2,23 @@ package com.wangyeming.foxchat;
 
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.wangyeming.custom.MyAdapter;
+import com.wangyeming.custom.ContactListAdapter;
 import com.wangyeming.custom.NewToast;
 
-import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -194,11 +183,24 @@ public class LineActivity extends Activity {
         if (Display == null) {
             System.out.println("ContactDisplay is nil");
         }
-        MyAdapter adapter = new MyAdapter(Display, this);
+        ContactListAdapter adapter = new ContactListAdapter(Display, this);
         //SimpleAdapter adapter = new SimpleAdapter(this, Display,
         //R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
         lt1.setAdapter(adapter);
     }
+
+    //设置lisView布局--包含关键词
+    public void displayListView(List<Map<String, Object>> Display, String keyWord) {
+        lt1 = (ListView) findViewById(R.id.list1);
+        if (Display == null) {
+            System.out.println("ContactDisplay is nil");
+        }
+        ContactListAdapter adapter = new ContactListAdapter(Display, keyWord, this);
+        //SimpleAdapter adapter = new SimpleAdapter(this, Display,
+        //R.layout.list_item1, new String[]{"name"}, new int[]{R.id.name});
+        lt1.setAdapter(adapter);
+    }
+
 
     //设置ListView滑动监听---根据滑动位置Toast提示
     public void setOnScrollListener() {
@@ -320,7 +322,7 @@ public class LineActivity extends Activity {
                 ContactFilterDisplay.add(ContactNameDisplay);
             }
             displayConclusion(ContactFilterDisplay);
-            displayListView(ContactFilterDisplay);
+            displayListView(ContactFilterDisplay, input );
         }
     }
 
