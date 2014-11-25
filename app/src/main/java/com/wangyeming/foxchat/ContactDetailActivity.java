@@ -169,7 +169,8 @@ public class ContactDetailActivity extends Activity {
 
     //编辑联系人详细信息
     public void editContactDetail(View view) {
-
+        Intent intent = new Intent(this, EditContactDetailActivity.class);
+        startActivity(intent);
     }
 
     //发送联系人详细信息

@@ -15,5 +15,6 @@
     <string name="edit">edit</string>
     <string name="send">send</string>
     <string name="star">star</string>
+    <string name="title_activity_edit_contact_detail">EditContactDetailActivity</string>
 
 </resources>
