@@ -65,8 +65,10 @@ public class LineActivity extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        setContentView(R.layout.activity_line);
-        init();
+        if(! isSearch) {
+            clearData(); //清除缓存数据
+            initRefrash();
+        }
     }
 
 
@@ -95,11 +97,15 @@ public class LineActivity extends Activity {
         setOnItemClickListener();
     }
 
+    public void initRefrash() {
+        getPhoneContacts();
+        displayListView(ContactDisplay);
+    }
+
     /**
      * 得到手机通讯录联系人信息*
      */
     public void getPhoneContacts() {
-        clearData(); //清除缓存数据
         readStarredContact(); //读取星标联系人
         readContact(); //读取非星标联系人
     }
@@ -289,7 +295,9 @@ public class LineActivity extends Activity {
             public boolean onClose() {
                 System.out.println("close");
                 isSearch = false;
-                displayListView(ContactDisplay);
+                clearData();
+                initRefrash();
+                //displayListView(ContactDisplay);
                 return false;
             }
         };
@@ -298,9 +306,10 @@ public class LineActivity extends Activity {
 
     //匹配输入文字
     public void matchContact(String input) {
-        ContactFilterDisplay.clear();
-        if (input.equals("")) {
-            ContactFilterDisplay = isSearch ? contactDisplayNoCata : ContactDisplay;
+        ContactFilterDisplay = new ArrayList<Map<String, Object>>();
+        if (input.isEmpty()) {
+            ContactFilterDisplay.addAll(isSearch ? contactDisplayNoCata : ContactDisplay);
+            //ContactFilterDisplay = isSearch ? contactDisplayNoCata : ContactDisplay;  浅拷贝
             displayListView(ContactFilterDisplay);
             displayConclusion();
             return;
