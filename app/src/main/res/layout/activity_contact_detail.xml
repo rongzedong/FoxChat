@@ -49,7 +49,8 @@
             android:id="@+id/list2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp">
+            android:paddingTop="18px"
+            android:divider="@drawable/contact_detail_detail_list_item_divider">
         </ListView>
     </LinearLayout>
 
