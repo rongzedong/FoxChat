@@ -1,9 +1,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:scrollbars="vertical"
+    android:showDividers="end"
     tools:context="com.wangyeming.foxchat.ContactDetailActivity">
 
     <FrameLayout
@@ -42,16 +43,89 @@
     </FrameLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
         android:orientation="horizontal">
+
         <ListView
             android:id="@+id/list2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="18px"
-            android:divider="@drawable/contact_detail_detail_list_item_divider">
-        </ListView>
+            android:paddingTop="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/unfavorite_icon_normal_dark"
+                android:onClick="starContact" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="@string/star"
+                android:textSize="10sp"
+                android:typeface="sans" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/send_icon_normal_dark"
+                android:onClick="sendContactDetail"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="@string/send"
+                android:textSize="10sp"
+                android:typeface="sans" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <Button
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/edit_icon_normal_dark"
+                android:onClick="editContactDetail" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="@string/edit"
+                android:textSize="10sp"
+                android:typeface="sans" />
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

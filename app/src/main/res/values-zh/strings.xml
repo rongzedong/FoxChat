@@ -10,5 +10,7 @@
     <string name="result_conclusion">总数</string>
     <string name="starred_contact">星标联系人</string>
     <string name="contact">联系人</string>
-
+    <string name="edit">编辑</string>
+    <string name="send">发送</string>
+    <string name="star">收藏</string>
 </resources>
