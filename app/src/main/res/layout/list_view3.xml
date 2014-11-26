@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profile_image"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:src="@drawable/contacts"
-        app:border_width="2dp"
-        app:border_color="#FF000000"/>
+    <Spinner
+        android:id="@+id/sp1"
+        android:layout_width="0dip"
+        android:layout_height="40dp"
+        android:layout_weight="2"
+        android:textAlignment="center"/>
+
+    <EditText
+        android:id="@+id/edit_phonenum"
+        android:layout_width="0dip"
+        android:layout_height="40dp"
+        android:hint="电话号码"
+        android:layout_weight="5"/>
+
+    <Button
+        android:layout_width="0dip"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@drawable/delete_light"
+        android:onClick="deletePhoneNum"/>
 
 </LinearLayout>
