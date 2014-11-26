@@ -99,6 +99,15 @@
                 android:typeface="sans" />
         </LinearLayout>
 
+        <DrawerLayout
+            android:id="@+id/drawer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:handle="@+id/handle"
+            android:content="@+id/content">
+        </DrawerLayout>
+
 
     </LinearLayout>
 
