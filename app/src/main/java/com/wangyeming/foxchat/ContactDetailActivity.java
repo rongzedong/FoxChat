@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Contacts;
 import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,13 +15,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.wangyeming.custom.ContactDetailAdapter;
-import com.wangyeming.custom.NewToast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +36,7 @@ public class ContactDetailActivity extends Activity {
     protected String contactName;
     protected Long ContactId;
     protected Long RawContactId;
+    protected Uri photo_uri;
     protected ContentResolver cr;
     protected Button starButton;
     protected TextView starTextView;
@@ -108,7 +106,7 @@ public class ContactDetailActivity extends Activity {
         ContactId = intent.getLongExtra("ContactId", 1);
         //System.out.println(ContactId);
         readContactName(ContactId);
-        Uri photo_uri = readContactPhoneBim(ContactId);
+        photo_uri = readContactPhoneBim(ContactId);
         readContactPhoneNum(ContactId);
     }
 
@@ -131,19 +129,19 @@ public class ContactDetailActivity extends Activity {
         isStarred =  starred == 1 ? true : false;
         String photo_string = cursorID.getString(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
         //System.out.println("this 3" +photo_string);
-        Uri photo_uri;
+        Uri photoUri;
         if (photo_string == null) {
             //没有头像
-            photo_uri = Uri.parse("content://com.android.contacts/display_photo/38");
+            photoUri = Uri.parse("content://com.android.contacts/display_photo/38");
         } else {
-            photo_uri = Uri.parse(photo_string);
+            photoUri = Uri.parse(photo_string);
         }
         //InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), photo_uri);
         //Bitmap bmp_head = BitmapFactory.decodeStream(input);
         ImageView imageView = (ImageView) findViewById(R.id.pic1);
-        imageView.setImageURI(photo_uri);
+        imageView.setImageURI(photoUri);
         cursorID.close();
-        return photo_uri;
+        return photoUri;
     }
 
     //读取联系人手机号
@@ -206,6 +204,10 @@ public class ContactDetailActivity extends Activity {
     //编辑联系人详细信息
     public void editContactDetail(View view) {
         Intent intent = new Intent(this, EditContactDetailActivity.class);
+        intent.putExtra("ContactId", ContactId);
+        intent.setData(photo_uri);
+        intent.putExtra("ContactDisplay", (Serializable)ContactDisplay);
+        intent.putExtra("contactName",contactName);
         startActivity(intent);
     }
 
