@@ -1,16 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.wangyeming.foxchat.EditContactDetailActivity">
-    <!-- 确认, 保存改动 -->
-    <item
-        android:id="@+id/action_save"
-        android:title="@string/edit_yes"
-        android:icon="@drawable/edit_yes"
-        android:showAsAction="ifRoom" />
-    <!-- 设置, 在溢出菜单中展示 -->
-    <item
-        android:id="@+id/action_delete"
-        android:title="@string/delete_contact"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
 </menu>
