@@ -57,9 +57,9 @@ public class ContactDetailActivity extends Activity {
             put("1", "住宅");
             put("2", "手机");
             put("3", "单位");
-            put("4", "传真");
-            put("5", "");
-            put("6", "");
+            put("4", "单位传真");
+            put("5", "住宅传真");
+            put("6", "寻呼机");
             put("7", "其他");
             put("12", "总机");
         }
@@ -155,7 +155,7 @@ public class ContactDetailActivity extends Activity {
             String phoneNumberType = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             //System.out.println(phoneNumberType);
             String phoneNumberTypeTrans = PHONE_TYPE.get(phoneNumberType);
-            //System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
+            System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
             //PhoneNumMap.put("phone_icon", phoneIconMap.get(isFirstNum));
             PhoneNumMap.put("phone_png", R.drawable.type_icon_phone);
             PhoneNumMap.put("phone_num", phoneNumber);

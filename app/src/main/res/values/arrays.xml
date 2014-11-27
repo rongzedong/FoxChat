@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="phone_type">
+        　　
+        <item>自定义</item>
+        　　
+        <item>住宅</item>
+        　　
+        <item>手机</item>
+        　　
+        <item>单位</item>
+        　　
+        <item>单位传真</item>
+
+        <item>住宅传真</item>
+        　　
+        <item>寻呼机</item>
+        　　
+        <item>总机</item>
+
+        <item>其他</item>
+               　　
+    </string-array>
+</resources>

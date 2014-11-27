@@ -23,4 +23,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     //compile 'de.hdodenhof:circleimageview:1.2.1'
     compile files('libs/circleimageview-1.2.1-sources.jar')
+    repositories {
+        mavenCentral()
+    }
+    compile 'com.sothree.slidinguppanel:library:+'
 }

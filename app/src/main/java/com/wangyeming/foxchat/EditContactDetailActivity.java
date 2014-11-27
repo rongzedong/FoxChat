@@ -12,8 +12,10 @@ import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.wangyeming.custom.CircleImageView;
+import com.wangyeming.custom.EditContactPhoneNumAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,7 @@ public class EditContactDetailActivity extends Activity {
     protected Long ContactId;
     protected Uri photo_uri;
     protected String contactName;
+    protected ListView lt3;
     protected List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
     protected ContentResolver cr;
     private static final String[] PHONES_PROJECTION = new String[]{
@@ -74,6 +77,7 @@ public class EditContactDetailActivity extends Activity {
         getContactMessage();//获取intent传递的联系人信息
         setImage();
         setName();
+        displayListView();
     }
 
     //读取联系人信息
@@ -96,6 +100,13 @@ public class EditContactDetailActivity extends Activity {
     public void setName() {
         EditText editText = (EditText) findViewById(R.id.edit_name);
         editText.setText(contactName);
+    }
+
+    //设置lisView布局
+    public void displayListView() {
+        lt3 = (ListView) findViewById(R.id.list3);
+        EditContactPhoneNumAdapter adapter = new EditContactPhoneNumAdapter(ContactDisplay, this);
+        lt3.setAdapter(adapter);
     }
 
 

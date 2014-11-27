@@ -16,4 +16,5 @@
     <string name="cancel_edit">取消</string>
     <string name="ensure_edit">确定</string>
     <string name="delete_contact">删除联系人(慎重)</string>
+    <string name="phone_type">电话类型</string>
 </resources>
