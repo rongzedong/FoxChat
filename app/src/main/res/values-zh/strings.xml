@@ -17,4 +17,6 @@
     <string name="ensure_edit">确定</string>
     <string name="delete_contact">删除联系人(慎重)</string>
     <string name="phone_type">电话类型</string>
+    <string name="title_activity_edit_contact_detail">编辑联系人</string>
+    <string name="edit_yes">保存</string>
 </resources>

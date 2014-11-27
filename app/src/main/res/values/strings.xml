@@ -20,5 +20,6 @@
     <string name="ensure_edit">Ensure</string>
     <string name="delete_contact">delete contact</string>
     <string name="phone_type">Phone Type</string>
+    <string name="edit_yes">edit yes</string>
 
 </resources>

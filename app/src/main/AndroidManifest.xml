@@ -31,8 +31,7 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
         <activity
             android:name="com.wangyeming.foxchat.EditContactDetailActivity"
-            android:label="@string/title_activity_edit_contact_detail" >
-        </activity>
+            android:label="@string/title_activity_edit_contact_detail" />
     </application>
 
 </manifest>
