@@ -163,7 +163,7 @@ public class LineActivity extends Activity {
                 contactIdFilterList.add(ContactId);
             }
         }
-        System.out.println("一共读取了"+namesList2.size()+"个联系人");
+        System.out.println("一共读取了" + namesList2.size() + "个联系人");
         cursorID.close();
     }
 
@@ -191,7 +191,7 @@ public class LineActivity extends Activity {
                 contactIdList2.add(ContactId); //保存联系人ContactId
             }
         }
-        System.out.println("一共读取了"+namesList2.size()+"个收藏联系人");
+        System.out.println("一共读取了" + namesList2.size() + "个收藏联系人");
         catalogList.add(namesList.size()); //记录“其他联系人”储存的位置
         cursorID.close();
     }
@@ -363,6 +363,12 @@ public class LineActivity extends Activity {
         tv1.setVisibility(0);
         tv2.setText(str2);
         tv2.setVisibility(0);
+    }
+
+    //新建联系人
+    public void newContact(View view) {
+        Intent intent = new Intent(this, NewContactActivity.class);
+        startActivity(intent);
     }
 
     /*

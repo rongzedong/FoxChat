@@ -22,5 +22,7 @@
     <string name="edit_yes">edit yes</string>
     <string name="starred_contact">Starred Contacts</string>
     <string name="unstarred_contact">Unstarred Contacts</string>
+    <string name="new_contact">New A Contact</string>
+    <string name="title_activity_new_contact">NewContactActivity</string>
 
 </resources>

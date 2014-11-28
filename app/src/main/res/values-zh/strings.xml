@@ -20,4 +20,5 @@
     <string name="edit_yes">保存</string>
     <string name="starred_contact">星标联系人</string>
     <string name="unstarred_contact">其他联系人</string>
+    <string name="new_contact">新建联系人</string>
 </resources>

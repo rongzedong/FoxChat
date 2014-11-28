@@ -32,6 +32,10 @@
         <activity
             android:name="com.wangyeming.foxchat.EditContactDetailActivity"
             android:label="@string/title_activity_edit_contact_detail" />
+        <activity
+            android:name="com.wangyeming.foxchat.NewContactActivity"
+            android:label="@string/title_activity_new_contact" >
+        </activity>
     </application>
 
 </manifest>
