@@ -10,7 +10,6 @@
     <string name="menu_search">search</string>
     <string name="result_conclusion">Total num</string>
     <string name="title_activity_contact_detail">ContactDetailActivity</string>
-    <string name="starred_contact">starred contacts</string>
     <string name="contact">contacts</string>
     <string name="edit">edit</string>
     <string name="send">send</string>
@@ -21,5 +20,7 @@
     <string name="delete_contact">delete contact</string>
     <string name="phone_type">Phone Type</string>
     <string name="edit_yes">edit yes</string>
+    <string name="starred_contact">Starred Contacts</string>
+    <string name="unstarred_contact">Unstarred Contacts</string>
 
 </resources>

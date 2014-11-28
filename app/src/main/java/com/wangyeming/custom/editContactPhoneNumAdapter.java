@@ -1,6 +1,7 @@
 package com.wangyeming.custom;
 
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
@@ -24,11 +25,16 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
     private LayoutInflater mInflater = null;
     private Context context;
+    protected Long RawContactId;
+    protected ContentResolver cr;
 
-    public EditContactPhoneNumAdapter(List<Map<String, Object>> data, Context context) {
+    public EditContactPhoneNumAdapter(List<Map<String, Object>> data,
+                                      Long RawContactId, Context context, ContentResolver cr) {
         this.data = data;
         mInflater = LayoutInflater.from(context);
         this.context = context;
+        this.RawContactId = RawContactId;
+        this.cr = cr;
     }
 
     @Override
@@ -84,12 +90,17 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         builder.setTitle(R.string.phone_type);
         builder.setItems(R.array.phone_type, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                // The 'which' argument contains the index position
-                // of the selected item
+                /*
+                Uri rawContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, RawContactId);
+                ContentValues values = new ContentValues();
+                values.put(,);
+                cr.update(rawContactUri, values, null, null);
+                */
             }
         });
         builder.show();
     }
+
 
     public void deletePhoneNum(){}
 }

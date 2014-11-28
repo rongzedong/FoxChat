@@ -85,6 +85,8 @@ public class ContactDetailActivity extends Activity {
     protected void onRestart() {
         super.onRestart();
         clearData(); //清除缓存数据
+        Intent intent = getIntent();
+        ContactId = intent.getLongExtra("ContactId", 1);
         init();
     }
 
@@ -216,6 +218,7 @@ public class ContactDetailActivity extends Activity {
     public void editContactDetail(View view) {
         Intent intent = new Intent(this, EditContactDetailActivity.class);
         intent.putExtra("ContactId", ContactId);
+        intent.putExtra("RawContactId",RawContactId);
         intent.setData(photo_uri);
         intent.putExtra("ContactDisplay", (Serializable) ContactDisplay);
         intent.putExtra("contactName", contactName);

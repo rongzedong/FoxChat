@@ -30,6 +30,7 @@ import java.util.Map;
 public class EditContactDetailActivity extends Activity {
 
     protected Long ContactId;
+    protected Long RawContactId;
     protected Uri photo_uri;
     protected String contactName;
     protected ListView lt3;
@@ -85,16 +86,16 @@ public class EditContactDetailActivity extends Activity {
                 R.layout.actionbar_layout, null);
         getActionBar().setCustomView(actionbarLayout);
         //设置取消保存响应
-        Button calcelButton = (Button)findViewById(R.id.cancelEdit);
-        calcelButton.setOnClickListener(new View.OnClickListener() {
+        Button cancelButton = (Button)findViewById(R.id.cancelEdit);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 cancelEdit();
             }
         });
         //设置确认保存响应
-        Button surelButton = (Button)findViewById(R.id.saveEdit);
-        surelButton.setOnClickListener(new View.OnClickListener() {
+        Button sureButton = (Button)findViewById(R.id.saveEdit);
+        sureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
                 ensureEdit();
@@ -114,6 +115,7 @@ public class EditContactDetailActivity extends Activity {
     public void getContactMessage() {
         Intent intent = getIntent();
         ContactId = intent.getLongExtra("ContactId", 1);
+        RawContactId = intent.getLongExtra("RawContactId", 1);
         photo_uri = intent.getData();
         ContactDisplay = (List<Map<String, Object>>) intent.getSerializableExtra("ContactDisplay");
         contactName = intent.getStringExtra("contactName");
@@ -135,7 +137,8 @@ public class EditContactDetailActivity extends Activity {
     //设置lisView布局
     public void displayListView() {
         lt3 = (ListView) findViewById(R.id.list3);
-        EditContactPhoneNumAdapter adapter = new EditContactPhoneNumAdapter(ContactDisplay, this);
+        EditContactPhoneNumAdapter adapter = new EditContactPhoneNumAdapter(ContactDisplay,
+                RawContactId, this, cr);
         lt3.setAdapter(adapter);
     }
 
@@ -167,6 +170,7 @@ public class EditContactDetailActivity extends Activity {
         //保存联系人信息。。。
         Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, ContactDetailActivity.class);
+        intent.putExtra("ContactId", ContactId);
         startActivity(intent);
     }
 }
