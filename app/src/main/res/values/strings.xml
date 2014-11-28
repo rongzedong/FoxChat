@@ -15,7 +15,7 @@
     <string name="edit">edit</string>
     <string name="send">send</string>
     <string name="star">star</string>
-    <string name="title_activity_edit_contact_detail">EditContactDetailActivity</string>
+    <string name="title_activity_edit_contact_detail">Edit Contact</string>
     <string name="cancel_edit">Cancel</string>
     <string name="ensure_edit">Ensure</string>
     <string name="delete_contact">delete contact</string>

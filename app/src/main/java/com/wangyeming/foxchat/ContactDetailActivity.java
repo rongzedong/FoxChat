@@ -73,19 +73,19 @@ public class ContactDetailActivity extends Activity {
 
     }
 
-    public void init() {
-        cr = getContentResolver();
-        getContactMessage();//获取联系人信息
-        displayListView(); //显示listView
-        displayStarred(); //设置收藏/未收藏的图标
-    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.contact_detail, menu);
         return true;
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        clearData(); //清除缓存数据
+        init();
     }
 
     @Override
@@ -98,6 +98,17 @@ public class ContactDetailActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void init() {
+        cr = getContentResolver();
+        getContactMessage();//获取联系人信息
+        displayListView(); //显示listView
+        displayStarred(); //设置收藏/未收藏的图标
+    }
+
+    public void clearData() {
+        ContactDisplay.clear();
     }
 
     //读取联系人信息
@@ -125,8 +136,8 @@ public class ContactDetailActivity extends Activity {
         RawContactId = cursorID.getLong(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
         System.out.println(RawContactId);
         int starred = cursorID.getInt(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.STARRED));
-        System.out.println("starred "+ starred);
-        isStarred =  starred == 1 ? true : false;
+        System.out.println("starred " + starred);
+        isStarred = starred == 1 ? true : false;
         String photo_string = cursorID.getString(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
         //System.out.println("this 3" +photo_string);
         Uri photoUri;
@@ -155,7 +166,7 @@ public class ContactDetailActivity extends Activity {
             String phoneNumberType = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             //System.out.println(phoneNumberType);
             String phoneNumberTypeTrans = PHONE_TYPE.get(phoneNumberType);
-            System.out.println("手机号： "+ phoneNumber + " 手机号类型： "+ phoneNumberType + " ");
+            System.out.println("手机号： " + phoneNumber + " 手机号类型： " + phoneNumberType + " ");
             //PhoneNumMap.put("phone_icon", phoneIconMap.get(isFirstNum));
             PhoneNumMap.put("phone_png", R.drawable.type_icon_phone);
             PhoneNumMap.put("phone_num", phoneNumber);
@@ -183,7 +194,7 @@ public class ContactDetailActivity extends Activity {
     }
 
     //设置收藏/未收藏的图标
-    public void displayStarred(){
+    public void displayStarred() {
         starButton = (Button) findViewById(R.id.starButton);
         starTextView = (TextView) findViewById(R.id.starText);
         if (isStarred) {
@@ -206,8 +217,8 @@ public class ContactDetailActivity extends Activity {
         Intent intent = new Intent(this, EditContactDetailActivity.class);
         intent.putExtra("ContactId", ContactId);
         intent.setData(photo_uri);
-        intent.putExtra("ContactDisplay", (Serializable)ContactDisplay);
-        intent.putExtra("contactName",contactName);
+        intent.putExtra("ContactDisplay", (Serializable) ContactDisplay);
+        intent.putExtra("contactName", contactName);
         startActivity(intent);
     }
 

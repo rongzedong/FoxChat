@@ -2,7 +2,28 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <!-- ActionBar 样式 -->
+    <style name="MyActionBar"
+        parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:title"></item>
+    </style>
+
+    <!-- ActionBar 标题文本 -->
+    <style name="MyActionBarTitleText"
+        parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">#778899</item>
+    </style>
+
+    <!-- ActionBar Tab标签 文本样式 -->
+    <style name="MyActionBarTabText"
+        parent="@android:style/Widget.Holo.Light.ActionBar.TabText">
+        <item name="android:textColor">#778899</item>
     </style>
 
 </resources>
