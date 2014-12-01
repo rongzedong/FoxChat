@@ -184,14 +184,12 @@ public class ContactDetailActivity extends Activity {
     public void displayListView() {
         tv1 = (TextView) findViewById(R.id.contactName);
         tv1.setText(contactName);
-        lt2 = (ListView) findViewById(R.id.list2);
+        lt2 = (ListView) findViewById(R.id.list_contact_phone_display);
         if (ContactDisplay == null) {
             //System.out.println("ContactDisplay is nil");
         }
         System.out.println(ContactDisplay.size());
         ContactDetailAdapter adapter = new ContactDetailAdapter(ContactDisplay, this);
-        // SimpleAdapter adapter = new SimpleAdapter(this, ContactDisplay,
-        //  R.layout.list_item2, new String[]{"phone_png", "phone_num", "phone_type", "phone_location", "message_png"}, new int[]{R.id.phone, R.id.phone_num, R.id.phone_type, R.id.phone_location, R.id.mes1});
         lt2.setAdapter(adapter);
     }
 

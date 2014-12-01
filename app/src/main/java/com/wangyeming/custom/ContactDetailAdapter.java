@@ -47,7 +47,7 @@ public class ContactDetailAdapter extends BaseAdapter {
         ViewHolder holder;
         holder = new ViewHolder();
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_item2,
+            convertView = mInflater.inflate(R.layout.list_contact_phone_display,
                     null);
             holder.phone = (ImageView) convertView.findViewById(R.id.phone);
             holder.phone_num = (TextView) convertView.findViewById(R.id.phone_num);

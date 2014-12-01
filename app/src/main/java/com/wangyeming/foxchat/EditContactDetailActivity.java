@@ -138,7 +138,7 @@ public class EditContactDetailActivity extends Activity {
 
     //设置lisView布局
     public void displayListView() {
-        lt3 = (ListView) findViewById(R.id.list3);
+        lt3 = (ListView) findViewById(R.id.list_contact_phone_edit);
         EditContactPhoneNumAdapter adapter = new EditContactPhoneNumAdapter(ContactDisplay,
                 RawContactId, this, cr);
         lt3.setAdapter(adapter);

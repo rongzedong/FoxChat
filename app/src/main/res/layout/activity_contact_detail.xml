@@ -50,7 +50,7 @@
         android:orientation="horizontal">
 
         <ListView
-            android:id="@+id/list2"
+            android:id="@+id/list_contact_phone_display"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp" />

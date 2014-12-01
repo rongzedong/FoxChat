@@ -57,7 +57,7 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         ViewHolder holder;
         holder = new ViewHolder();
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.list_item3,
+            convertView = mInflater.inflate(R.layout.list_contact_phone_edit,
                     null);
             holder.phoneType = (Button) convertView.findViewById(R.id.edit_phone_type);
             holder.editText = (EditText) convertView.findViewById(R.id.edit_phonenum);

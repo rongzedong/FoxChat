@@ -74,7 +74,7 @@ public class ContactListAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.list_item1,
+            convertView = mInflater.inflate(R.layout.list_contact_line,
                     null);
             holder.name = (TextView) convertView.findViewById(R.id.name);
             convertView.setTag(holder);

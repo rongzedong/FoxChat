@@ -52,13 +52,16 @@
         </LinearLayout>
     </LinearLayout>
 
-
+    <!--电话号码-->
     <ListView
-        android:id="@+id/list3"
+        android:id="@+id/list_contact_phone_edit"
         android:layout_width="fill_parent"
 
         android:layout_height="0dip"
         android:layout_weight="8" />
+
+    <!--电子邮件-->
+
 
     <Button
         android:layout_width="wrap_content"

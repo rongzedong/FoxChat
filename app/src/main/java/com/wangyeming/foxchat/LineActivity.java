@@ -198,7 +198,7 @@ public class LineActivity extends Activity {
 
     //设置lisView布局
     public void displayListView(List<String> namesList) {
-        lt1 = (ListView) findViewById(R.id.list1);
+        lt1 = (ListView) findViewById(R.id.list_contact_line);
         if (namesList == null) {
             System.out.println("namesList is nil");
         }
@@ -213,7 +213,7 @@ public class LineActivity extends Activity {
 
     //设置lisView布局--包含关键词
     public void displayListView(List<String> namesList, String keyWord) {
-        lt1 = (ListView) findViewById(R.id.list1);
+        lt1 = (ListView) findViewById(R.id.list_contact_line);
         if (namesList == null) {
             System.out.println("ContactDisplay is nil");
         }
