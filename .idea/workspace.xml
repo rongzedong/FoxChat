@@ -89,29 +89,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="LineActivity.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="LineActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9198543" vertical-offset="7635" max-vertical-offset="8910">
-              <caret line="370" column="30" selection-start-line="370" selection-start-column="30" selection-end-line="370" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#990#998#0" expanded="true" />
-                <element signature="e#1081#1089#0" expanded="true" />
-                <element signature="e#1170#1178#0" expanded="true" />
-                <element signature="e#1253#1262#0" expanded="true" />
-                <element signature="e#1353#1359#0" expanded="true" />
-                <element signature="e#1452#1458#0" expanded="true" />
-                <element signature="e#1552#1558#0" expanded="true" />
-                <element signature="e#4263#4300#0" expanded="true" />
-                <element signature="e#5565#5600#0" expanded="true" />
-                <element signature="e#8909#9687#0" expanded="true" />
-                <element signature="e#9676#9677#0" expanded="true" />
-                <element signature="e#10407#10645#0" expanded="true" />
-                <element signature="e#10634#10635#0" expanded="true" />
-                <element signature="e#10783#11072#0" expanded="true" />
-                <element signature="e#11061#11062#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0" vertical-offset="5510" max-vertical-offset="8140">
+              <caret line="351" column="5" selection-start-line="351" selection-start-column="5" selection-end-line="351" selection-end-column="5" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -119,71 +102,71 @@
       <file leaf-file-name="NewContactActivity.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/NewContactActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1726" max-vertical-offset="2288">
+            <state vertical-scroll-proportion="0.0" vertical-offset="767" max-vertical-offset="2002">
               <caret line="107" column="30" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="30" />
-              <folding>
-                <element signature="e#2039#2188#0" expanded="true" />
-                <element signature="e#2177#2178#0" expanded="true" />
-                <element signature="e#2313#2462#0" expanded="true" />
-                <element signature="e#2451#2452#0" expanded="true" />
-                <element signature="e#2743#3007#0" expanded="true" />
-                <element signature="e#2988#2989#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EditContactDetailActivity.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="EditContactDetailActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/EditContactDetailActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="445" max-vertical-offset="3168">
-              <caret line="53" column="23" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="23" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_new_contact.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_new_contact.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.3" vertical-offset="889" max-vertical-offset="1408">
-              <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.7430657" vertical-offset="2285" max-vertical-offset="3322">
+              <caret line="163" column="27" selection-start-line="163" selection-start-column="27" selection-end-line="163" selection-end-column="27" />
               <folding>
-                <element signature="e#266#299#0" expanded="true" />
-                <element signature="e#324#359#0" expanded="true" />
-                <element signature="e#385#420#0" expanded="true" />
-                <element signature="e#444#477#0" expanded="true" />
+                <element signature="e#5495#5762#0" expanded="true" />
+                <element signature="e#5743#5744#0" expanded="true" />
               </folding>
             </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="activity_line.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_line.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.833333" vertical-offset="849" max-vertical-offset="1518">
-              <caret line="52" column="39" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="39" />
-              <folding />
-            </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="activity_edit_contact_detail.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_edit_contact_detail.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.933332" vertical-offset="664" max-vertical-offset="1386">
-              <caret line="56" column="15" selection-start-line="0" selection-start-column="0" selection-end-line="56" selection-end-column="15" />
+            <state vertical-scroll-proportion="28.466667" vertical-offset="1096" max-vertical-offset="1738">
+              <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
               <folding />
             </state>
           </provider>
           <provider editor-type-id="android-designer">
             <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utility.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/Help/Utility.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="110" max-vertical-offset="880">
+              <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="list_item3.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item3.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-2.7666667" vertical-offset="269" max-vertical-offset="924">
+              <caret line="16" column="30" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="34" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-designer">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EditContactPhoneNumAdapter.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/custom/EditContactPhoneNumAdapter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="132" max-vertical-offset="1892">
+              <caret line="90" column="28" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="28" />
+              <folding />
+            </state>
           </provider>
         </entry>
       </file>
@@ -1285,18 +1268,19 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/themes.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_edit_contact_detail.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_edit_contact_detail.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/actionbar_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/ContactDetailActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/EditContactDetailActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/custom/EditContactPhoneNumAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/custom/ContactListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_line.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_new_contact.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/NewContactActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_edit_contact_detail.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/Help/Utility.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/EditContactDetailActivity.java" />
       </list>
     </option>
   </component>
@@ -1363,6 +1347,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -1623,6 +1608,40 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Help" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FoxChat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="FoxChat" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="wangyeming" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="foxchat" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -1681,9 +1700,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1711,20 +1729,20 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Wang\Documents\GitHub\FoxChat\app\src\main\res\drawable-xxhdpi" />
       <recent name="C:\Users\Wang\Documents\GitHub\FoxChat\app\src\main\res\drawable-hdpi" />
       <recent name="C:\Users\Wang\Documents\GitHub\FoxChat\app\src\main\res\layout" />
-      <recent name="C:\Users\Wang\Documents\GitHub\FoxChat\app\src\main\res\drawable-xxhdpi" />
       <recent name="C:\Users\Wang\Documents\GitHub\FoxChat\app\src\main\res\drawable-xhdpi" />
       <recent name="C:\Users\Wang\Documents\GitHub\FoxChat\app\src\main\java\com\wangyeming\custom" />
     </key>
     <key name="android.template.packageName">
       <recent name="com.wangyeming.foxchat" />
     </key>
-    <key name="android.template.parentActivityClass">
-      <recent name="" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Wang\Documents\GitHub\FoxChat\app\src\main\res\layout" />
+    </key>
+    <key name="android.template.parentActivityClass">
+      <recent name="" />
     </key>
   </component>
   <component name="RunManager" selected="Android Application.app">
@@ -1905,7 +1923,7 @@
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19260918" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33594626" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19820829" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32977587" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1953,31 +1971,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="741" max-vertical-offset="969">
-          <caret line="47" column="16" selection-start-line="47" selection-start-column="16" selection-end-line="47" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#990#998#0" expanded="true" />
-            <element signature="e#1081#1089#0" expanded="true" />
-            <element signature="e#1170#1178#0" expanded="true" />
-            <element signature="e#1253#1262#0" expanded="true" />
-            <element signature="e#1353#1359#0" expanded="true" />
-            <element signature="e#1452#1458#0" expanded="true" />
-            <element signature="e#1552#1558#0" expanded="true" />
-            <element signature="e#4263#4300#0" expanded="true" />
-            <element signature="e#5565#5600#0" expanded="true" />
-            <element signature="e#8909#9687#0" expanded="true" />
-            <element signature="e#9676#9677#0" expanded="true" />
-            <element signature="e#10407#10645#0" expanded="true" />
-            <element signature="e#10634#10635#0" expanded="true" />
-            <element signature="e#10783#11072#0" expanded="true" />
-            <element signature="e#11061#11062#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_line.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="304" max-vertical-offset="418">
@@ -2001,24 +1994,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="483" max-vertical-offset="1122">
           <caret line="47" column="16" selection-start-line="47" selection-start-column="16" selection-end-line="47" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#990#998#0" expanded="true" />
-            <element signature="e#1081#1089#0" expanded="true" />
-            <element signature="e#1170#1178#0" expanded="true" />
-            <element signature="e#1253#1262#0" expanded="true" />
-            <element signature="e#1353#1359#0" expanded="true" />
-            <element signature="e#1452#1458#0" expanded="true" />
-            <element signature="e#1552#1558#0" expanded="true" />
-            <element signature="e#4263#4300#0" expanded="true" />
-            <element signature="e#5565#5600#0" expanded="true" />
-            <element signature="e#8909#9687#0" expanded="true" />
-            <element signature="e#9676#9677#0" expanded="true" />
-            <element signature="e#10407#10645#0" expanded="true" />
-            <element signature="e#10634#10635#0" expanded="true" />
-            <element signature="e#10783#11072#0" expanded="true" />
-            <element signature="e#11061#11062#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2045,24 +2021,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="924">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#990#998#0" expanded="true" />
-            <element signature="e#1081#1089#0" expanded="true" />
-            <element signature="e#1170#1178#0" expanded="true" />
-            <element signature="e#1253#1262#0" expanded="true" />
-            <element signature="e#1353#1359#0" expanded="true" />
-            <element signature="e#1452#1458#0" expanded="true" />
-            <element signature="e#1552#1558#0" expanded="true" />
-            <element signature="e#4263#4300#0" expanded="true" />
-            <element signature="e#5565#5600#0" expanded="true" />
-            <element signature="e#8909#9687#0" expanded="true" />
-            <element signature="e#9676#9677#0" expanded="true" />
-            <element signature="e#10407#10645#0" expanded="true" />
-            <element signature="e#10634#10635#0" expanded="true" />
-            <element signature="e#10783#11072#0" expanded="true" />
-            <element signature="e#11061#11062#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2092,10 +2051,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/toast_frame.9.png">
-      <provider selected="true" editor-type-id="ninepatcheditor">
+      <provider editor-type-id="images">
         <state />
       </provider>
-      <provider editor-type-id="images">
+      <provider selected="true" editor-type-id="ninepatcheditor">
         <state />
       </provider>
     </entry>
@@ -2255,30 +2214,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item3.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.2333333" vertical-offset="315" max-vertical-offset="924">
-          <caret line="16" column="30" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/custom/CircleImageView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33251834" vertical-offset="740" max-vertical-offset="5258">
           <caret line="65" column="65" selection-start-line="65" selection-start-column="61" selection-end-line="65" selection-end-column="65" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.74233127" vertical-offset="0" max-vertical-offset="660">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2338,7 +2277,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="3.0481927" vertical-offset="264" max-vertical-offset="5126">
           <caret line="131" column="5" selection-start-line="131" selection-start-column="5" selection-end-line="131" selection-end-column="5" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2346,17 +2284,59 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.62186116" vertical-offset="943" max-vertical-offset="2266">
           <caret line="85" column="12" selection-start-line="85" selection-start-column="12" selection-end-line="85" selection-end-column="12" />
-          <folding>
-            <element signature="e#926#934#0" expanded="true" />
-            <element signature="e#1036#1045#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_edit_contact_detail.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_line.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.933332" vertical-offset="664" max-vertical-offset="1386">
-          <caret line="56" column="15" selection-start-line="0" selection-start-column="0" selection-end-line="56" selection-end-column="15" />
+        <state vertical-scroll-proportion="0.29699248" vertical-offset="986" max-vertical-offset="1518">
+          <caret line="52" column="39" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_new_contact.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4913295" vertical-offset="823" max-vertical-offset="1408">
+          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-zh/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5903166" vertical-offset="35" max-vertical-offset="660">
+          <caret line="16" column="32" selection-start-line="16" selection-start-column="18" selection-end-line="16" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/NewContactActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1726" max-vertical-offset="2288">
+          <caret line="107" column="30" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="5510" max-vertical-offset="8140">
+          <caret line="351" column="5" selection-start-line="351" selection-start-column="5" selection-end-line="351" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_item3.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.7666667" vertical-offset="269" max-vertical-offset="924">
+          <caret line="16" column="30" selection-start-line="16" selection-start-column="27" selection-end-line="16" selection-end-column="34" />
           <folding />
         </state>
       </provider>
@@ -2366,8 +2346,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/custom/EditContactPhoneNumAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.4549483" vertical-offset="797" max-vertical-offset="2222">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1892">
           <caret line="90" column="28" selection-start-line="90" selection-start-column="25" selection-end-line="90" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_edit_contact_detail.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="28.466667" vertical-offset="1096" max-vertical-offset="1738">
+          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/Help/Utility.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="110" max-vertical-offset="880">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -2376,75 +2375,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/EditContactDetailActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="445" max-vertical-offset="3168">
-          <caret line="53" column="23" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_new_contact.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.3" vertical-offset="889" max-vertical-offset="1408">
-          <caret line="49" column="0" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7430657" vertical-offset="2285" max-vertical-offset="3322">
+          <caret line="163" column="27" selection-start-line="163" selection-start-column="27" selection-end-line="163" selection-end-column="27" />
           <folding>
-            <element signature="e#266#299#0" expanded="true" />
-            <element signature="e#324#359#0" expanded="true" />
-            <element signature="e#385#420#0" expanded="true" />
-            <element signature="e#444#477#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_line.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.833333" vertical-offset="849" max-vertical-offset="1518">
-          <caret line="52" column="39" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/NewContactActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1726" max-vertical-offset="2288">
-          <caret line="107" column="30" selection-start-line="107" selection-start-column="8" selection-end-line="107" selection-end-column="30" />
-          <folding>
-            <element signature="e#2039#2188#0" expanded="true" />
-            <element signature="e#2177#2178#0" expanded="true" />
-            <element signature="e#2313#2462#0" expanded="true" />
-            <element signature="e#2451#2452#0" expanded="true" />
-            <element signature="e#2743#3007#0" expanded="true" />
-            <element signature="e#2988#2989#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/wangyeming/foxchat/LineActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9198543" vertical-offset="7635" max-vertical-offset="8910">
-          <caret line="370" column="30" selection-start-line="370" selection-start-column="30" selection-end-line="370" selection-end-column="30" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#990#998#0" expanded="true" />
-            <element signature="e#1081#1089#0" expanded="true" />
-            <element signature="e#1170#1178#0" expanded="true" />
-            <element signature="e#1253#1262#0" expanded="true" />
-            <element signature="e#1353#1359#0" expanded="true" />
-            <element signature="e#1452#1458#0" expanded="true" />
-            <element signature="e#1552#1558#0" expanded="true" />
-            <element signature="e#4263#4300#0" expanded="true" />
-            <element signature="e#5565#5600#0" expanded="true" />
-            <element signature="e#8909#9687#0" expanded="true" />
-            <element signature="e#9676#9677#0" expanded="true" />
-            <element signature="e#10407#10645#0" expanded="true" />
-            <element signature="e#10634#10635#0" expanded="true" />
-            <element signature="e#10783#11072#0" expanded="true" />
-            <element signature="e#11061#11062#0" expanded="true" />
+            <element signature="e#5495#5762#0" expanded="true" />
+            <element signature="e#5743#5744#0" expanded="true" />
           </folding>
         </state>
       </provider>

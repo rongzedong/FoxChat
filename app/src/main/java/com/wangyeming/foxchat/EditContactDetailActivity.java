@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.wangyeming.Help.Utility;
 import com.wangyeming.custom.CircleImageView;
 import com.wangyeming.custom.EditContactPhoneNumAdapter;
 
@@ -140,12 +142,16 @@ public class EditContactDetailActivity extends Activity {
         EditContactPhoneNumAdapter adapter = new EditContactPhoneNumAdapter(ContactDisplay,
                 RawContactId, this, cr);
         lt3.setAdapter(adapter);
+        Utility.setListViewHeightBasedOnChildren(lt3);
     }
 
 
     //删除联系人
-    public void deleteContact() {
-
+    public int deleteContact() {
+        Uri uri = ContentUris.withAppendedId(
+                ContactsContract.Contacts.CONTENT_URI, ContactId);
+        int count = getContentResolver().delete(uri, null, null);
+        return count;
     }
 
     public void cancelEdit() {
@@ -155,7 +161,7 @@ public class EditContactDetailActivity extends Activity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //删除联系人
-                        deleteContact();
+                        // deleteContact();
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
