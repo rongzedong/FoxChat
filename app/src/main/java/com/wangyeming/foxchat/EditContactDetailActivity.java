@@ -150,7 +150,7 @@ public class EditContactDetailActivity extends Activity {
     public int deleteContact() {
         Uri uri = ContentUris.withAppendedId(
                 ContactsContract.Contacts.CONTENT_URI, ContactId);
-        int count = getContentResolver().delete(uri, null, null);
+        int count = cr.delete(uri, null, null);
         return count;
     }
 
