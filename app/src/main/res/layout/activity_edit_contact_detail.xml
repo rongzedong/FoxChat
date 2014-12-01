@@ -62,11 +62,13 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_gravity="left|center_vertical"
         android:background="@drawable/delete_contact_block"
         android:text="@string/delete_contact"
-        android:textSize="12sp" />
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:onClick="deleteContactWithAlert"/>
 
     </LinearLayout>
 
