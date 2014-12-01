@@ -155,7 +155,7 @@ public class EditContactDetailActivity extends Activity {
     }
 
     //删除联系人响应
-    public void deleteContactWithAlert() {
+    public void deleteContactWithAlert(View view) {
         Dialog alertDialog = new AlertDialog.Builder(this).setTitle("确定删除该联系人？").
                 setIcon(android.R.drawable.ic_dialog_info).
                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -163,6 +163,9 @@ public class EditContactDetailActivity extends Activity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //删除联系人
                         deleteContact();
+                        Intent intent = new Intent(EditContactDetailActivity.this, LineActivity.class);
+                        startActivity(intent);
+                        Toast.makeText(EditContactDetailActivity.this, "删除联系人成功！", Toast.LENGTH_SHORT).show();
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
