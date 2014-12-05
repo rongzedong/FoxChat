@@ -41,8 +41,11 @@ public class ContactEdit {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
                 .withSelection(
-                        ContactsContract.Data.CONTACT_ID + "=?" + "AND "
-                                + ContactsContract.Data.MIMETYPE + " = ?",
+                        ContactsContract.Data.CONTACT_ID
+                        + "=?"
+                        + "AND "
+                        + ContactsContract.Data.MIMETYPE
+                        + " = ?",
                         new String[]{contactId + "",
                                 ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE})
                 .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName)
@@ -75,6 +78,33 @@ public class ContactEdit {
     public void updateContactPhoneNum(Long contactId, String number) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                .withSelection(ContactsContract.Data.CONTACT_ID
+                                + "=?"
+                                + " AND "
+                                + ContactsContract.Data.MIMETYPE
+                                + "=?"
+                                + " AND "
+                                + ContactsContract.CommonDataKinds.Organization.TYPE
+                                + "=?",
+                        new String[] {
+                                contactId + "",
+                                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
+                                String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE) })
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
+                .build());
+        try {
+            cr.applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //增加联系人手机号
+    public void addContactPhoneNum(Long contactId, String number) {
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                 .withSelection(ContactsContract.Data.CONTACT_ID
                                 + "=?"
                                 + " AND "

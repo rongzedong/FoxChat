@@ -2,23 +2,47 @@
 <resources>
     <string-array name="phone_type">
         　　
-        <item>自定义</item>
+        <item>@string/TYPE_CUSTOM</item>
         　　
-        <item>住宅</item>
+        <item>@string/TYPE_HOME</item>
         　　
-        <item>手机</item>
+        <item>@string/TYPE_MOBILE</item>
         　　
-        <item>单位</item>
+        <item>@string/TYPE_WORK</item>
         　　
-        <item>单位传真</item>
+        <item>@string/TYPE_FAX_WORK</item>
 
-        <item>住宅传真</item>
+        <item>@string/TYPE_FAX_HOME</item>
         　　
-        <item>寻呼机</item>
+        <item>@string/TYPE_PAGER</item>
         　　
-        <item>总机</item>
+        <item>@string/TYPE_OTHER</item>
 
-        <item>其他</item>
+        <item>@string/TYPE_CALLBACK</item>
+
+        <item>@string/TYPE_CAR</item>
+        　　
+        <item>@string/TYPE_COMPANY_MAIN</item>
+        　　
+        <item>@string/TYPE_ISDN</item>
+        　　
+        <item>@string/TYPE_MAIN</item>
+
+        <item>@string/TYPE_OTHER_FAX</item>
+        　　
+        <item>@string/TYPE_RADIO</item>
+        　　
+        <item>@string/TYPE_TELEX</item>
+
+        <item>@string/TYPE_TTY_TDD</item>
+
+        <item>@string/TYPE_WORK_MOBILE</item>
+
+        <item>@string/TYPE_WORK_PAGER</item>
+
+        <item>@string/TYPE_ASSISTANT</item>
+
+        <item>@string/TYPE_MMS</item>
                　　
     </string-array>
 </resources>

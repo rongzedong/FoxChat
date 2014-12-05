@@ -24,5 +24,27 @@
     <string name="unstarred_contact">Unstarred Contacts</string>
     <string name="new_contact">New A Contact</string>
     <string name="title_activity_new_contact">NewContactActivity</string>
+    <!--phone number type-->
+    <string name="TYPE_CUSTOM">CUSTOM</string>
+    <string name="TYPE_HOME">HOME</string>
+    <string name="TYPE_MOBILE">MOBILE</string>
+    <string name="TYPE_WORK">WORK</string>
+    <string name="TYPE_FAX_WORK">FAX_WORK</string>
+    <string name="TYPE_FAX_HOME">FAX_HOME</string>
+    <string name="TYPE_PAGER">PAGER</string>
+    <string name="TYPE_OTHER">OTHER</string>
+    <string name="TYPE_CALLBACK">CALLBACK</string>
+    <string name="TYPE_CAR">CAR</string>
+    <string name="TYPE_COMPANY_MAIN">COMPANY_MAIN</string>
+    <string name="TYPE_ISDN">ISDN</string>
+    <string name="TYPE_MAIN">MAIN</string>
+    <string name="TYPE_OTHER_FAX">OTHER_FAX</string>
+    <string name="TYPE_RADIO">RADIO</string>
+    <string name="TYPE_TELEX">TELEX</string>
+    <string name="TYPE_TTY_TDD">TTY_TDD</string>
+    <string name="TYPE_WORK_MOBILE">WORK_MOBILE</string>
+    <string name="TYPE_WORK_PAGER">WORK_PAGER</string>
+    <string name="TYPE_ASSISTANT">ASSISTANT</string>
+    <string name="TYPE_MMS">MMS</string>
 
 </resources>

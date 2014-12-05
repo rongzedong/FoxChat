@@ -174,14 +174,16 @@ public class ContactDetailActivity extends Activity {
         while (phoneID.moveToNext()) {
             Map<String, Object> PhoneNumMap = new HashMap<String, Object>();
             String phoneNumber = phoneID.getString(phoneID.getColumnIndex(PHONES_PROJECTION[1]));
-            String phoneNumberType = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+            int phoneNumberTypeId = phoneID.getInt(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             //System.out.println(phoneNumberType);
-            String phoneNumberTypeTrans = PHONE_TYPE.get(phoneNumberType);
-            System.out.println("手机号： " + phoneNumber + " 手机号类型： " + phoneNumberType + " ");
+            // String phoneNumberTypeTrans = PHONE_TYPE.get(phoneNumberType);
+            String[] phoneNumberTypeArray = getResources().getStringArray(R.array.phone_type);
+            String phoneNumberType = phoneNumberTypeArray[phoneNumberTypeId];
+            System.out.println("手机号： " + phoneNumber + " phoneNumberTypeId " + phoneNumberTypeId +" 手机号类型： " + phoneNumberType + " ");
             //PhoneNumMap.put("phone_icon", phoneIconMap.get(isFirstNum));
             PhoneNumMap.put("phone_png", R.drawable.type_icon_phone);
             PhoneNumMap.put("phone_num", phoneNumber);
-            PhoneNumMap.put("phone_type", phoneNumberTypeTrans);
+            PhoneNumMap.put("phone_type", phoneNumberType);
             PhoneNumMap.put("phone_location", "北京");
             PhoneNumMap.put("message_png", R.drawable.ic_send_sms_p);
             ContactDisplay.add(PhoneNumMap);
