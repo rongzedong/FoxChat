@@ -50,7 +50,9 @@ public class ContactDetailActivity extends Activity {
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,  //contact_id
             ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY, //sort_key
             ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID,
-            ContactsContract.CommonDataKinds.Phone.STARRED
+            ContactsContract.CommonDataKinds.Phone.STARRED,
+            ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
+            ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME
     };
     private static final Map<String, String> PHONE_TYPE = new HashMap<String, String>() {
         {
@@ -86,9 +88,7 @@ public class ContactDetailActivity extends Activity {
     protected void onRestart() {
         super.onRestart();
         clearData(); //清除缓存数据
-        Intent intent = getIntent();
-        ContactId = intent.getLongExtra("ContactId", 1);
-        init();
+        reInit();
     }
 
     @Override
@@ -105,7 +105,15 @@ public class ContactDetailActivity extends Activity {
 
     public void init() {
         cr = getContentResolver();
-        getContactMessage();//获取联系人信息
+        getContactMessage();
+        displayListView(); //显示listView
+        displayStarred(); //设置收藏/未收藏的图标
+    }
+
+    public void reInit() {
+        readContactName(ContactId);
+        readContactPhoneBim(ContactId);
+        readContactPhoneNum(ContactId);
         displayListView(); //显示listView
         displayStarred(); //设置收藏/未收藏的图标
     }
@@ -128,7 +136,8 @@ public class ContactDetailActivity extends Activity {
     public void readContactName(Long ContactId) {
         Cursor cursorID = getContentResolver().query(CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[4] + "=" + ContactId, null, "sort_key");
         cursorID.moveToNext();
-        contactName = cursorID.getString(cursorID.getColumnIndex(PHONES_PROJECTION[0]));
+        // contactName = cursorID.getString(cursorID.getColumnIndex(PHONES_PROJECTION[0]));
+        contactName = cursorID.getString(cursorID.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
         cursorID.close();
     }
 
@@ -231,15 +240,16 @@ public class ContactDetailActivity extends Activity {
     }
 
     //收藏联系人
-    public void starContact(View view) {
+    public int starContact(View view) {
         Uri rawContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, RawContactId);
         Uri ContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, ContactId);
         ContentValues values = new ContentValues();
+        int count;
         if (isStarred) {
             values.put(ContactsContract.CommonDataKinds.Phone.STARRED, 0);
             starButton.setBackground(this.getResources().getDrawable(R.drawable.unfavorite_icon_normal_dark));
             starTextView.setText("收藏");
-            cr.update(rawContactUri, values, null, null);
+            count = cr.update(rawContactUri, values, null, null);
             //String Where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND   " + ContactsContract.Data.MIMETYPE + " = ?";
             // cr.update(rawContactUri, values, null, null);
             isStarred = false;
@@ -247,10 +257,11 @@ public class ContactDetailActivity extends Activity {
             values.put(ContactsContract.CommonDataKinds.Phone.STARRED, 1);
             starButton.setBackground(this.getResources().getDrawable(R.drawable.favorite_icon_normal_dark));
             starTextView.setText("取消收藏");
-            cr.update(rawContactUri, values, null, null);
+            count = cr.update(rawContactUri, values, null, null);
             //String Where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND   " + ContactsContract.Data.MIMETYPE + " = ?";
             //cr.update(rawContactUri, values, null, null);
             isStarred = true;
         }
+        return count;
     }
 }

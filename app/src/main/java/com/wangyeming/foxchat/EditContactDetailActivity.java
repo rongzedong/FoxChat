@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -40,6 +41,7 @@ public class EditContactDetailActivity extends Activity {
     protected List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
     protected ContentResolver cr;
     protected boolean hasImage; //是否有头像
+    protected EditText editName;
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
@@ -137,6 +139,7 @@ public class EditContactDetailActivity extends Activity {
         photo_uri = intent.getData();
         ContactDisplay = (List<Map<String, Object>>) intent.getSerializableExtra("ContactDisplay");
         contactName = intent.getStringExtra("contactName");
+        System.out.println("contactName "+contactName);
     }
 
 
@@ -221,9 +224,47 @@ public class EditContactDetailActivity extends Activity {
     //确认保存修改
     public void ensureEdit() {
         //保存联系人信息。。。
+        editName= (EditText) findViewById(R.id.edit_name);
+        String name = editName.getText().toString();
+        System.out.println("name " + name);
+        if(name.isEmpty()) {
+            Toast.makeText(this, "姓名不能为空", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, ContactDetailActivity.class);
-        intent.putExtra("ContactId", ContactId);
-        startActivity(intent);
+        updateContactName(ContactId, name);
+        this.finish();
+    }
+
+    //修改联系人姓名
+    public int updateContactName(Long contactId, String name) {
+        Uri ContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, ContactId);
+        ContentValues values = new ContentValues();
+        String displayName = name;  //姓名
+        String givenName = null;  //姓
+        String familyName = null;  //名
+        /*
+        // 检查是否是英文名称
+        if (TextUtil.isEnglishName(displayName) == false) {
+            givenName = name.substring(index);
+            familyName = name.substring(0, index);
+        } else {
+            givenName = familyName = displayName;
+        }
+        */
+        givenName = displayName.substring(1);
+        familyName = displayName.substring(0, 1);
+        System.out.println("givenName "+givenName+"familyName "+familyName);
+        values.put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName);
+        values.put(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, familyName);
+        values.put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName);
+        int count = getContentResolver()
+                .update(ContactsContract.Data.CONTENT_URI,
+                        values,
+                        ContactsContract.Data.CONTACT_ID + "=?" + "AND "
+                                + ContactsContract.Data.MIMETYPE + " = ?",
+                        new String[] { contactId + "",
+                                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE });
+        return count;
     }
 }
