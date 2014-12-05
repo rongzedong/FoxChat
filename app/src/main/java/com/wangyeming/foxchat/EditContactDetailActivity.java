@@ -232,17 +232,31 @@ public class EditContactDetailActivity extends Activity {
 
     //确认保存修改
     public void ensureEdit() throws RemoteException, OperationApplicationException {
-        //保存联系人信息。。。
-        editName = (EditText) findViewById(R.id.edit_name);
-        String name = editName.getText().toString();
-        System.out.println("name " + name);
-        if (name.isEmpty()) {
-            Toast.makeText(this, "姓名不能为空", Toast.LENGTH_SHORT).show();
+        boolean nameSave = saveContactName();
+        if(! nameSave) {
             return;
         }
         Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
-        updateContactName(ContactId, name);
         this.finish();
+    }
+
+    //修改联系人姓名
+    public boolean saveContactName() throws RemoteException, OperationApplicationException {
+        editName = (EditText) findViewById(R.id.edit_name);
+        String name = editName.getText().toString();
+        //姓名没有改动，无需修改联系人姓名
+        if(name == contactName) {
+            return false;
+        }
+        System.out.println("name " + name);
+        //姓名不能为空
+        if (name.isEmpty()) {
+            Toast.makeText(this, "姓名不能为空", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
+        updateContactName(ContactId, name);
+        return true;
     }
 
     //修改联系人姓名
