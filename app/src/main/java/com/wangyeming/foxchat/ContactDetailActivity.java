@@ -208,8 +208,9 @@ public class ContactDetailActivity extends Activity {
 
     //返回主页面按钮
     public void backToMain(View view) {
-        Intent intent = new Intent(this, LineActivity.class);
-        startActivity(intent);
+        this.finish();
+        // Intent intent = new Intent(this, LineActivity.class);
+        // startActivity(intent);
     }
 
     //编辑联系人详细信息

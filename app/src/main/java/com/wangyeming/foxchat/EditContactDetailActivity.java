@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,6 +76,19 @@ public class EditContactDetailActivity extends Activity {
         //noinspection SimplifiableIfStatement
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //监听按下返回键的动作
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getRepeatCount() == 0) {
+            //do something...
+            cancelEdit();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public void setActionBar(){
@@ -183,9 +197,12 @@ public class EditContactDetailActivity extends Activity {
                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        EditContactDetailActivity.this.finish();
+                        /*
                         Intent intent = new Intent(EditContactDetailActivity.this, ContactDetailActivity.class);
                         intent.putExtra("ContactId", ContactId);
                         startActivity(intent);
+                        */
 
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
