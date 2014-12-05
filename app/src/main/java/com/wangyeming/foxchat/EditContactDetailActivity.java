@@ -25,6 +25,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.wangyeming.Help.ContactEdit;
 import com.wangyeming.Help.Utility;
 import com.wangyeming.custom.CircleImageView;
 import com.wangyeming.custom.EditContactPhoneNumAdapter;
@@ -44,7 +45,8 @@ public class EditContactDetailActivity extends Activity {
     protected List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
     protected ContentResolver cr;
     protected boolean hasImage; //是否有头像
-    protected EditText editName;
+    protected EditText editName; //联系人姓名
+    protected ContactEdit contactEdit;
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
@@ -134,9 +136,10 @@ public class EditContactDetailActivity extends Activity {
     public void init() {
         cr = getContentResolver();
         getContactMessage();//获取intent传递的联系人信息
-        setImage();
-        setName();
-        displayListView();
+        setImage(); //设置联系人头像
+        setName(); //设置联系人姓名
+        displayListView(); //设置布局
+        contactEdit = new ContactEdit(ContactId, cr);
     }
 
     //读取联系人信息
@@ -240,7 +243,7 @@ public class EditContactDetailActivity extends Activity {
         this.finish();
     }
 
-    //修改联系人姓名
+    //判断修改联系人姓名
     public boolean saveContactName() throws RemoteException, OperationApplicationException {
         editName = (EditText) findViewById(R.id.edit_name);
         String name = editName.getText().toString();
@@ -255,7 +258,7 @@ public class EditContactDetailActivity extends Activity {
             return false;
         }
         Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
-        updateContactName(ContactId, name);
+        contactEdit.updateContactName(name);
         return true;
     }
 
@@ -290,7 +293,13 @@ public class EditContactDetailActivity extends Activity {
                 .withValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, familyName)
                 .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName)
                 .build());
-        cr.applyBatch(ContactsContract.AUTHORITY, ops);
+        try {
+            cr.applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
         /*
         //传统的方式修改联系人姓名
         values.put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName);
