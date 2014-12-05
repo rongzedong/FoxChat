@@ -232,14 +232,14 @@ public class ContactDetailActivity extends Activity {
 
     //收藏联系人
     public void starContact(View view) {
-        // Uri rawContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, RawContactId);
+        Uri rawContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, RawContactId);
         Uri ContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, ContactId);
         ContentValues values = new ContentValues();
         if (isStarred) {
             values.put(ContactsContract.CommonDataKinds.Phone.STARRED, 0);
             starButton.setBackground(this.getResources().getDrawable(R.drawable.unfavorite_icon_normal_dark));
             starTextView.setText("收藏");
-            cr.update(ContactUri, values, null, null);
+            cr.update(rawContactUri, values, null, null);
             //String Where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND   " + ContactsContract.Data.MIMETYPE + " = ?";
             // cr.update(rawContactUri, values, null, null);
             isStarred = false;
@@ -247,7 +247,7 @@ public class ContactDetailActivity extends Activity {
             values.put(ContactsContract.CommonDataKinds.Phone.STARRED, 1);
             starButton.setBackground(this.getResources().getDrawable(R.drawable.favorite_icon_normal_dark));
             starTextView.setText("取消收藏");
-            cr.update(ContactUri, values, null, null);
+            cr.update(rawContactUri, values, null, null);
             //String Where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND   " + ContactsContract.Data.MIMETYPE + " = ?";
             //cr.update(rawContactUri, values, null, null);
             isStarred = true;
