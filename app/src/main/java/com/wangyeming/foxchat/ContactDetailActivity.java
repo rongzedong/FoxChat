@@ -54,19 +54,6 @@ public class ContactDetailActivity extends Activity {
             ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
             ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME
     };
-    private static final Map<String, String> PHONE_TYPE = new HashMap<String, String>() {
-        {
-            put("0", "自定义");
-            put("1", "住宅");
-            put("2", "手机");
-            put("3", "单位");
-            put("4", "单位传真");
-            put("5", "住宅传真");
-            put("6", "寻呼机");
-            put("7", "其他");
-            put("12", "总机");
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

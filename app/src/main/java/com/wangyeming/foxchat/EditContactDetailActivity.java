@@ -4,10 +4,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.OperationApplicationException;
@@ -262,56 +260,4 @@ public class EditContactDetailActivity extends Activity {
         return true;
     }
 
-    //修改联系人姓名
-    public void updateContactName(Long contactId, String name) throws RemoteException, OperationApplicationException {
-        Uri ContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, ContactId);
-        ContentValues values = new ContentValues();
-        String displayName = name;  //姓名
-        String givenName = null;  //姓
-        String familyName = null;  //名
-        /*
-        // 检查是否是英文名称
-        if (TextUtil.isEnglishName(displayName) == false) {
-            givenName = name.substring(index);
-            familyName = name.substring(0, index);
-        } else {
-            givenName = familyName = displayName;
-        }
-        */
-        givenName = displayName.substring(1);
-        familyName = displayName.substring(0, 1);
-        System.out.println("givenName " + givenName + "familyName " + familyName);
-        //ContentProviderOperation修改联系人姓名
-        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-        ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
-                .withSelection(
-                        ContactsContract.Data.CONTACT_ID + "=?" + "AND "
-                                + ContactsContract.Data.MIMETYPE + " = ?",
-                        new String[]{contactId + "",
-                                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE})
-                .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName)
-                .withValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, familyName)
-                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName)
-                .build());
-        try {
-            cr.applyBatch(ContactsContract.AUTHORITY, ops);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (OperationApplicationException e) {
-            e.printStackTrace();
-        }
-        /*
-        //传统的方式修改联系人姓名
-        values.put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName);
-        values.put(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, familyName);
-        values.put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName);
-        int count = getContentResolver()
-                .update(ContactsContract.Data.CONTENT_URI,
-                        values,
-                        ContactsContract.Data.CONTACT_ID + "=?" + "AND "
-                                + ContactsContract.Data.MIMETYPE + " = ?",
-                        new String[] { contactId + "",
-                                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE });
-                                */
-    }
 }

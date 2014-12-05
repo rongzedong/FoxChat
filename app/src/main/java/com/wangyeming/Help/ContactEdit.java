@@ -75,7 +75,7 @@ public class ContactEdit {
     }
 
     //修改联系人手机号
-    public void updateContactPhoneNum(Long contactId, String number) {
+    public void updateContactPhoneNum(Long contactId, String number, int numberTypeId) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
                 .withSelection(ContactsContract.Data.CONTACT_ID
@@ -89,7 +89,7 @@ public class ContactEdit {
                         new String[] {
                                 contactId + "",
                                 ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
-                                String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE) })
+                                String.valueOf(numberTypeId) })
                 .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
                 .build());
         try {
@@ -102,21 +102,27 @@ public class ContactEdit {
     }
 
     //增加联系人手机号
-    public void addContactPhoneNum(Long contactId, String number) {
+    public void addContactPhoneNum(Long contactId, String number, int numberTypeId, String label) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withSelection(ContactsContract.Data.CONTACT_ID
-                                + "=?"
-                                + " AND "
-                                + ContactsContract.Data.MIMETYPE
-                                + "=?"
-                                + " AND "
-                                + ContactsContract.CommonDataKinds.Organization.TYPE
-                                + "=?",
-                        new String[] {
-                                contactId + "",
-                                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
-                                String.valueOf(ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE) })
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
+                        numberTypeId)
+                .withValue(ContactsContract.CommonDataKinds.Phone.LABEL, label)
+                .build());
+        try {
+            cr.applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //删除联系人手机号
+    public void deleteContactPhoneNum(Long contactId, String number) {
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ops.add(ContentProviderOperation.newDelete(ContactsContract.Data.CONTENT_URI)
                 .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
                 .build());
         try {
