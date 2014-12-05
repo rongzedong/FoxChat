@@ -4,13 +4,16 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -94,7 +97,7 @@ public class EditContactDetailActivity extends Activity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public void setActionBar(){
+    public void setActionBar() {
         ActionBar actionBar = getActionBar();
         // actionBar.setDisplayHomeAsUpEnabled(true); //显示返回箭头
         // 不显示标题
@@ -105,7 +108,7 @@ public class EditContactDetailActivity extends Activity {
                 R.layout.actionbar_layout, null);
         getActionBar().setCustomView(actionbarLayout);
         //设置取消保存响应
-        Button cancelButton = (Button)findViewById(R.id.cancelEdit);
+        Button cancelButton = (Button) findViewById(R.id.cancelEdit);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -113,16 +116,22 @@ public class EditContactDetailActivity extends Activity {
             }
         });
         //设置确认保存响应
-        Button sureButton = (Button)findViewById(R.id.saveEdit);
+        Button sureButton = (Button) findViewById(R.id.saveEdit);
         sureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                ensureEdit();
+                try {
+                    ensureEdit();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                } catch (OperationApplicationException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    public void init(){
+    public void init() {
         cr = getContentResolver();
         getContactMessage();//获取intent传递的联系人信息
         setImage();
@@ -139,7 +148,7 @@ public class EditContactDetailActivity extends Activity {
         photo_uri = intent.getData();
         ContactDisplay = (List<Map<String, Object>>) intent.getSerializableExtra("ContactDisplay");
         contactName = intent.getStringExtra("contactName");
-        System.out.println("contactName "+contactName);
+        System.out.println("contactName " + contactName);
     }
 
 
@@ -222,12 +231,12 @@ public class EditContactDetailActivity extends Activity {
     }
 
     //确认保存修改
-    public void ensureEdit() {
+    public void ensureEdit() throws RemoteException, OperationApplicationException {
         //保存联系人信息。。。
-        editName= (EditText) findViewById(R.id.edit_name);
+        editName = (EditText) findViewById(R.id.edit_name);
         String name = editName.getText().toString();
         System.out.println("name " + name);
-        if(name.isEmpty()) {
+        if (name.isEmpty()) {
             Toast.makeText(this, "姓名不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -237,7 +246,7 @@ public class EditContactDetailActivity extends Activity {
     }
 
     //修改联系人姓名
-    public int updateContactName(Long contactId, String name) {
+    public void updateContactName(Long contactId, String name) throws RemoteException, OperationApplicationException {
         Uri ContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, ContactId);
         ContentValues values = new ContentValues();
         String displayName = name;  //姓名
@@ -254,7 +263,22 @@ public class EditContactDetailActivity extends Activity {
         */
         givenName = displayName.substring(1);
         familyName = displayName.substring(0, 1);
-        System.out.println("givenName "+givenName+"familyName "+familyName);
+        System.out.println("givenName " + givenName + "familyName " + familyName);
+        //ContentProviderOperation修改联系人姓名
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                .withSelection(
+                        ContactsContract.Data.CONTACT_ID + "=?" + "AND "
+                                + ContactsContract.Data.MIMETYPE + " = ?",
+                        new String[]{contactId + "",
+                                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE})
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, familyName)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName)
+                .build());
+        cr.applyBatch(ContactsContract.AUTHORITY, ops);
+        /*
+        //传统的方式修改联系人姓名
         values.put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName);
         values.put(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, familyName);
         values.put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName);
@@ -265,6 +289,6 @@ public class EditContactDetailActivity extends Activity {
                                 + ContactsContract.Data.MIMETYPE + " = ?",
                         new String[] { contactId + "",
                                 ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE });
-        return count;
+                                */
     }
 }
