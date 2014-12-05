@@ -41,6 +41,7 @@ public class ContactDetailActivity extends Activity {
     protected Button starButton;
     protected TextView starTextView;
     protected boolean isStarred = false;
+    protected boolean hasImage; //是否有头像
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
@@ -119,7 +120,7 @@ public class ContactDetailActivity extends Activity {
         ContactId = intent.getLongExtra("ContactId", 1);
         //System.out.println(ContactId);
         readContactName(ContactId);
-        photo_uri = readContactPhoneBim(ContactId);
+        readContactPhoneBim(ContactId);
         readContactPhoneNum(ContactId);
     }
 
@@ -132,7 +133,7 @@ public class ContactDetailActivity extends Activity {
     }
 
     //读取联系人头像
-    public Uri readContactPhoneBim(Long ContactId) {
+    public void readContactPhoneBim(Long ContactId) {
         Cursor cursorID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[4] + "=" + ContactId, null, "sort_key");
         cursorID.moveToFirst();
         RawContactId = cursorID.getLong(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
@@ -142,19 +143,18 @@ public class ContactDetailActivity extends Activity {
         isStarred = starred == 1 ? true : false;
         String photo_string = cursorID.getString(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
         //System.out.println("this 3" +photo_string);
-        Uri photoUri;
         if (photo_string == null) {
             //没有头像
-            photoUri = Uri.parse("content://com.android.contacts/display_photo/38");
+            hasImage = false;
         } else {
-            photoUri = Uri.parse(photo_string);
+            photo_uri = Uri.parse(photo_string);
+            ImageView imageView = (ImageView) findViewById(R.id.pic1);
+            imageView.setImageURI(photo_uri);
+            hasImage = true;
         }
         //InputStream input = ContactsContract.Contacts.openContactPhotoInputStream(getContentResolver(), photo_uri);
         //Bitmap bmp_head = BitmapFactory.decodeStream(input);
-        ImageView imageView = (ImageView) findViewById(R.id.pic1);
-        imageView.setImageURI(photoUri);
         cursorID.close();
-        return photoUri;
     }
 
     //读取联系人手机号
@@ -218,6 +218,7 @@ public class ContactDetailActivity extends Activity {
         Intent intent = new Intent(this, EditContactDetailActivity.class);
         intent.putExtra("ContactId", ContactId);
         intent.putExtra("RawContactId",RawContactId);
+        intent.putExtra("hasImage", hasImage);
         intent.setData(photo_uri);
         intent.putExtra("ContactDisplay", (Serializable) ContactDisplay);
         intent.putExtra("contactName", contactName);

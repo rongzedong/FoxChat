@@ -39,6 +39,7 @@ public class EditContactDetailActivity extends Activity {
     protected ListView lt3;
     protected List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
     protected ContentResolver cr;
+    protected boolean hasImage; //是否有头像
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
@@ -132,6 +133,7 @@ public class EditContactDetailActivity extends Activity {
         Intent intent = getIntent();
         ContactId = intent.getLongExtra("ContactId", 1);
         RawContactId = intent.getLongExtra("RawContactId", 1);
+        hasImage = intent.getBooleanExtra("hasImage", true);
         photo_uri = intent.getData();
         ContactDisplay = (List<Map<String, Object>>) intent.getSerializableExtra("ContactDisplay");
         contactName = intent.getStringExtra("contactName");
@@ -140,8 +142,10 @@ public class EditContactDetailActivity extends Activity {
 
     //设置联系人头像
     public void setImage() {
-        CircleImageView circleImageView = (CircleImageView) findViewById(R.id.profile_image);
-        circleImageView.setImageURI(photo_uri);
+        if (hasImage) {
+            CircleImageView circleImageView = (CircleImageView) findViewById(R.id.profile_image);
+            circleImageView.setImageURI(photo_uri);
+        }
     }
 
     //设置联系人姓名
