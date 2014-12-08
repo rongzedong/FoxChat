@@ -29,7 +29,7 @@
     <Button
         android:id="@+id/edit_delete_button"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/delete_light"
         android:layout_gravity="left"/>

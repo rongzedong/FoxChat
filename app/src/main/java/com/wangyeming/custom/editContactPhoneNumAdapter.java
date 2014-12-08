@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.wangyeming.foxchat.R;
 
@@ -27,6 +28,11 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     private Context context;
     protected Long RawContactId;
     protected ContentResolver cr;
+    protected ViewHolder holder;
+    protected LayoutInflater inflater;
+    protected LinearLayout layout;
+    protected EditText editType;
+
 
     public EditContactPhoneNumAdapter(List<Map<String, Object>> data,
                                       Long RawContactId, Context context, ContentResolver cr) {
@@ -54,7 +60,6 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
         holder = new ViewHolder();
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.list_contact_phone_edit,
@@ -67,14 +72,15 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.phoneType.setText(((String) data.get(position).get("phone_type")));
+        holder.editText.setText(((String) data.get(position).get("phone_num")));
         holder.phoneType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changePhoneType();
+                Button button = (Button) v.findViewById(R.id.edit_phone_type);
+                changePhoneType(button);
                 System.out.println("click!");
             }
         });
-        holder.editText.setText(((String) data.get(position).get("phone_num")));
         return convertView;
     }
 
@@ -84,23 +90,51 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         public Button delete;
     }
 
-    public void changePhoneType(){
+    //改变电话类型
+    public void changePhoneType(final Button button) {
         AlertDialog.Builder builder = new AlertDialog.Builder(
                 context);
         builder.setTitle(R.string.phone_type);
         builder.setItems(R.array.phone_type, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                /*
-                Uri rawContactUri = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, RawContactId);
-                ContentValues values = new ContentValues();
-                values.put(,);
-                cr.update(rawContactUri, values, null, null);
-                */
+                System.out.println(context.getResources().getStringArray(R.array.phone_type)[which]);
+                //如果是自定义，弹出提示框“请输入label”
+                if (which == 0) {
+                    customAlert(button, which);
+                } else {
+                    button.setText(context.getResources().getStringArray(R.array.phone_type)[which]);
+                }
             }
         });
         builder.show();
     }
 
+    public void customAlert(final Button button, int which) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+        dialog.setTitle("请输入自定义名称？");
+        inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layout = (LinearLayout)inflater.inflate(R.layout.edit_alert_dialog, null);
+        dialog.setView(layout);
+        editType = (EditText) layout.findViewById(R.id.edit_alert);
+        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                String name = editType.getText().toString();
+                //如果内容为空
+                if(name.isEmpty()) {
+                    button.setText("自定义");
+                } else {
+                    button.setText(name);
+                }
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        }).create();
+        dialog.show();
+    }
 
-    public void deletePhoneNum(){}
+    public void deletePhoneNum() {
+    }
 }
