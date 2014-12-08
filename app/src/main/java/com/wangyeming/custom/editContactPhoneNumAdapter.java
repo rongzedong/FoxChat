@@ -1,5 +1,6 @@
 package com.wangyeming.custom;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.wangyeming.Help.Utility;
+import com.wangyeming.foxchat.EditContactDetailActivity;
 import com.wangyeming.foxchat.R;
 
 import java.util.ArrayList;
@@ -32,15 +35,17 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     protected LayoutInflater inflater;
     protected LinearLayout layout;
     protected EditText editType;
+    protected Activity editActivity;
 
 
     public EditContactPhoneNumAdapter(List<Map<String, Object>> data,
-                                      Long RawContactId, Context context, ContentResolver cr) {
+                                      Long RawContactId, Context context, ContentResolver cr, Activity editActivity) {
         this.data = data;
         mInflater = LayoutInflater.from(context);
         this.context = context;
         this.RawContactId = RawContactId;
         this.cr = cr;
+        this.editActivity = editActivity;
     }
 
     @Override
@@ -81,7 +86,17 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
                 System.out.println("click!");
             }
         });
+        deletePhoneNum(position, holder.phoneType, holder.editText, holder.delete);
         return convertView;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+    }
+
+    public List<Map<String, Object>> getData() {
+        return data;
     }
 
     class ViewHolder {
@@ -135,6 +150,15 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         dialog.show();
     }
 
-    public void deletePhoneNum() {
+    public void deletePhoneNum(final int positon , final Button phoneType, final EditText editText, final Button delete) {
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("删除第" + positon + "行");
+                data.remove(positon);
+                EditContactDetailActivity.adapter.notifyDataSetChanged();
+                Utility.setListViewHeightBasedOnChildren(EditContactDetailActivity.lt3);
+            }
+        });
     }
 }

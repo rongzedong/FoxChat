@@ -39,8 +39,9 @@ public class EditContactDetailActivity extends Activity {
     protected Long RawContactId;
     protected Uri photo_uri;
     protected String contactName;
-    protected ListView lt3;
-    protected List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
+    public static ListView lt3;
+    public static EditContactPhoneNumAdapter adapter;
+    public static List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
     protected ContentResolver cr;
     protected boolean hasImage; //是否有头像
     protected EditText editName; //联系人姓名
@@ -170,8 +171,8 @@ public class EditContactDetailActivity extends Activity {
     //设置lisView布局
     public void displayListView() {
         lt3 = (ListView) findViewById(R.id.list_contact_phone_edit);
-        EditContactPhoneNumAdapter adapter = new EditContactPhoneNumAdapter(ContactDisplay,
-                RawContactId, this, cr);
+        adapter = new EditContactPhoneNumAdapter(ContactDisplay,
+                RawContactId, this, cr, this);
         lt3.setAdapter(adapter);
         Utility.setListViewHeightBasedOnChildren(lt3);
     }
@@ -258,6 +259,12 @@ public class EditContactDetailActivity extends Activity {
         Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
         contactEdit.updateContactName(name);
         return true;
+    }
+
+    //保存对手机号的修改
+    public void saveContactPhoneNum() {
+        List<Map<String, Object>> data = adapter.getData();
+        //...
     }
 
 }

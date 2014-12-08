@@ -346,8 +346,8 @@ public class LineActivity extends Activity {
     public void displayConclusion() {
         tv1 = (TextView) findViewById(R.id.tV1);
         tv2 = (TextView) findViewById(R.id.tV2);
-        tv1.setVisibility(8);
-        tv2.setVisibility(8);
+        tv1.setVisibility(View.GONE);
+        tv2.setVisibility(View.GONE);
 
     }
 
@@ -360,9 +360,9 @@ public class LineActivity extends Activity {
         String str1 = "所有联系人";
         String str2 = "找到" + match_num + "个联系人";
         tv1.setText(str1);
-        tv1.setVisibility(0);
+        tv1.setVisibility(View.VISIBLE);
         tv2.setText(str2);
-        tv2.setVisibility(0);
+        tv2.setVisibility(View.VISIBLE);
     }
 
     //新建联系人
