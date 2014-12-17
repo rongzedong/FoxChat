@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +86,23 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         }
         holder.phoneType.setText(typeDisplay);
         holder.editText.setText(((String) data.get(position).get("phone_num")));
+        holder.editText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                data.get(position).put("phone_num", s.toString());
+            }
+        });
         holder.phoneType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,8 +131,9 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     }
 
     //改变电话号码
-    public void changePhoneNum(final EditText editText){
-
+    public void changePhoneNum(EditText editText, int position){
+        //修改data数据
+        data.get(position).put("phone_num", editText.getText());
     }
 
     //改变电话类型
@@ -189,6 +209,5 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
             }
         });
     }
-
 
 }
