@@ -29,6 +29,7 @@ import com.wangyeming.custom.CircleImageView;
 import com.wangyeming.custom.EditContactPhoneNumAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public class EditContactDetailActivity extends Activity {
     public static ListView lt3;  //联系人电话列表listView
     public static EditContactPhoneNumAdapter adapter;  //编辑联系人电话号码的自定义adpter
     public static List<Map<String, Object>> contactDisplay = new ArrayList<Map<String, Object>>();  //用于显示联系人手机号信息的list
-    protected List<Map<String, Object>> contactPhoneNumberStore = new ArrayList<>();
+    protected List<Map<String, Object>> contactPhoneNumberStore = new ArrayList<>();  //用于存储未修改前的联系人的手机号信息
     protected ContentResolver cr;  //ContentResolver对象
     protected boolean hasImage;  //是否有头像
     protected EditText editName;  //联系人姓名
@@ -145,7 +146,7 @@ public class EditContactDetailActivity extends Activity {
         setImage(); //设置联系人头像
         setName(); //设置联系人姓名
         displayListView(); //设置布局
-        contactEdit = new ContactEdit(contactId, cr);
+        contactEdit = new ContactEdit(contactId, rawContactId, cr);
     }
 
     //读取联系人信息
@@ -156,7 +157,15 @@ public class EditContactDetailActivity extends Activity {
         hasImage = intent.getBooleanExtra("hasImage", true);
         photoUri = intent.getData();
         contactDisplay = (List<Map<String, Object>>) intent.getSerializableExtra("ContactDisplay");
-        contactPhoneNumberStore.addAll(contactDisplay); //储存电话号码信息用于清空和恢复
+        // contactPhoneNumberStore.addAll(contactDisplay);
+        // 储存电话号码信息用于清空和恢复
+        for (Map<String, Object> phone : contactDisplay) {
+            Map<String, Object> phone2 = new HashMap<>();
+            for(String key: phone.keySet()) {
+                phone2.put(key, phone.get(key));
+            }
+            contactPhoneNumberStore.add(phone2);
+        }
         contactName = intent.getStringExtra("contactName");
         System.out.println("contactName " + contactName);
     }
@@ -244,49 +253,46 @@ public class EditContactDetailActivity extends Activity {
 
     //确认保存修改
     public void ensureEdit() throws RemoteException, OperationApplicationException {
-        boolean nameSave = saveContactName();
-        if (!nameSave) {
-            return;
-        }
+        saveContactName();
+        saveContactPhoneNum();
         Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
         this.finish();
     }
 
     //判断修改联系人姓名
-    public boolean saveContactName() throws RemoteException, OperationApplicationException {
+    public void saveContactName() throws RemoteException, OperationApplicationException {
         editName = (EditText) findViewById(R.id.edit_name);
         String name = editName.getText().toString();
         //姓名没有改动，无需修改联系人姓名
         if (name == contactName) {
-            return false;
+            return;
         }
         System.out.println("name " + name);
         //姓名不能为空
         if (name.isEmpty()) {
             Toast.makeText(this, "姓名不能为空", Toast.LENGTH_SHORT).show();
-            return false;
+            return;
         }
         Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
         contactEdit.updateContactName(name);
-        return true;
     }
 
     //保存对手机号的修改
     public void saveContactPhoneNum() {
-        ContactEdit contactEdit = new ContactEdit(contactId, cr);
         //1. 判断手机号是否有修改
         if (contactPhoneNumberStore.equals(contactDisplay)) {
             return;
         } else {
             //2. 清空手机号
-            for (Map<String, Object> phone : contactPhoneNumberStore) {
+            System.out.println("清空手机号！");
+            for (Map<String, Object> phone :contactPhoneNumberStore) {
                 contactEdit.deleteContactPhoneNum((String) phone.get("phone_num"));
             }
             //3. 读取data数据，重建手机号
+            System.out.println("重建手机号！");
             for (Map<String, Object> phone : contactDisplay) {
-                int numberTypeId = 0;
-                String label = "";
-                contactEdit.addContactPhoneNum((String) phone.get("phone_num"), numberTypeId, label);
+                contactEdit.addContactPhoneNum((String) phone.get("phone_num"),
+                        (int) phone.get("phone_type_id"), (String) phone.get("phone_label"));
             }
         }
     }

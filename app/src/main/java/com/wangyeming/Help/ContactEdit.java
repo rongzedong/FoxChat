@@ -13,10 +13,12 @@ import java.util.ArrayList;
  */
 public class ContactEdit {
     protected Long contactId;
+    protected Long rawContactId;
     protected ContentResolver cr;
 
-    public ContactEdit(Long contactId, ContentResolver cr) {
+    public ContactEdit(Long contactId, Long rawContactId, ContentResolver cr) {
         this.contactId = contactId;
+        this.rawContactId = rawContactId;
         this.cr = cr;
     }
 
@@ -129,10 +131,19 @@ public class ContactEdit {
     }
 
     //增加联系人手机号
-    public void addContactPhoneNum(String number, int numberTypeId, String label) {
+    public void addContactPhoneNum( String number, int numberTypeId, String label) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        /*
+        //获取新的rawContactId
+        ContentValues contentValues = new ContentValues();
+        Uri uri = cr.insert(ContactsContract.RawContacts.CONTENT_URI,
+                contentValues);
+        long rawContactId = ContentUris.parseId(uri);
+        */
         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValue(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
                 .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
                 .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
                         numberTypeId)
                 .withValue(ContactsContract.CommonDataKinds.Phone.LABEL, label)
@@ -150,7 +161,18 @@ public class ContactEdit {
     public void deleteContactPhoneNum(String number) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newDelete(ContactsContract.Data.CONTENT_URI)
-                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
+                .withSelection(ContactsContract.Data.CONTACT_ID
+                                + "=?"
+                                + " AND "
+                                + ContactsContract.Data.MIMETYPE
+                                + "=?"
+                                + " AND "
+                                + ContactsContract.CommonDataKinds.Phone.NUMBER
+                                + "=?",
+                        new String[]{
+                                contactId + "",
+                                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
+                                String.valueOf(number)})
                 .build());
         try {
             cr.applyBatch(ContactsContract.AUTHORITY, ops);

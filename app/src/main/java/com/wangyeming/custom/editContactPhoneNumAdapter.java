@@ -64,7 +64,7 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         holder = new ViewHolder();
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.list_contact_phone_edit,
@@ -76,13 +76,19 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.phoneType.setText(((String) data.get(position).get("phone_type")));
+        String typeDisplay = "";
+        if (data.get(position).get("phone_type_id") == 0) {
+            typeDisplay = (String) data.get(position).get("phone_label");
+        } else {
+            typeDisplay = (String) data.get(position).get("phone_type");
+        }
+        holder.phoneType.setText(typeDisplay);
         holder.editText.setText(((String) data.get(position).get("phone_num")));
         holder.phoneType.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Button button = (Button) v.findViewById(R.id.edit_phone_type);
-                changePhoneType(button);
+                changePhoneType(button, position);
                 System.out.println("click!");
             }
         });
@@ -111,7 +117,7 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     }
 
     //改变电话类型
-    public void changePhoneType(final Button button) {
+    public void changePhoneType(final Button button, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(
                 context);
         builder.setTitle(R.string.phone_type);
@@ -120,9 +126,16 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
                 System.out.println(context.getResources().getStringArray(R.array.phone_type)[which]);
                 //如果是自定义，弹出提示框“请输入label”
                 if (which == 0) {
-                    customAlert(button, which);
+                    customAlert(button, position);
                 } else {
-                    button.setText(context.getResources().getStringArray(R.array.phone_type)[which]);
+                    String type = context.getResources().getStringArray(R.array.phone_type)[which];
+                    //修改button上文字
+                    // button.setText(type);
+                    //修改data数据
+                    data.get(position).put("phone_type_id", which);
+                    data.get(position).put("phone_type", type);
+                    data.get(position).put("phone_label", null);
+                    EditContactDetailActivity.adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -130,7 +143,7 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     }
 
     //修改电话类型为自定义时的提示
-    public void customAlert(final Button button, int which) {
+    public void customAlert(final Button button, final int position) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         dialog.setTitle("请输入自定义名称？");
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -140,12 +153,21 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                String name = editType.getText().toString();
+                String label = editType.getText().toString();
+                String type = context.getResources().getStringArray(R.array.phone_type)[0];
                 //如果内容为空
-                if(name.isEmpty()) {
-                    button.setText("自定义");
+                if(label.isEmpty()) {
+                    // button.setText(type);
+                    data.get(position).put("phone_type_id", 0);
+                    data.get(position).put("phone_type", type);
+                    data.get(position).put("phone_label", null);
+                    EditContactDetailActivity.adapter.notifyDataSetChanged();
                 } else {
-                    button.setText(name);
+                    // button.setText(label);
+                    data.get(position).put("phone_type_id", 0);
+                    data.get(position).put("phone_type", type);
+                    data.get(position).put("phone_label", label);
+                    EditContactDetailActivity.adapter.notifyDataSetChanged();
                 }
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
