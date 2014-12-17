@@ -186,9 +186,10 @@ public class LineActivity extends Activity {
                 namesList.add(ContactName); // 保存联系人姓名
                 namesList2.add(ContactName); // 保存联系人姓名
                 int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
-                Long ContactId = cursorID.getLong(index);//获取联系人对应的ID号
-                contactIdList.add(ContactId); //保存联系人ContactId
-                contactIdList2.add(ContactId); //保存联系人ContactId
+                Long contactId = cursorID.getLong(index);//获取联系人对应的contactId号
+                Long rawContactId = cursorID.getLong(cursorID.getColumnIndex(PHONES_PROJECTION[6])); //获取联系人对应的rawContactId号
+                contactIdList.add(contactId); //保存联系人ContactId
+                contactIdList2.add(contactId); //保存联系人ContactId
             }
         }
         System.out.println("一共读取了" + namesList2.size() + "个收藏联系人");
@@ -262,10 +263,10 @@ public class LineActivity extends Activity {
                 if (!isSearch && catalogList.contains((Integer) position)) {
                     return;
                 }
-                Long ContactId = ContactIdTmp.get(position);
-                System.out.println("ContactId " + ContactId);
+                Long contactId = ContactIdTmp.get(position);
+                System.out.println("ContactId " + contactId);
                 Intent intent = new Intent(LineActivity.this, ContactDetailActivity.class);
-                intent.putExtra("ContactId", ContactId);
+                intent.putExtra("ContactId", contactId);
                 startActivity(intent);
             }
         });

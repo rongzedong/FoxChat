@@ -273,6 +273,7 @@ public class EditContactDetailActivity extends Activity {
             Toast.makeText(this, "姓名不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
+        contactEdit.updateContactName(name);
         Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
         contactEdit.updateContactName(name);
     }
