@@ -75,7 +75,7 @@ public class ContactEdit {
     }
 
     //修改联系人手机号
-    public void updateContactPhoneNum(Long contactId, String number, int numberTypeId) {
+    public void updateContactPhoneNum(String number, int numberTypeId) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
                 .withSelection(ContactsContract.Data.CONTACT_ID
@@ -101,8 +101,35 @@ public class ContactEdit {
         }
     }
 
+    //修改联系人手机号类型
+    public void updateContactPhoneType(String number, int numberTypeId) {
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                .withSelection(ContactsContract.Data.CONTACT_ID
+                                + "=?"
+                                + " AND "
+                                + ContactsContract.Data.MIMETYPE
+                                + "=?"
+                                + " AND "
+                                + ContactsContract.CommonDataKinds.Phone.NUMBER
+                                + "=?",
+                        new String[] {
+                                contactId + "",
+                                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
+                                String.valueOf(number) })
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, numberTypeId)
+                .build());
+        try {
+            cr.applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
+    }
+
     //增加联系人手机号
-    public void addContactPhoneNum(Long contactId, String number, int numberTypeId, String label) {
+    public void addContactPhoneNum(String number, int numberTypeId, String label) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
@@ -120,7 +147,7 @@ public class ContactEdit {
     }
 
     //删除联系人手机号
-    public void deleteContactPhoneNum(Long contactId, String number) {
+    public void deleteContactPhoneNum(String number) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newDelete(ContactsContract.Data.CONTENT_URI)
                 .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)

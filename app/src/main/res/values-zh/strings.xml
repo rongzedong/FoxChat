@@ -21,6 +21,10 @@
     <string name="starred_contact">星标联系人</string>
     <string name="unstarred_contact">其他联系人</string>
     <string name="new_contact">新建联系人</string>
+    <!--Line Activity-->
+    <string name="all_contact">所有联系人</string>
+    <string name="find">找到</string>
+    <string name="contacts">个联系人</string>
     <!--手机号类型-->
     <string name="TYPE_CUSTOM">自定义</string>
     <string name="TYPE_HOME">家庭</string>

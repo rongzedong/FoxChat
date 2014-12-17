@@ -24,6 +24,10 @@
     <string name="unstarred_contact">Unstarred Contacts</string>
     <string name="new_contact">New A Contact</string>
     <string name="title_activity_new_contact">NewContactActivity</string>
+    <!--Line Activity-->
+    <string name="all_contact">All contacts</string>
+    <string name="find">find</string>
+    <string name="contacts">contacts</string>
     <!--phone number type-->
     <string name="TYPE_CUSTOM">CUSTOM</string>
     <string name="TYPE_HOME">HOME</string>

@@ -60,13 +60,22 @@ public class ContactDetailAdapter extends BaseAdapter {
         }
         //一般按如下方式将数据与UI联系起来
         if (position == 0) {
-            holder.phone.setVisibility(0);
+            holder.phone.setVisibility(View.VISIBLE);
         } else {
-            holder.phone.setVisibility(4);
+            holder.phone.setVisibility(View.INVISIBLE);
         }
         holder.phone.setImageResource(R.drawable.type_icon_phone);
         holder.phone_num.setText(((String) data.get(position).get("phone_num")));
-        holder.phone_type.setText(((String) data.get(position).get("phone_type")));
+        System.out.println("id "+data.get(position).get("phone_type_id")+" num "+data.get(position).get("phone_num")
+        + " type "+data.get(position).get("phone_type"));
+        String typeDisplay = "";
+        if (data.get(position).get("phone_type_id") == 0) {
+            typeDisplay = (String) data.get(position).get("phone_label");
+        } else {
+            typeDisplay = (String) data.get(position).get("phone_type");
+        }
+        System.out.println("typeDisplay "+typeDisplay);
+        holder.phone_type.setText(typeDisplay);
         holder.phone_location.setText(((String) data.get(position).get("phone_location")));
         holder.mes1.setImageResource(R.drawable.ic_send_sms_p);
         return convertView;

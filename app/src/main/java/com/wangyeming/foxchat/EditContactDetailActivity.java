@@ -32,20 +32,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 编辑联系人信息的Activity
+ *
+ * @author 王小明
+ * @data 2014/12/8
+ */
 
 public class EditContactDetailActivity extends Activity {
 
-    protected Long ContactId;
-    protected Long RawContactId;
-    protected Uri photo_uri;
-    protected String contactName;
-    public static ListView lt3;
-    public static EditContactPhoneNumAdapter adapter;
-    public static List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
-    protected ContentResolver cr;
-    protected boolean hasImage; //是否有头像
-    protected EditText editName; //联系人姓名
-    protected ContactEdit contactEdit;
+    protected Long contactId;  //联系人的contactId
+    protected Long rawContactId;  //联系人的rawContactId
+    protected Uri photoUri;  //联系人头像的uri
+    protected String contactName;  //联系人姓名
+    public static ListView lt3;  //联系人电话列表listView
+    public static EditContactPhoneNumAdapter adapter;  //编辑联系人电话号码的自定义adpter
+    public static List<Map<String, Object>> contactDisplay = new ArrayList<Map<String, Object>>();  //用于显示联系人手机号信息的list
+    protected List<Map<String, Object>> contactPhoneNumberStore = new ArrayList<>();
+    protected ContentResolver cr;  //ContentResolver对象
+    protected boolean hasImage;  //是否有头像
+    protected EditText editName;  //联系人姓名
+    protected ContactEdit contactEdit;  //联系人编辑自定义类
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
@@ -138,17 +145,18 @@ public class EditContactDetailActivity extends Activity {
         setImage(); //设置联系人头像
         setName(); //设置联系人姓名
         displayListView(); //设置布局
-        contactEdit = new ContactEdit(ContactId, cr);
+        contactEdit = new ContactEdit(contactId, cr);
     }
 
     //读取联系人信息
     public void getContactMessage() {
         Intent intent = getIntent();
-        ContactId = intent.getLongExtra("ContactId", 1);
-        RawContactId = intent.getLongExtra("RawContactId", 1);
+        contactId = intent.getLongExtra("ContactId", 1);
+        rawContactId = intent.getLongExtra("RawContactId", 1);
         hasImage = intent.getBooleanExtra("hasImage", true);
-        photo_uri = intent.getData();
-        ContactDisplay = (List<Map<String, Object>>) intent.getSerializableExtra("ContactDisplay");
+        photoUri = intent.getData();
+        contactDisplay = (List<Map<String, Object>>) intent.getSerializableExtra("ContactDisplay");
+        contactPhoneNumberStore.addAll(contactDisplay); //储存电话号码信息用于清空和恢复
         contactName = intent.getStringExtra("contactName");
         System.out.println("contactName " + contactName);
     }
@@ -158,7 +166,7 @@ public class EditContactDetailActivity extends Activity {
     public void setImage() {
         if (hasImage) {
             CircleImageView circleImageView = (CircleImageView) findViewById(R.id.profile_image);
-            circleImageView.setImageURI(photo_uri);
+            circleImageView.setImageURI(photoUri);
         }
     }
 
@@ -171,8 +179,8 @@ public class EditContactDetailActivity extends Activity {
     //设置lisView布局
     public void displayListView() {
         lt3 = (ListView) findViewById(R.id.list_contact_phone_edit);
-        adapter = new EditContactPhoneNumAdapter(ContactDisplay,
-                RawContactId, this, cr, this);
+        adapter = new EditContactPhoneNumAdapter(contactDisplay,
+                rawContactId, this, cr, this);
         lt3.setAdapter(adapter);
         Utility.setListViewHeightBasedOnChildren(lt3);
     }
@@ -181,7 +189,7 @@ public class EditContactDetailActivity extends Activity {
     //删除联系人
     public int deleteContact() {
         Uri uri = ContentUris.withAppendedId(
-                ContactsContract.Contacts.CONTENT_URI, ContactId);
+                ContactsContract.Contacts.CONTENT_URI, contactId);
         int count = cr.delete(uri, null, null);
         return count;
     }
@@ -210,6 +218,8 @@ public class EditContactDetailActivity extends Activity {
 
     //取消保存已编辑的信息
     public void cancelEdit() {
+        System.out.println("ContactDisplay " + contactDisplay.size()
+        );
         Dialog alertDialog = new AlertDialog.Builder(this).setTitle("确定放弃保存已修改的信息？").
                 setIcon(android.R.drawable.ic_dialog_info).
                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -235,7 +245,7 @@ public class EditContactDetailActivity extends Activity {
     //确认保存修改
     public void ensureEdit() throws RemoteException, OperationApplicationException {
         boolean nameSave = saveContactName();
-        if(! nameSave) {
+        if (!nameSave) {
             return;
         }
         Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
@@ -247,7 +257,7 @@ public class EditContactDetailActivity extends Activity {
         editName = (EditText) findViewById(R.id.edit_name);
         String name = editName.getText().toString();
         //姓名没有改动，无需修改联系人姓名
-        if(name == contactName) {
+        if (name == contactName) {
             return false;
         }
         System.out.println("name " + name);
@@ -263,8 +273,22 @@ public class EditContactDetailActivity extends Activity {
 
     //保存对手机号的修改
     public void saveContactPhoneNum() {
-        List<Map<String, Object>> data = adapter.getData();
-        //...
+        ContactEdit contactEdit = new ContactEdit(contactId, cr);
+        //1. 判断手机号是否有修改
+        if (contactPhoneNumberStore.equals(contactDisplay)) {
+            return;
+        } else {
+            //2. 清空手机号
+            for (Map<String, Object> phone : contactPhoneNumberStore) {
+                contactEdit.deleteContactPhoneNum((String) phone.get("phone_num"));
+            }
+            //3. 读取data数据，重建手机号
+            for (Map<String, Object> phone : contactDisplay) {
+                int numberTypeId = 0;
+                String label = "";
+                contactEdit.addContactPhoneNum((String) phone.get("phone_num"), numberTypeId, label);
+            }
+        }
     }
 
 }

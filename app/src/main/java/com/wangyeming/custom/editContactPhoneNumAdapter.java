@@ -105,6 +105,11 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         public Button delete;
     }
 
+    //改变电话号码
+    public void changePhoneNum(final EditText editText){
+
+    }
+
     //改变电话类型
     public void changePhoneType(final Button button) {
         AlertDialog.Builder builder = new AlertDialog.Builder(
@@ -124,6 +129,7 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         builder.show();
     }
 
+    //修改电话类型为自定义时的提示
     public void customAlert(final Button button, int which) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         dialog.setTitle("请输入自定义名称？");
@@ -161,4 +167,6 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
             }
         });
     }
+
+
 }

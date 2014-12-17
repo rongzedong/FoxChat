@@ -357,8 +357,8 @@ public class LineActivity extends Activity {
         int match_num = Display.size();
         tv1 = (TextView) findViewById(R.id.tV1);
         tv2 = (TextView) findViewById(R.id.tV2);
-        String str1 = "所有联系人";
-        String str2 = "找到" + match_num + "个联系人";
+        String str1 = getResources().getString(R.string.all_contact);
+        String str2 = getResources().getString(R.string.find) + match_num + getResources().getString(R.string.contacts);
         tv1.setText(str1);
         tv1.setVisibility(View.VISIBLE);
         tv2.setText(str2);

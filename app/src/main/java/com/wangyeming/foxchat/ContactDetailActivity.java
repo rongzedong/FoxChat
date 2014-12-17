@@ -27,10 +27,16 @@ import java.util.Map;
 
 import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
 
+/**
+ * 读取联系人详细信息的Activity
+ *
+ * @author 王小明
+ * @data 2014/11/28
+ */
 
 public class ContactDetailActivity extends Activity {
 
-    protected List<Map<String, Object>> ContactDisplay = new ArrayList<Map<String, Object>>();
+    protected List<Map<String, Object>> contactDisplay = new ArrayList<Map<String, Object>>(); //手机号（手机号类型、归属地等信息）
     protected ListView lt2;
     protected TextView tv1;
     protected String contactName;
@@ -99,14 +105,14 @@ public class ContactDetailActivity extends Activity {
 
     public void reInit() {
         readContactName(ContactId);
-        readContactPhoneBim(ContactId);
+        readContactBim(ContactId);
         readContactPhoneNum(ContactId);
         displayListView(); //显示listView
         displayStarred(); //设置收藏/未收藏的图标
     }
 
     public void clearData() {
-        ContactDisplay.clear();
+        contactDisplay.clear();
     }
 
     //读取联系人信息
@@ -115,7 +121,7 @@ public class ContactDetailActivity extends Activity {
         ContactId = intent.getLongExtra("ContactId", 1);
         //System.out.println(ContactId);
         readContactName(ContactId);
-        readContactPhoneBim(ContactId);
+        readContactBim(ContactId);
         readContactPhoneNum(ContactId);
     }
 
@@ -129,7 +135,7 @@ public class ContactDetailActivity extends Activity {
     }
 
     //读取联系人头像
-    public void readContactPhoneBim(Long ContactId) {
+    public void readContactBim(Long ContactId) {
         Cursor cursorID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[4] + "=" + ContactId, null, "sort_key");
         cursorID.moveToFirst();
         RawContactId = cursorID.getLong(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
@@ -159,21 +165,24 @@ public class ContactDetailActivity extends Activity {
         Cursor phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 PHONES_PROJECTION[4] + "=" + ContactId, null, null);//设置手机号光标
         while (phoneID.moveToNext()) {
-            Map<String, Object> PhoneNumMap = new HashMap<String, Object>();
+            // Map<String, Object> PhoneNumMap = new HashMap<String, Object>();
+            Map<String, Object> phoneNumMap = new HashMap<String, Object>();
             String phoneNumber = phoneID.getString(phoneID.getColumnIndex(PHONES_PROJECTION[1]));
             int phoneNumberTypeId = phoneID.getInt(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-            //System.out.println(phoneNumberType);
+            String phoneNumberLabel = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+            System.out.println("LABEL "+ phoneNumberLabel);
             // String phoneNumberTypeTrans = PHONE_TYPE.get(phoneNumberType);
             String[] phoneNumberTypeArray = getResources().getStringArray(R.array.phone_type);
             String phoneNumberType = phoneNumberTypeArray[phoneNumberTypeId];
             System.out.println("手机号： " + phoneNumber + " phoneNumberTypeId " + phoneNumberTypeId +" 手机号类型： " + phoneNumberType + " ");
-            //PhoneNumMap.put("phone_icon", phoneIconMap.get(isFirstNum));
-            PhoneNumMap.put("phone_png", R.drawable.type_icon_phone);
-            PhoneNumMap.put("phone_num", phoneNumber);
-            PhoneNumMap.put("phone_type", phoneNumberType);
-            PhoneNumMap.put("phone_location", "北京");
-            PhoneNumMap.put("message_png", R.drawable.ic_send_sms_p);
-            ContactDisplay.add(PhoneNumMap);
+            phoneNumMap.put("phone_png", R.drawable.type_icon_phone);
+            phoneNumMap.put("phone_num", phoneNumber);
+            phoneNumMap.put("phone_type_id", phoneNumberTypeId);
+            phoneNumMap.put("phone_type", phoneNumberType);
+            phoneNumMap.put("phone_location", "北京");
+            phoneNumMap.put("phone_label", phoneNumberLabel);
+            phoneNumMap.put("message_png", R.drawable.ic_send_sms_p);
+            contactDisplay.add(phoneNumMap);
         }
         phoneID.close();
     }
@@ -183,11 +192,10 @@ public class ContactDetailActivity extends Activity {
         tv1 = (TextView) findViewById(R.id.contactName);
         tv1.setText(contactName);
         lt2 = (ListView) findViewById(R.id.list_contact_phone_display);
-        if (ContactDisplay == null) {
-            //System.out.println("ContactDisplay is nil");
+        if (contactDisplay == null) {
+            //System.out.println("contactDisplay is nil");
         }
-        System.out.println(ContactDisplay.size());
-        ContactDetailAdapter adapter = new ContactDetailAdapter(ContactDisplay, this);
+        ContactDetailAdapter adapter = new ContactDetailAdapter(contactDisplay, this);
         lt2.setAdapter(adapter);
     }
 
@@ -218,7 +226,7 @@ public class ContactDetailActivity extends Activity {
         intent.putExtra("RawContactId",RawContactId);
         intent.putExtra("hasImage", hasImage);
         intent.setData(photo_uri);
-        intent.putExtra("ContactDisplay", (Serializable) ContactDisplay);
+        intent.putExtra("ContactDisplay", (Serializable) contactDisplay);
         intent.putExtra("contactName", contactName);
         startActivity(intent);
     }
