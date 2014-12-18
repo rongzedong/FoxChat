@@ -20,6 +20,7 @@ import com.wangyeming.foxchat.EditContactDetailActivity;
 import com.wangyeming.foxchat.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     protected LinearLayout layout;
     protected EditText editType;
     protected Activity editActivity;
+    protected int blankPosition; //记录哪一行电话号码为空
 
 
     public EditContactPhoneNumAdapter(List<Map<String, Object>> data,
@@ -48,6 +50,9 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         this.RawContactId = RawContactId;
         this.cr = cr;
         this.editActivity = editActivity;
+        insertBlankPhoneNum(this.data.size());//增加空行填写新手机号
+        blankPosition = this.data.size()-1;
+        System.out.println("size " +this.data.size());
     }
 
     @Override
@@ -84,8 +89,8 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         } else {
             typeDisplay = (String) data.get(position).get("phone_type");
         }
-        holder.phoneType.setText(typeDisplay);
         holder.editText.setText(((String) data.get(position).get("phone_num")));
+        holder.phoneType.setText(typeDisplay);
         holder.editText.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -100,7 +105,43 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
 
             @Override
             public void afterTextChanged(Editable s) {
-                data.get(position).put("phone_num", s.toString());
+                System.out.println("s " + s);
+                //如果修改手机号为空
+                if (s.toString().matches("") ) {
+                    System.out.println("当前空行为 "+blankPosition+" 当前行为： "+position+" 总行数 "+ (data.size()-1));
+                    //如果修改为空的行大于等于总行数或者为空行---表示数据刷新的更改
+                    if(position >= data.size() || position == blankPosition) {
+                        return;
+                    }
+                    System.out.println(position+" s is null!");
+                    System.out.println("size111 " + data.size());
+                    data.get(position).put("phone_num", "");
+                    System.out.println("size222 " +data.size());
+                    data.remove(blankPosition);
+                    System.out.println("size333 " + data.size());
+                    // EditContactDetailActivity.adapter.notifyDataSetChanged();
+                    Utility.setListViewHeightBasedOnChildren(EditContactDetailActivity.lt3);
+                    blankPosition = blankPosition > position ? position : blankPosition;
+                //如果修改手机号不为空
+                } else {
+                    System.out.println(position+" 11 s is not null!");
+                    //如果修改行大于总行数---表示数据刷新的更改
+                    if(position >= data.size()) {
+                        return;
+                    }
+                    if(blankPosition == position) {
+                        //修改空行
+                        System.out.println(position+" 22 s is not null!");
+                        data.get(position).put("phone_num", s.toString());
+                        insertBlankPhoneNum(data.size());
+                        EditContactDetailActivity.adapter.notifyDataSetChanged();
+                        Utility.setListViewHeightBasedOnChildren(EditContactDetailActivity.lt3);
+                        blankPosition = data.size()-1;
+                    } else {
+                        //修改非空行
+                        data.get(position).put("phone_num", s.toString());
+                    }
+                }
             }
         });
         holder.phoneType.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +152,12 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
                 System.out.println("click!");
             }
         });
-        deletePhoneNum(position, holder.phoneType, holder.editText, holder.delete);
+        if (position == blankPosition) {
+            holder.delete.setVisibility(View.INVISIBLE);
+        } else {
+            holder.delete.setVisibility(View.VISIBLE);
+        }
+        addDeletePhoneNumListener(position, holder.phoneType, holder.editText, holder.delete); //增加删除手机号的监听
         return convertView;
     }
 
@@ -131,7 +177,7 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     }
 
     //改变电话号码
-    public void changePhoneNum(EditText editText, int position){
+    public void changePhoneNum(EditText editText, int position) {
         //修改data数据
         data.get(position).put("phone_num", editText.getText());
     }
@@ -155,7 +201,7 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
                     data.get(position).put("phone_type_id", which);
                     data.get(position).put("phone_type", type);
                     data.get(position).put("phone_label", null);
-                    EditContactDetailActivity.adapter.notifyDataSetChanged();
+                    // EditContactDetailActivity.adapter.notifyDataSetChanged();
                 }
             }
         });
@@ -166,8 +212,8 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     public void customAlert(final Button button, final int position) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(context);
         dialog.setTitle("请输入自定义名称？");
-        inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        layout = (LinearLayout)inflater.inflate(R.layout.edit_alert_dialog, null);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        layout = (LinearLayout) inflater.inflate(R.layout.edit_alert_dialog, null);
         dialog.setView(layout);
         editType = (EditText) layout.findViewById(R.id.edit_alert);
         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -176,18 +222,18 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
                 String label = editType.getText().toString();
                 String type = context.getResources().getStringArray(R.array.phone_type)[0];
                 //如果内容为空
-                if(label.isEmpty()) {
+                if (label.isEmpty()) {
                     // button.setText(type);
                     data.get(position).put("phone_type_id", 0);
                     data.get(position).put("phone_type", type);
                     data.get(position).put("phone_label", null);
-                    EditContactDetailActivity.adapter.notifyDataSetChanged();
+                    // EditContactDetailActivity.adapter.notifyDataSetChanged();
                 } else {
                     // button.setText(label);
                     data.get(position).put("phone_type_id", 0);
                     data.get(position).put("phone_type", type);
                     data.get(position).put("phone_label", label);
-                    EditContactDetailActivity.adapter.notifyDataSetChanged();
+                    // EditContactDetailActivity.adapter.notifyDataSetChanged();
                 }
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -198,16 +244,29 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         dialog.show();
     }
 
-    public void deletePhoneNum(final int positon , final Button phoneType, final EditText editText, final Button delete) {
+    public void addDeletePhoneNumListener(final int positon, final Button phoneType, final EditText editText, final Button delete) {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("删除第" + positon + "行");
                 data.remove(positon);
-                EditContactDetailActivity.adapter.notifyDataSetChanged();
+                // EditContactDetailActivity.adapter.notifyDataSetChanged();
                 Utility.setListViewHeightBasedOnChildren(EditContactDetailActivity.lt3);
             }
         });
+    }
+
+    public void insertBlankPhoneNum(int positon) {
+        //设置编辑时最后一行的空号码用于显示
+        Map<String, Object> phoneNumMap = new HashMap<String, Object>();
+        phoneNumMap.put("phone_png", R.drawable.type_icon_phone);
+        phoneNumMap.put("phone_num", "");
+        phoneNumMap.put("phone_type_id", 1);
+        phoneNumMap.put("phone_type", context.getResources().getStringArray(R.array.phone_type)[1]);
+        phoneNumMap.put("phone_location", "北京");
+        phoneNumMap.put("phone_label", "");
+        phoneNumMap.put("message_png", R.drawable.ic_send_sms_p);
+        data.add(positon, phoneNumMap);
     }
 
 }

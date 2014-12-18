@@ -171,7 +171,7 @@ public class ContactDetailActivity extends Activity {
     public void readContactPhoneNum(Long rawContactId) {
         ContentResolver cr = getContentResolver();//得到ContentResolver对象
         Cursor phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
-                PHONES_PROJECTION[4] + "=" + rawContactId, null, null);//设置手机号光标
+                PHONES_PROJECTION[6] + "=" + rawContactId, null, null);//设置手机号光标
         while (phoneID.moveToNext()) {
             // Map<String, Object> PhoneNumMap = new HashMap<String, Object>();
             Map<String, Object> phoneNumMap = new HashMap<String, Object>();
