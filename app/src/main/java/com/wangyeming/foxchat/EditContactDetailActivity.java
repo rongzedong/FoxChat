@@ -191,7 +191,8 @@ public class EditContactDetailActivity extends Activity {
         adapter = new EditContactPhoneNumAdapter(contactDisplay,
                 rawContactId, this, cr, this);
         lt3.setAdapter(adapter);
-        Utility.setListViewHeightBasedOnChildren(lt3);
+        Utility utility = new Utility(EditContactDetailActivity.lt3);
+        utility.setListViewHeightBasedOnChildren();
     }
 
 

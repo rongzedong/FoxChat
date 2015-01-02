@@ -40,7 +40,10 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     protected EditText editType;
     protected Activity editActivity;
     protected int blankPosition; //记录哪一行电话号码为空
-
+    protected Utility utility;
+    protected Boolean isRecoveryFocus;  //是否需要恢复焦点
+    protected int focusPosition;  //记录焦点在哪个view
+    protected int focusSelection; //记录焦点在文字的哪个位置
 
     public EditContactPhoneNumAdapter(List<Map<String, Object>> data,
                                       Long RawContactId, Context context, ContentResolver cr, Activity editActivity) {
@@ -53,6 +56,8 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         insertBlankPhoneNum(this.data.size());//增加空行填写新手机号
         blankPosition = this.data.size()-1;
         System.out.println("size " +this.data.size());
+        utility = new Utility(EditContactDetailActivity.lt3);
+        isRecoveryFocus = false;
     }
 
     @Override
@@ -62,7 +67,7 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return this.data.get(position);
     }
 
     @Override
@@ -72,6 +77,11 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        System.out.println(position + " 执行getView");
+        if(position >= data.size()) {
+            System.out.println("position比总数大");
+            return convertView;
+        }
         holder = new ViewHolder();
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.list_contact_phone_edit,
@@ -105,39 +115,54 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
 
             @Override
             public void afterTextChanged(Editable s) {
+                View focusView = editActivity.getCurrentFocus();
+                if(focusView == null) {
+                    System.out.println(position + " 当前无焦点！");
+                    return;
+                }
+                System.out.println(focusView.getId());
+                System.out.println(holder.editText.getId());
+                if( focusView.getId() !=  holder.editText.getId()) {
+                    System.out.println("不为当前焦点的view");
+                    return;
+                }
                 System.out.println("s " + s);
+                //如果修改行大于总行数或当前空行数大于总行数---表示数据刷新的更改
+                if(position >= data.size() || blankPosition >= data.size()) {
+                    System.out.println("position比总数大");
+                    return;
+                }
                 //如果修改手机号为空
                 if (s.toString().matches("") ) {
                     System.out.println("当前空行为 "+blankPosition+" 当前行为： "+position+" 总行数 "+ (data.size()-1));
                     //如果修改为空的行大于等于总行数或者为空行---表示数据刷新的更改
-                    if(position >= data.size() || position == blankPosition) {
+                    if( position == blankPosition) {
                         return;
                     }
-                    System.out.println(position+" s is null!");
-                    System.out.println("size111 " + data.size());
+                    System.out.println("修改为空：修改第" + position+"行");
                     data.get(position).put("phone_num", "");
-                    System.out.println("size222 " +data.size());
                     data.remove(blankPosition);
-                    System.out.println("size333 " + data.size());
-                    // EditContactDetailActivity.adapter.notifyDataSetChanged();
-                    Utility.setListViewHeightBasedOnChildren(EditContactDetailActivity.lt3);
                     blankPosition = blankPosition > position ? position : blankPosition;
+                    utility.setListViewHeightBasedOnChildren();
+                    focusPosition = blankPosition;//记录焦点的位置
+                    isRecoveryFocus = true;//需要恢复焦点
+                    focusSelection = 0;
+                    System.out.println("data长度"+data.size()+"去除空行："+blankPosition);
                 //如果修改手机号不为空
                 } else {
-                    System.out.println(position+" 11 s is not null!");
-                    //如果修改行大于总行数---表示数据刷新的更改
-                    if(position >= data.size()) {
-                        return;
-                    }
                     if(blankPosition == position) {
                         //修改空行
-                        System.out.println(position+" 22 s is not null!");
+                        System.out.println("修改不为空（空行）：修改第" + position+"行");
                         data.get(position).put("phone_num", s.toString());
                         insertBlankPhoneNum(data.size());
-                        EditContactDetailActivity.adapter.notifyDataSetChanged();
-                        Utility.setListViewHeightBasedOnChildren(EditContactDetailActivity.lt3);
+                        utility.setListViewHeightBasedOnChildren();
                         blankPosition = data.size()-1;
+                        focusPosition = position;//记录焦点的位置
+                        isRecoveryFocus = true;//需要恢复焦点
+                        focusSelection = 1;
+                        System.out.println("data长度"+data.size()+"增加空行："+blankPosition);
                     } else {
+                        System.out.println("修改不为空（非空行）：修改第" + position+"行");
                         //修改非空行
                         data.get(position).put("phone_num", s.toString());
                     }
@@ -158,6 +183,11 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
             holder.delete.setVisibility(View.VISIBLE);
         }
         addDeletePhoneNumListener(position, holder.phoneType, holder.editText, holder.delete); //增加删除手机号的监听
+        if(isRecoveryFocus && position == focusPosition) {
+            holder.editText.requestFocus();
+            holder.editText.setSelection(focusSelection);
+            isRecoveryFocus = false;//焦点恢复完毕
+        }
         return convertView;
     }
 
@@ -250,8 +280,9 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
             public void onClick(View v) {
                 System.out.println("删除第" + positon + "行");
                 data.remove(positon);
+                blankPosition = blankPosition > positon ? blankPosition-1 : blankPosition;
                 // EditContactDetailActivity.adapter.notifyDataSetChanged();
-                Utility.setListViewHeightBasedOnChildren(EditContactDetailActivity.lt3);
+                utility.setListViewHeightBasedOnChildren();
             }
         });
     }

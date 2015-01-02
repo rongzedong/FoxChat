@@ -8,15 +8,22 @@ import android.widget.ListView;
 /**
  * Created by Wang on 2014/12/1.
  */
-public class Utility
-{
-    public static void setListViewHeightBasedOnChildren(ListView listView)
+public class Utility{
+
+    protected ListView listView;
+
+    public Utility(ListView listView) {
+        this.listView = listView;
+    }
+
+    //设置listView高度
+    public Boolean setListViewHeightBasedOnChildren()
     {
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null)
         {
             // pre-condition
-            return;
+            return false;
         }
 
         int totalHeight = 0;
@@ -30,5 +37,7 @@ public class Utility
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+        return true;
     }
+
 }

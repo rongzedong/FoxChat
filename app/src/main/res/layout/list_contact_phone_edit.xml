@@ -24,7 +24,8 @@
         android:hint="新增手机号"
         android:typeface="monospace"
         android:textAlignment="center"
-        android:layout_gravity="left"/>
+        android:layout_gravity="left"
+        android:numeric="integer" />
 
     <Button
         android:id="@+id/edit_delete_button"

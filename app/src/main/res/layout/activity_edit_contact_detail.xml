@@ -9,69 +9,70 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.wangyeming.foxchat.EditContactDetailActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical" >
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.wangyeming.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/profile_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/contacts"
-            app:border_color="#FF000000"
-            app:border_width="2dp" />
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/edit_name"
+            <com.wangyeming.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/contacts"
+                app:border_color="#FF000000"
+                app:border_width="2dp" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="姓名" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/edit_company"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="公司" />
+                <EditText
+                    android:id="@+id/edit_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="姓名" />
 
-            <EditText
-                android:id="@+id/edit_career"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="职业" />
+                <EditText
+                    android:id="@+id/edit_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="公司" />
+
+                <EditText
+                    android:id="@+id/edit_career"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="职业" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <!--电话号码-->
-    <ListView
-        android:id="@+id/list_contact_phone_edit"
-        android:layout_width="fill_parent"
+        <!--电话号码-->
+        <ListView
+            android:id="@+id/list_contact_phone_edit"
+            android:layout_width="fill_parent"
 
-        android:layout_height="0dip"
-        android:layout_weight="8" />
+            android:layout_height="0dip"
+            android:layout_weight="8" />
 
-    <!--电子邮件-->
+        <!--电子邮件-->
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_gravity="left|center_vertical"
-        android:background="@drawable/delete_contact_block"
-        android:text="@string/delete_contact"
-        android:textSize="16sp"
-        android:textColor="#FFFFFF"
-        android:onClick="deleteContactWithAlert"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="left|center_vertical"
+            android:background="@drawable/delete_contact_block"
+            android:onClick="deleteContactWithAlert"
+            android:text="@string/delete_contact"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
