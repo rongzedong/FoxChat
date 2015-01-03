@@ -25,14 +25,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Wang on 2014/11/26.
+ * 编辑联系人信息的Activity
+ *
+ * @author 王小明
+ * @data 2011/01/03
  */
+
 public class EditContactPhoneNumAdapter extends BaseAdapter {
 
-    private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+    private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>(); //adapter数据--记录电话号码信息
     private LayoutInflater mInflater = null;
     private Context context;
-    protected Long RawContactId;
+    protected Long rawContactId;
     protected ContentResolver cr;
     protected ViewHolder holder;
     protected LayoutInflater inflater;
@@ -46,11 +50,11 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     protected int focusSelection; //记录焦点在文字的哪个位置
 
     public EditContactPhoneNumAdapter(List<Map<String, Object>> data,
-                                      Long RawContactId, Context context, ContentResolver cr, Activity editActivity) {
+                                      Long rawContactId, Context context, ContentResolver cr, Activity editActivity) {
         this.data = data;
         mInflater = LayoutInflater.from(context);
         this.context = context;
-        this.RawContactId = RawContactId;
+        this.rawContactId = rawContactId;
         this.cr = cr;
         this.editActivity = editActivity;
         insertBlankPhoneNum(this.data.size());//增加空行填写新手机号
@@ -274,15 +278,20 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         dialog.show();
     }
 
+    //删除手机号的监听
     public void addDeletePhoneNumListener(final int positon, final Button phoneType, final EditText editText, final Button delete) {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("删除第" + positon + "行");
                 data.remove(positon);
-                blankPosition = blankPosition > positon ? blankPosition-1 : blankPosition;
+                //删除行若大于空行，则空行不变，否则空行-1
+                blankPosition = positon > blankPosition  ?  blankPosition : blankPosition-1;
                 // EditContactDetailActivity.adapter.notifyDataSetChanged();
                 utility.setListViewHeightBasedOnChildren();
+                focusPosition = blankPosition;//记录焦点的位置,默认位于空行
+                isRecoveryFocus = true;//需要恢复焦点
+                focusSelection = 0;
             }
         });
     }
