@@ -281,19 +281,16 @@ public class EditContactDetailActivity extends Activity {
 
     //保存对手机号的修改
     public void saveContactPhoneNum() {
-        //1. 删除最后一行用于显示空行的数据
-        contactDisplay.remove(contactDisplay.size()-1);
-        //2. 判断手机号是否有修改
+        //1. 判断手机号是否有修改
         if (contactPhoneNumberStore.equals(contactDisplay)) {
-            //如果手机号无修改，则忽略
             return;
         } else {
-            //3. 清空手机号
+            //2. 清空手机号
             System.out.println("清空手机号！");
             for (Map<String, Object> phone :contactPhoneNumberStore) {
                 contactEdit.deleteContactPhoneNum((String) phone.get("phone_num"));
             }
-            //4. 读取data数据，重建手机号
+            //3. 读取data数据，重建手机号
             System.out.println("重建手机号！");
             for (Map<String, Object> phone : contactDisplay) {
                 contactEdit.addContactPhoneNum((String) phone.get("phone_num"),
