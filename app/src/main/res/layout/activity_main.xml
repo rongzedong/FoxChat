@@ -1,0 +1,51 @@
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/tabhost"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.wangyeming.foxchat.MainActivity"
+    tools:ignore="MergeRootFrame">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TabWidget
+            android:id="@android:id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></TabWidget>
+
+        <FrameLayout
+            android:id="@android:id/tabcontent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--打电话-->
+            <fragment
+                android:id="@+id/phoneFragment"
+                android:name="com.wangyeming.foxchat.PhoneFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_phone" />
+
+            <!--联系人-->
+            <fragment
+                android:id="@+id/contactFragment"
+                android:name="com.wangyeming.foxchat.ContactFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_phone" />
+
+            <!--发短信-->
+            <fragment
+                android:id="@+id/messageFragment"
+                android:name="com.wangyeming.foxchat.MessageFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_message" />
+
+        </FrameLayout>
+    </LinearLayout>
+
+</TabHost>
