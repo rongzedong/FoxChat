@@ -1,8 +1,6 @@
 package com.wangyeming.foxchat;
 
-import android.app.ActionBar;
 import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -107,36 +105,6 @@ public class LineActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void addTabs() {
-        final ActionBar actionBar = getActionBar();
-
-        // Specify that tabs should be displayed in the action bar.
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        // Create a tab listener that is called when the user changes tabs.
-        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-                // show the given tab
-            }
-
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                // hide the given tab
-            }
-
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                // probably ignore this event
-            }
-        };
-
-        // Add 3 tabs, specifying the tab's text and TabListener
-        for (int i = 0; i < 3; i++) {
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText("Tab " + (i + 1))
-                            .setTabListener(tabListener));
-        }
     }
 
     public void init() {

@@ -1,51 +1,31 @@
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.wangyeming.foxchat.MainActivity"
     tools:ignore="MergeRootFrame">
 
-    <LinearLayout
+    <TabWidget
+        android:id="@android:id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"></TabWidget>
 
-        <TabWidget
-            android:id="@android:id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></TabWidget>
+    <com.astuetz.PagerSlidingTabStrip
+        android:id="@+id/tabStrip"
+        android:layout_width="match_parent"
+        android:layout_height="48dip"
+        android:layout_gravity="top"
+        app:pstsIndicatorColor="#FF99FF"
+        app:pstsShouldExpand="true"
+        app:pstsUnderlineColor="#990033" />
 
-        <FrameLayout
-            android:id="@android:id/tabcontent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
-            <!--打电话-->
-            <fragment
-                android:id="@+id/phoneFragment"
-                android:name="com.wangyeming.foxchat.PhoneFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout="@layout/fragment_phone" />
-
-            <!--联系人-->
-            <fragment
-                android:id="@+id/contactFragment"
-                android:name="com.wangyeming.foxchat.ContactFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout="@layout/fragment_phone" />
-
-            <!--发短信-->
-            <fragment
-                android:id="@+id/messageFragment"
-                android:name="com.wangyeming.foxchat.MessageFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout="@layout/fragment_message" />
-
-        </FrameLayout>
-    </LinearLayout>
-
-</TabHost>
+</LinearLayout>

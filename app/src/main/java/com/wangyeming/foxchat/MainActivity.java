@@ -1,11 +1,10 @@
 package com.wangyeming.foxchat;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,10 +12,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 
+import com.astuetz.PagerSlidingTabStrip;
+import com.wangyeming.custom.adapter.MyFragmentPagerAdapter;
 
-public class MainActivity extends Activity implements
-        PhoneFragment.OnFragmentInteractionListener, MessageFragment.OnFragmentInteractionListener,
-        ContactFragment.OnFragmentInteractionListener, TabHost.OnTabChangeListener {
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Main Activity
+ * 滑动的tabs设计，分别为通讯记录，联系人，短信
+ *
+ * @author 王小明
+ * @data 2015/01/05
+ */
+public class MainActivity extends FragmentActivity implements PhoneFragment.OnFragmentInteractionListener,
+    ContactFragment.OnFragmentInteractionListener, MessageFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "FragmentTabs";
     public static final String TAB_PHONES = "phones";
@@ -25,14 +35,17 @@ public class MainActivity extends Activity implements
 
     private TabHost mTabHost;
     private int mCurrentTab;
+    private ViewPager viewPager;  //对应的viewPager
+    private Fragment fragment1, fragment2, fragment3;
+    private List<android.support.v4.app.Fragment> fragmentList;  //fragment数组
+    private List<String> titleList;  //标题列表数组
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mTabHost = (TabHost) findViewById(android.R.id.tabhost);
-        setupTabs();
-        mTabHost.setOnTabChangedListener(this);
+        getActionBar().hide();
+        initViewPager();
         /*
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -41,7 +54,6 @@ public class MainActivity extends Activity implements
         }
         */
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -65,45 +77,27 @@ public class MainActivity extends Activity implements
         return super.onOptionsItemSelected(item);
     }
 
+    //加载viewPager
+    public void initViewPager() {
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        LayoutInflater inflater=getLayoutInflater();
+        fragmentList = new ArrayList<>();// 将要分页显示的View装入数组中
+        fragmentList.add(new PhoneFragment());
+        fragmentList.add(new ContactFragment());
+        fragmentList.add(new MessageFragment());
+        titleList = new ArrayList<String>();// 每个页面的Title数据
+        titleList.add("拨号");
+        titleList.add("联系人");
+        titleList.add("信息");
+        MyFragmentPagerAdapter myPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, titleList);
+        viewPager.setAdapter(myPagerAdapter);
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabStrip);
+        tabStrip.setViewPager(viewPager);
+    }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-    }
-
-    private void setupTabs() {
-        mTabHost.setup();
-        mTabHost.addTab(mTabHost.newTabSpec("电话").setIndicator("电话").setContent(R.id.phoneFragment));
-        mTabHost.addTab(mTabHost.newTabSpec("联系人").setIndicator("联系人").setContent(R.id.contactFragment));
-        mTabHost.addTab(mTabHost.newTabSpec("短信").setIndicator("短信").setContent(R.id.messageFragment));
-    }
-
-    @Override
-    public void onTabChanged(String tabId) {
-        Log.d(TAG, "onTabChanged(): tabId=" + tabId);
-        if (TAB_PHONES.equals(tabId)) {
-            updateTab(tabId, R.id.phoneFragment);
-            mCurrentTab = 0;
-            return;
-        }
-        if (TAB_CONTACTS.equals(tabId)) {
-            updateTab(tabId, R.id.contactFragment);
-            mCurrentTab = 1;
-            return;
-        }
-        if (TAB_MESSAGES.equals(tabId)) {
-            updateTab(tabId, R.id.messageFragment);
-            mCurrentTab = 2;
-            return;
-        }
-    }
-
-    private void updateTab(String tabId, int placeholder) {
-        FragmentManager fm = getFragmentManager();
-        if (fm.findFragmentByTag(tabId) == null) {
-            fm.beginTransaction()
-                    .replace(placeholder, new Fragment(), tabId)
-                    .commit();
-        }
     }
 
     /**
