@@ -57,7 +57,7 @@
                 android:id="@+id/addNewContact"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/new_contact"
+                android:background="@drawable/ic_add_box_black"
                 android:layout_gravity="center_horizontal|center_vertical"/>
 
             <TextView

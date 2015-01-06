@@ -183,13 +183,13 @@ public class ContactDetailActivity extends Activity {
             String[] phoneNumberTypeArray = getResources().getStringArray(R.array.phone_type);
             String phoneNumberType = phoneNumberTypeArray[phoneNumberTypeId];
             //System.out.println("手机号： " + phoneNumber + " phoneNumberTypeId " + phoneNumberTypeId +" 手机号类型： " + phoneNumberType + " ");
-            phoneNumMap.put("phone_png", R.drawable.type_icon_phone);
+            phoneNumMap.put("phone_png", R.drawable.ic_local_phone_black);
             phoneNumMap.put("phone_num", phoneNumber);
             phoneNumMap.put("phone_type_id", phoneNumberTypeId);
             phoneNumMap.put("phone_type", phoneNumberType);
             phoneNumMap.put("phone_location", "北京");
             phoneNumMap.put("phone_label", phoneNumberLabel);
-            phoneNumMap.put("message_png", R.drawable.ic_send_sms_p);
+            phoneNumMap.put("message_png", R.drawable.ic_message_black);
             contactDisplay.add(phoneNumMap);
         }
         phoneID.close();
