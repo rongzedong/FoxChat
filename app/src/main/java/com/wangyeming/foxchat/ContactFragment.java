@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -189,6 +190,15 @@ public class ContactFragment extends Fragment {
     public void init() {
         currentActivity = getActivity();
         currentView = getView();
+        Button button = (Button) currentView.findViewById(R.id.addNewContact);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                newContact();
+            }
+        });
         cr = currentActivity.getContentResolver();
         getPhoneContacts();
         displayListView(namesList);
@@ -452,7 +462,7 @@ public class ContactFragment extends Fragment {
     }
 
     //新建联系人
-    public void newContact(View view) {
+    public void newContact() {
         Intent intent = new Intent(currentActivity, NewContactActivity.class);
         startActivity(intent);
     }

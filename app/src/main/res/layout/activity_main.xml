@@ -8,6 +8,13 @@
     tools:context="com.wangyeming.foxchat.MainActivity"
     tools:ignore="MergeRootFrame">
 
+    <android.support.v7.widget.Toolbar
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#44c2e8" />
+
     <TabWidget
         android:id="@android:id/tabs"
         android:layout_width="match_parent"
@@ -18,9 +25,14 @@
         android:layout_width="match_parent"
         android:layout_height="48dip"
         android:layout_gravity="top"
-        app:pstsIndicatorColor="#FF99FF"
+        app:pstsIndicatorColor="#CDDC39"
         app:pstsShouldExpand="true"
-        app:pstsUnderlineColor="#990033" />
+        app:pstsUnderlineColor="#8BC34A"
+        app:pstsDividerColor="#C5E1A5"
+        android:background="#8BC34A"
+        android:textColor="#F06292"
+        android:textSize="16sp"/>
+        <!--app:pstsTabBackground="@drawable/divider"/-->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

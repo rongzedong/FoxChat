@@ -3,8 +3,8 @@ package com.wangyeming.foxchat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +25,7 @@ import java.util.List;
  * @author 王小明
  * @data 2015/01/05
  */
-public class MainActivity extends FragmentActivity implements PhoneFragment.OnFragmentInteractionListener,
+public class MainActivity extends ActionBarActivity implements PhoneFragment.OnFragmentInteractionListener,
     ContactFragment.OnFragmentInteractionListener, MessageFragment.OnFragmentInteractionListener{
 
     private static final String TAG = "FragmentTabs";
@@ -44,7 +44,7 @@ public class MainActivity extends FragmentActivity implements PhoneFragment.OnFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getActionBar().hide();
+        //getActionBar().hide();
         initViewPager();
         /*
         if (savedInstanceState == null) {
