@@ -47,4 +47,10 @@
     <string name="TYPE_WORK_PAGER">工作寻呼机</string>
     <string name="TYPE_ASSISTANT">助手</string>
     <string name="TYPE_MMS">彩信</string>
+    <!--sms list item-->
+    <string name="draft">[草稿]</string>
+    <string name="smsSendName">10010</string>
+    <string name="number">(56)</string>
+    <string name="smsContent">你好，我要给你涨工资！</string>
+    <string name="date">2015/01/01</string>
 </resources>

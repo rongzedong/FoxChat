@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp">
+
+        <TextView
+            android:id="@+id/draft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/draft"
+            android:textColor="#F44336"
+            android:textSize="20sp"
+            android:layout_marginRight="5dp"/>
+
+        <TextView
+            android:id="@+id/sendName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/smsSendName"
+            android:textColor="#000000"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:id="@+id/number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/number"
+            android:textColor="#000000"
+            android:textSize="16dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="15dp">
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_weight="3"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:text="@string/smsContent"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_weight="1"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="@string/date" />
+
+    </LinearLayout>
+</LinearLayout>

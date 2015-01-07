@@ -6,11 +6,14 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.wangyeming.custom.adapter.SmsListRecyclerAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -43,7 +46,7 @@ public class MessageFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private SmsListRecyclerAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     // 当前activity
     private Activity currentActivity;
@@ -164,6 +167,7 @@ public class MessageFragment extends Fragment {
         currentView = getView(); //获取当前view
         cr = currentActivity.getContentResolver(); //获取contact resolver
         getSmsInPhone();
+        setRecyclerView();
     }
 
     //获取手机里所有短信
@@ -197,9 +201,9 @@ public class MessageFragment extends Fragment {
         for (String key : threadIdMap.keySet()) {
             Log.d(this.getTag(), "thread_id " + key + " value " + threadIdMap.get(key));
             //指定thread_id提取短信，默认按照日期排序
-            cursor = cr.query(allURI, SMS_PROJECTION, "thread_id=?", new String[]{key}, "date");
-            cursor.moveToLast();
-            Map<String, Object> smsMap = new HashMap<String, Object>();
+            cursor = cr.query(allURI, SMS_PROJECTION, "thread_id=?", new String[]{key}, null);
+            Map<String, Object> smsMap = new HashMap<>();
+            cursor.moveToFirst();
             int id = cursor.getInt(cursor.getColumnIndex("_id"));
             String thread_id = cursor.getString(cursor.getColumnIndex("thread_id"));
             String address = cursor.getString(cursor.getColumnIndex("address"));
@@ -226,13 +230,23 @@ public class MessageFragment extends Fragment {
             Boolean isDraft = type == 3 ? true : false;
             smsMap.put("date", LgTime);
             smsMap.put("number", threadIdMap.get(key));
-            smsMap.put("contact", address);
             smsMap.put("content", body_header);
             smsMap.put("isDraft", isDraft);
-            Log.d(this.getTag(), "date "+ LgTime + " number" + threadIdMap.get(key)
-                +  " contact " + address + " content " + body_header + " isDraft "+ isDraft);
-            smsDisplay.add(smsMap);
+            Log.d(this.getTag(), "date " + LgTime + " number" + threadIdMap.get(key)
+                    + " contact " + address + " content " + body_header + " isDraft " + isDraft);
+            if (address != null) {
+                smsMap.put("contact", address);
+            } else {
+                while(cursor.moveToNext()) {
+                    address = cursor.getString(cursor.getColumnIndex("address"));
+                    if (address != null) {
+                        smsMap.put("contact", address);
+                        break;
+                    }
+                }
+            }
             cursor.close();
+            smsDisplay.add(smsMap);
         }
     }
 
@@ -285,6 +299,15 @@ public class MessageFragment extends Fragment {
             Log.d(this.getTag(), "service_center  " + service_center);
 
         }
+    }
+
+    public void setRecyclerView() {
+        mRecyclerView = (RecyclerView) currentView.findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(currentActivity);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new SmsListRecyclerAdapter(currentActivity, smsDisplay);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 }

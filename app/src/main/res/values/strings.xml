@@ -52,5 +52,11 @@
     <string name="TYPE_MMS">MMS</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!--sms list item-->
+    <string name="draft">[Draft]</string>
+    <string name="smsSendName">10010</string>
+    <string name="number">(56)</string>
+    <string name="smsContent">Hello, do you love me?</string>
+    <string name="date">2015/01/01</string>
 
 </resources>
