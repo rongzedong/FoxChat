@@ -2,10 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wangyeming.foxchat" >
 
+    <!--权限-->
+    <!--读取联系人-->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <!--修改联系人-->
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <!--联网-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--访问网络状态-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!--读取短信-->
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <!--接收短信-->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <!--发送短信-->
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <!--允许编写短信短信-->
+    <uses-permission android:name="android.permission.WRITE_SMS" />
 
     <application
         android:allowBackup="true"
