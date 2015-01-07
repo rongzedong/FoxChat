@@ -250,6 +250,8 @@ public class ContactFragment extends Fragment {
                 namesList2.add(ContactName); // 保存联系人姓名
                 int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
                 Long ContactId = cursorID.getLong(index);//获取联系人对应的ID号
+                Long rawContactId = cursorID.getLong(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
+                Log.d(this.getTag(), ContactName + " " + rawContactId);
                 contactIdList.add(ContactId); //保存联系人ContactId
                 contactIdList2.add(ContactId);
                 contactIdFilterList.add(ContactId);

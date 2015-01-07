@@ -174,7 +174,7 @@ public class ContactDetailActivity extends Activity {
                 PHONES_PROJECTION[6] + "=" + rawContactId, null, null);//设置手机号光标
         while (phoneID.moveToNext()) {
             // Map<String, Object> PhoneNumMap = new HashMap<String, Object>();
-            Map<String, Object> phoneNumMap = new HashMap<String, Object>();
+            Map<String, Object> phoneNumMap = new HashMap<>();
             String phoneNumber = phoneID.getString(phoneID.getColumnIndex(PHONES_PROJECTION[1]));
             int phoneNumberTypeId = phoneID.getInt(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             String phoneNumberLabel = phoneID.getString(phoneID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));

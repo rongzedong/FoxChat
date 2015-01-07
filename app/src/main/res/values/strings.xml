@@ -58,5 +58,6 @@
     <string name="number">(56)</string>
     <string name="smsContent">Hello, do you love me?</string>
     <string name="date">2015/01/01</string>
+    <string name="new_message">New Message</string>
 
 </resources>

@@ -33,7 +33,8 @@
             android:layout_height="wrap_content"
             android:text="@string/number"
             android:textColor="#000000"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            android:paddingLeft="3dp"/>
     </LinearLayout>
 
     <LinearLayout
