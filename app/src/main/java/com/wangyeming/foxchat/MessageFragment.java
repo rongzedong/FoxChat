@@ -241,6 +241,7 @@ public class MessageFragment extends Fragment {
 
     //获取短信列表所需信息
     public void getSmsMes() {
+        List<String> failList = new ArrayList<>();
         List<String> threadIdPos = new ArrayList<>();
         Uri allURI = Uri.parse(SMS_URI_ALL);
         //按照对话提取短信
@@ -252,6 +253,10 @@ public class MessageFragment extends Fragment {
             Long date = cursor.getLong(cursor.getColumnIndex("date"));
             int type = cursor.getInt(cursor.getColumnIndex("type"));
             String body = cursor.getString(cursor.getColumnIndex("body"));
+            Log.d(this.getTag(),"type " + type + " body " + body);
+            if(type == 5) {
+                failList.add(thread_id);
+            }
             //判断是否存在已扫描的对话中
             if(threadIdMap.containsKey(thread_id) ){
                 threadIdMap.put(thread_id, threadIdMap.get(thread_id) + 1);
@@ -287,8 +292,8 @@ public class MessageFragment extends Fragment {
         }
         cursor.close();
         for(int i=0;i<threadIdPos.size();i++) {
-            Log.d(this.getTag(), "thread_id: " + threadIdPos.get(i) + " num " + threadIdMap.get(threadIdPos.get(i)));
             smsDisplay.get(i).put("number",threadIdMap.get(threadIdPos.get(i)) );
+            smsDisplay.get(i).put("hasFail", failList.contains(threadIdPos.get(i)) ? 1 : 0 );
         }
     }
 

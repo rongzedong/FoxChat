@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -75,6 +76,11 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    //toolBar
+    public void setToolBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
     //加载viewPager

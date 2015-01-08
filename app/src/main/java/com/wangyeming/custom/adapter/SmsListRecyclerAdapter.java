@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.wangyeming.foxchat.R;
@@ -27,6 +28,7 @@ public class SmsListRecyclerAdapter extends RecyclerView.Adapter<SmsListRecycler
         public TextView numberTextView;
         public TextView contentTextView;
         public TextView dateTextView;
+        public Button sendFailAlert;
         public ViewHolder(View v) {
             super(v);
         }
@@ -47,6 +49,7 @@ public class SmsListRecyclerAdapter extends RecyclerView.Adapter<SmsListRecycler
         vh.numberTextView = (TextView) view.findViewById(R.id.number);
         vh.contentTextView = (TextView) view.findViewById(R.id.content);
         vh.dateTextView = (TextView) view.findViewById(R.id.date);
+        vh.sendFailAlert = (Button) view.findViewById(R.id.send_fail_alert);
         return vh;
     }
 
@@ -58,6 +61,11 @@ public class SmsListRecyclerAdapter extends RecyclerView.Adapter<SmsListRecycler
         vh.numberTextView.setText("(" + (Integer) smsDisplay.get(i).get("number") + ")");
         vh.contentTextView.setText((String) smsDisplay.get(i).get("content"));
         vh.dateTextView.setText((String) smsDisplay.get(i).get("date"));
+        if( (int) smsDisplay.get(i).get("hasFail") == 1) {
+            vh.sendFailAlert.setVisibility(View.VISIBLE);
+        } else {
+            vh.sendFailAlert.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

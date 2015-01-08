@@ -13,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#44c2e8" />
+        android:background="#1E88E5" />
 
     <TabWidget
         android:id="@android:id/tabs"
@@ -25,12 +25,12 @@
         android:layout_width="match_parent"
         android:layout_height="48dip"
         android:layout_gravity="top"
-        app:pstsIndicatorColor="#CDDC39"
+        app:pstsIndicatorColor="#FFFFFF"
         app:pstsShouldExpand="true"
         app:pstsUnderlineColor="#8BC34A"
         app:pstsDividerColor="#C5E1A5"
-        android:background="#8BC34A"
-        android:textColor="#F06292"
+        android:background="#2196F3"
+        android:textColor="#FFFFFF"
         android:textSize="16sp"/>
         <!--app:pstsTabBackground="@drawable/divider"/-->
 
