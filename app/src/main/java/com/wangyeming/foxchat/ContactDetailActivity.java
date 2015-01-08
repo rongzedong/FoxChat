@@ -40,8 +40,8 @@ public class ContactDetailActivity extends Activity {
     protected ListView lt2;
     protected TextView tv1;
     protected String contactName;
-    protected Long contactId;
-    protected Long rawContactId;
+    protected int contactId;
+    protected int rawContactId;
     protected Uri photoUri;
     protected ContentResolver cr;
     protected Button starButton;
@@ -120,7 +120,7 @@ public class ContactDetailActivity extends Activity {
     //读取联系人信息
     public void getContactMessage() {
         Intent intent = getIntent();
-        contactId = intent.getLongExtra("ContactId", 1);
+        contactId = intent.getIntExtra("ContactId", 1);
         getRawContactId(contactId);
         readContactName(rawContactId);
         readContactBim(rawContactId);
@@ -128,15 +128,15 @@ public class ContactDetailActivity extends Activity {
     }
 
     //获取联系人rawContactId
-    public void getRawContactId(Long contactId) {
+    public void getRawContactId(int contactId) {
         Cursor cursorID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[4] + "=" + contactId, null, "sort_key");
         cursorID.moveToFirst();
-        rawContactId = cursorID.getLong(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
+        rawContactId = cursorID.getInt(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
         cursorID.close();
     }
 
     //读取联系人姓名
-    public void readContactName(Long rawContactId) {
+    public void readContactName(int rawContactId) {
         Cursor cursorID = getContentResolver().query(CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[6] + "=" + rawContactId, null, "sort_key");
         cursorID.moveToNext();
         // contactName = cursorID.getString(cursorID.getColumnIndex(PHONES_PROJECTION[0]));
@@ -145,7 +145,7 @@ public class ContactDetailActivity extends Activity {
     }
 
     //读取联系人头像
-    public void readContactBim(Long rawContactId) {
+    public void readContactBim(int rawContactId) {
         Cursor cursorID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PHONES_PROJECTION, PHONES_PROJECTION[6] + "=" + rawContactId, null, "sort_key");
         cursorID.moveToFirst();
         int starred = cursorID.getInt(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.STARRED));
@@ -168,7 +168,7 @@ public class ContactDetailActivity extends Activity {
     }
 
     //读取联系人手机号
-    public void readContactPhoneNum(Long rawContactId) {
+    public void readContactPhoneNum(int rawContactId) {
         ContentResolver cr = getContentResolver();//得到ContentResolver对象
         Cursor phoneID = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
                 PHONES_PROJECTION[6] + "=" + rawContactId, null, null);//设置手机号光标

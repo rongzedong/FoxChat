@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,52 +7,59 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.wangyeming.foxchat.EditContactDetailActivity">
+    tools:context="com.wangyeming.foxchat.NewContactActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.wangyeming.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/newcontact_profile_image"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/contacts"
-            app:border_color="#FF000000"
-            app:border_width="2dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/newcontact_name"
+            <com.wangyeming.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/new_contact_profile_image"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:src="@drawable/contacts"
+                app:border_color="#FF000000"
+                app:border_width="2dp" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="姓名" />
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/newcontact_company"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="公司" />
+                <EditText
+                    android:id="@+id/new_contact_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="姓名" />
 
-            <EditText
-                android:id="@+id/newcontact_career"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="职业" />
+                <EditText
+                    android:id="@+id/new_contact_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="公司" />
+
+                <EditText
+                    android:id="@+id/new_contact_career"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="职业" />
+            </LinearLayout>
         </LinearLayout>
+
+
+        <ListView
+            android:id="@+id/list_new_contact_phone"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="8" />
+
     </LinearLayout>
 
-
-    <ListView
-        android:id="@+id/list4"
-        android:layout_width="fill_parent"
-        android:layout_height="0dip"
-        android:layout_weight="8" />
-
-</LinearLayout>
+</ScrollView>
 

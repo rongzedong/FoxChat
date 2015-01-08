@@ -6,8 +6,12 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 /**
- * Created by Wang on 2014/12/1.
+ * 固定listView高度
+ *
+ * @author 王小明
+ * @data 2014/12/01
  */
+
 public class Utility{
 
     protected ListView listView;

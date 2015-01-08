@@ -1,11 +1,16 @@
 package com.wangyeming.foxchat;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.ContactsContract;
+import android.provider.Telephony;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -81,6 +86,11 @@ public class MessageFragment extends Fragment {
              //"creator",    //    （报错）发送短信的app的包名
             "error_code",    //15  错误代码
             "seen",          //16  用户是否阅读过短信？决定是否显示通知
+    };
+
+    private static final String[] SMS_CONVERSATIONS_PROJECTION = new String[]{
+            "msg_count",     //对话中message的数目
+            "snippet",       //message前45个字符
     };
 
     /**
@@ -175,63 +185,55 @@ public class MessageFragment extends Fragment {
         setRecyclerView();
     }
 
+    //设置Recycller
+    public void setRecyclerView() {
+        mRecyclerView = (RecyclerView) currentView.findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(currentActivity);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new SmsListRecyclerAdapter(currentActivity, smsDisplay);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
     //获取手机里所有短信
     public void getSmsInPhone() {
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                getAllSms();
+                Message message = Message.obtain();
+                message.obj = "ok";
+                MessageFragment.this.handler1.sendMessage(message);
+            }
+        }).start();
         //获取所有短信
-        getAllSms();
+        //getAllSms();
         //获取已发送短信
         //getSentSms();
         //获取收件箱短信
         //getInboxSms();
         //获取草稿箱短信
         //getDraftSms();
-        //getTextSms();
     }
 
-    //获取所有短信
-    public void getTextSms() {
-        Uri allURI = Uri.parse(SMS_URI_ALL);
-        Cursor cursor = cr.query(allURI, SMS_PROJECTION, "thread_id=?", new String[]{"40"} , null);
-        while(cursor.moveToNext()) {
-            int id = cursor.getInt(cursor.getColumnIndex("_id"));
-            String thread_id = cursor.getString(cursor.getColumnIndex("thread_id"));
-            String address = cursor.getString(cursor.getColumnIndex("address"));
-            int person = cursor.getInt(cursor.getColumnIndex("person"));
-            Long date = cursor.getLong(cursor.getColumnIndex("date"));
-            int protocol = cursor.getInt(cursor.getColumnIndex("protocol"));
-            int read = cursor.getInt(cursor.getColumnIndex("read"));
-            int status = cursor.getInt(cursor.getColumnIndex("status"));
-            int type = cursor.getInt(cursor.getColumnIndex("type"));
-            Boolean reply_path_present = cursor.getInt(cursor.getColumnIndex("reply_path_present")) > 0;
-            String subject = cursor.getString(cursor.getColumnIndex("subject"));
-            String body = cursor.getString(cursor.getColumnIndex("body"));
-            String service_center = cursor.getString(cursor.getColumnIndex("service_center"));
-            int locked = cursor.getInt(cursor.getColumnIndex("locked"));
-            //String creator = cursor.getString(cursor.getColumnIndex("creator"));
-            Long date_sent = cursor.getLong(cursor.getColumnIndex("date_sent"));
-            int error_code = cursor.getInt(cursor.getColumnIndex("error_code"));
-            Boolean seen = cursor.getInt(cursor.getColumnIndex("seen")) > 0;
-            String name = "";
-            if(address == null) {
-                Cursor cursorNew = cr.query(Uri.parse("content://mms-sms/canonical-address/" + thread_id)
-                        , new String[]{"address"}, null, null, null);
-                if (cursorNew.moveToFirst()) {
-                    Log.d(this.getTag(), "333333333333");
-                    address = cursorNew.getString(cursorNew.getColumnIndex("address"));
-                    name = addressToName(address);
-                }
-            } else {
-                name = person == 0 ? address: idToName(person, address);
-            }
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            Log.d(MessageFragment.this.getTag(), "--------------------------");
+            mAdapter.notifyDataSetChanged();
+        }
+    };
 
-            Log.d(this.getTag(), "id " + id + " thread_id " + thread_id + " address " + address
-                            + " person " + person + " date " + date + " protocol " + protocol
-                            + " read " + read + " status " + status + " type " + type
-                            + " reply_path_present " + reply_path_present + " subject "
-                            + subject + " body " + body + " service_center " + service_center
-                            + " locked " + locked
-            );
-            Log.d(this.getTag(), "name " + name);
+    //获取短信信息
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    public void getConversationsSms() {
+        Cursor cursor = cr.query(Telephony.Sms.Conversations.CONTENT_URI,
+                SMS_CONVERSATIONS_PROJECTION, null, null, Telephony.Sms.Conversations.DEFAULT_SORT_ORDER);
+        while(cursor.moveToNext()) {
+            int msg_count = cursor.getInt(cursor.getColumnIndex("msg_count"));
+            String snippet = cursor.getString(cursor.getColumnIndex("snippet"));
+            Log.d(this.getTag()," msg_count " + msg_count + " snippet " + snippet);
         }
 
         cursor.close();
@@ -253,10 +255,10 @@ public class MessageFragment extends Fragment {
             }
         }
         cursor.close();
-        Log.d(this.getTag(), "size " + threadIdMap.keySet().size());
+        //Log.d(this.getTag(), "size " + threadIdMap.keySet().size());
         for (String key : threadIdMap.keySet()) {
             String name = "";
-            Log.d(this.getTag(), "thread_id " + key + " value " + threadIdMap.get(key));
+            //Log.d(this.getTag(), "thread_id " + key + " value " + threadIdMap.get(key));
             //指定thread_id提取短信，默认按照日期排序
             cursor = cr.query(allURI, SMS_PROJECTION, "thread_id=?", new String[]{key}, null);
             Map<String, Object> smsMap = new HashMap<>();
@@ -276,7 +278,6 @@ public class MessageFragment extends Fragment {
             String body = cursor.getString(cursor.getColumnIndex("body"));
             String service_center = cursor.getString(cursor.getColumnIndex("service_center"));
             int locked = cursor.getInt(cursor.getColumnIndex("locked"));
-            //String creator = cursor.getString(cursor.getColumnIndex("creator"));
             Long date_sent = cursor.getLong(cursor.getColumnIndex("date_sent"));
             int error_code = cursor.getInt(cursor.getColumnIndex("error_code"));
             Boolean seen = cursor.getInt(cursor.getColumnIndex("seen")) > 0;
@@ -292,34 +293,20 @@ public class MessageFragment extends Fragment {
             if (address != null) {
                 name = person == 0 ? addressToName(address): idToName(person, address);
                 smsMap.put("contact", name);
-                Log.d(this.getTag(), "11111111111111");
             } else {
-                //address为null，来自draft，搜寻对话中其他的address
-                while(cursor.moveToNext()) {
-                    address = cursor.getString(cursor.getColumnIndex("address"));
-                    if (address != null) {
-                        Log.d(this.getTag(), "222222222222");
-                        name = person == 0 ? addressToName(address): idToName(person, address);
-                        smsMap.put("contact", name);
-                        break;
-                    }
+                //address==null,表示来自草稿
+                Cursor cursorNew = cr.query(Uri.parse("content://mms-sms/canonical-address/" + thread_id)
+                        , new String[]{"address"}, null, null, null);
+                if(cursorNew.moveToFirst()) {
+                    address = cursorNew.getString(cursorNew.getColumnIndex("address"));
+                    name = addressToName(address);
+                    smsMap.put("contact", name);
                 }
-                //address仍为空，表示整个对话只存在draft
-                if(address == null) {
-                    Cursor cursorNew = cr.query(Uri.parse("content://mms-sms/canonical-address/" + thread_id)
-                            , new String[]{"address"}, null, null, null);
-                    if(cursorNew.moveToFirst()) {
-                        Log.d(this.getTag(), "333333333333");
-                        address = cursorNew.getString(cursorNew.getColumnIndex("address"));
-                        name = addressToName(address);
-                        smsMap.put("contact", name);
-                    }
-                    cursorNew.close();
-                }
+                cursorNew.close();
             }
-            Log.d(this.getTag(), "date " + LgTime + " number" + threadIdMap.get(key)
-                    + " contact " + name + " content " + body_header + " isDraft " + isDraft);
-            Log.d(this.getTag(), "------------------");
+            //Log.d(this.getTag(), "date " + LgTime + " number" + threadIdMap.get(key)
+            //        + " contact " + name + " content " + body_header + " isDraft " + isDraft);
+            /*
             Log.d(this.getTag(), "id " + id + " thread_id " + thread_id + " address " + address
                             + " person " + person + " date " + date + " protocol " + protocol
                             + " read " + read + " status " + status + " type " + type
@@ -327,6 +314,7 @@ public class MessageFragment extends Fragment {
                             + subject + " body " + body + " service_center " + service_center
                             + " locked " + locked
             );
+            */
             cursor.close();
             smsDisplay.add(smsMap);
         }
@@ -373,16 +361,6 @@ public class MessageFragment extends Fragment {
         }
     }
 
-    //设置Recycller
-    public void setRecyclerView() {
-        mRecyclerView = (RecyclerView) currentView.findViewById(R.id.my_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(currentActivity);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new SmsListRecyclerAdapter(currentActivity, smsDisplay);
-        mRecyclerView.setAdapter(mAdapter);
-    }
-
     //id转通讯录姓名
     public String idToName(int person, String address) {
         Cursor cursor = cr.query(ContactsContract.RawContacts.CONTENT_URI, new String[]{"display_name"},
@@ -399,9 +377,9 @@ public class MessageFragment extends Fragment {
 
     //address转通讯录姓名
     public String addressToName(String address) {
-        Log.d(this.getTag(), "address1 " + address);
+        //Log.d(this.getTag(), "address1 " + address);
         address = address.replaceAll(" ", "");//去除电话号码的空格
-        Log.d(this.getTag(), "address2 " + address);
+        //Log.d(this.getTag(), "address2 " + address);
         Cursor cursor = cr.query(CONTENT_URI, new String[]{"display_name"},
                 ContactsContract.CommonDataKinds.Phone.NUMBER + "=?" , new String[]{address},null,null );
         String name = "";

@@ -42,8 +42,8 @@ import java.util.Map;
 
 public class EditContactDetailActivity extends Activity {
 
-    protected Long contactId;  //联系人的contactId
-    protected Long rawContactId;  //联系人的rawContactId
+    protected int contactId;  //联系人的contactId
+    protected int rawContactId;  //联系人的rawContactId
     protected Uri photoUri;  //联系人头像的uri
     protected String contactName;  //联系人姓名
     public static ListView lt3;  //联系人电话列表listView
@@ -152,8 +152,8 @@ public class EditContactDetailActivity extends Activity {
     //读取联系人信息
     public void getContactMessage() {
         Intent intent = getIntent();
-        contactId = intent.getLongExtra("ContactId", 1);
-        rawContactId = intent.getLongExtra("RawContactId", 1);
+        contactId = intent.getIntExtra("ContactId", 1);
+        rawContactId = intent.getIntExtra("RawContactId", 1);
         hasImage = intent.getBooleanExtra("hasImage", true);
         photoUri = intent.getData();
         contactDisplay = (List<Map<String, Object>>) intent.getSerializableExtra("ContactDisplay");
@@ -185,13 +185,13 @@ public class EditContactDetailActivity extends Activity {
         editText.setText(contactName);
     }
 
-    //设置lisView布局
+    //设置电话号码的listView布局
     public void displayListView() {
         lt3 = (ListView) findViewById(R.id.list_contact_phone_edit);
         adapter = new EditContactPhoneNumAdapter(contactDisplay,
-                rawContactId, this, cr, this);
+                 this, cr, this, lt3);
         lt3.setAdapter(adapter);
-        Utility utility = new Utility(EditContactDetailActivity.lt3);
+        Utility utility = new Utility(this.lt3);
         utility.setListViewHeightBasedOnChildren();
     }
 
@@ -213,7 +213,7 @@ public class EditContactDetailActivity extends Activity {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //删除联系人
                         deleteContact();
-                        Intent intent = new Intent(EditContactDetailActivity.this, LineActivity.class);
+                        Intent intent = new Intent(EditContactDetailActivity.this, MainActivity.class);
                         startActivity(intent);
                         Toast.makeText(EditContactDetailActivity.this, "删除联系人成功！", Toast.LENGTH_SHORT).show();
                     }
@@ -276,11 +276,11 @@ public class EditContactDetailActivity extends Activity {
         }
         contactEdit.updateContactName(name);
         Toast.makeText(this, "保存修改成功", Toast.LENGTH_SHORT).show();
-        contactEdit.updateContactName(name);
     }
 
     //保存对手机号的修改
     public void saveContactPhoneNum() {
+        contactDisplay.remove(contactDisplay.size()-1);
         //1. 判断手机号是否有修改
         if (contactPhoneNumberStore.equals(contactDisplay)) {
             return;

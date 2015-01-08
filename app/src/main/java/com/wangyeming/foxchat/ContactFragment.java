@@ -73,11 +73,11 @@ public class ContactFragment extends Fragment {
     // 记录姓名分类名的位置
     private List<Integer> catalogList = new ArrayList<Integer>();
     //保存联系人ContactId的集合---包含分类名称
-    protected List<Long> contactIdList = new ArrayList<Long>();
+    protected List<Integer> contactIdList = new ArrayList<Integer>();
     //保存联系人ContactId的集合---不包含分类名称
-    protected List<Long> contactIdList2 = new ArrayList<Long>();
+    protected List<Integer> contactIdList2 = new ArrayList<Integer>();
     //保存搜索过滤后的联系人ContactId的集合
-    protected List<Long> contactIdFilterList = new ArrayList<Long>();
+    protected List<Integer> contactIdFilterList = new ArrayList<Integer>();
     //联系人数据操作
     protected ContentResolver cr;
     //联系人游标
@@ -98,7 +98,9 @@ public class ContactFragment extends Fragment {
             ContactsContract.CommonDataKinds.Photo.PHOTO_URI,//
             ContactsContract.CommonDataKinds.Phone.CONTACT_ID,  //contact_id
             ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY, //sort_key
-            ContactsContract.CommonDataKinds.Photo.RAW_CONTACT_ID
+            ContactsContract.CommonDataKinds.Photo.RAW_CONTACT_ID,
+            ContactsContract.RawContacts.ACCOUNT_NAME,
+            ContactsContract.RawContacts.ACCOUNT_TYPE
     };
 
     // TODO: Rename and change types and number of parameters
@@ -235,23 +237,25 @@ public class ContactFragment extends Fragment {
     public void readContact() {
         System.out.println("读取未收藏联系人。。。");
         namesList.add(getString(R.string.unstarred_contact)); // 其他联系人
-        contactIdList.add((long) 0);
+        contactIdList.add(0);
         cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[]{"0"}, "sort_key");// 设置联系人光标,按汉语拼音排序
-        String ContactName = "";//排除联系人重复
+        String contactName = "";//排除联系人重复
         while (cursorID.moveToNext()) {
             int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
             String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
-            if (contact.equals(ContactName)) {
-                ContactName = contact;
+            if (contact.equals(contactName)) {
+                contactName = contact;
                 continue;
             } else {
-                ContactName = contact;
-                namesList.add(ContactName); // 保存联系人姓名
-                namesList2.add(ContactName); // 保存联系人姓名
+                contactName = contact;
+                namesList.add(contactName); // 保存联系人姓名
+                namesList2.add(contactName); // 保存联系人姓名
                 int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
-                Long ContactId = cursorID.getLong(index);//获取联系人对应的ID号
-                Long rawContactId = cursorID.getLong(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
-                Log.d(this.getTag(), ContactName + " " + rawContactId);
+                int ContactId = cursorID.getInt(index);//获取联系人对应的ID号
+                int rawContactId = cursorID.getInt(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
+                String account_type = cursorID.getString(cursorID.getColumnIndex("account_type"));
+                String account_name = cursorID.getString(cursorID.getColumnIndex("account_name"));
+                Log.d(this.getTag(), contactName);
                 contactIdList.add(ContactId); //保存联系人ContactId
                 contactIdList2.add(ContactId);
                 contactIdFilterList.add(ContactId);
@@ -265,23 +269,24 @@ public class ContactFragment extends Fragment {
     public void readStarredContact() {
         catalogList.add(0);
         namesList.add(getString(R.string.starred_contact)); // 星标联系人
-        contactIdList.add((long) 0);
+        contactIdList.add(0);
         System.out.println("读取收藏了联系人。。。");
         cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[]{"1"}, "sort_key");// 设置星标联系人光标,按汉语拼音排序
-        String ContactName = "";//排除联系人重复
+        String contactName = "";//排除联系人重复
         while (cursorID.moveToNext()) {
             int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
             String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
-            if (contact.equals(ContactName)) {
-                ContactName = contact;
+            if (contact.equals(contactName)) {
+                contactName = contact;
                 continue;
             } else {
-                ContactName = contact;
-                namesList.add(ContactName); // 保存联系人姓名
-                namesList2.add(ContactName); // 保存联系人姓名
+                contactName = contact;
+                namesList.add(contactName); // 保存联系人姓名
+                namesList2.add(contactName); // 保存联系人姓名
                 int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
-                Long contactId = cursorID.getLong(index);//获取联系人对应的contactId号
-                Long rawContactId = cursorID.getLong(cursorID.getColumnIndex(PHONES_PROJECTION[6])); //获取联系人对应的rawContactId号
+                int contactId = cursorID.getInt(index);//获取联系人对应的contactId号
+                int rawContactId = cursorID.getInt(cursorID.getColumnIndex(PHONES_PROJECTION[6])); //获取联系人对应的rawContactId号
+                Log.d(this.getTag(), contactName);
                 contactIdList.add(contactId); //保存联系人ContactId
                 contactIdList2.add(contactId); //保存联系人ContactId
             }
@@ -356,11 +361,11 @@ public class ContactFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 System.out.println("position " + position + " id " + id);
-                List<Long> ContactIdTmp = isSearch ? contactIdFilterList : contactIdList;
+                List<Integer> ContactIdTmp = isSearch ? contactIdFilterList : contactIdList;
                 if (!isSearch && catalogList.contains((Integer) position)) {
                     return;
                 }
-                Long contactId = ContactIdTmp.get(position);
+                int contactId = ContactIdTmp.get(position);
                 System.out.println("ContactId " + contactId);
                 Intent intent = new Intent(currentActivity, ContactDetailActivity.class);
                 intent.putExtra("ContactId", contactId);
@@ -415,8 +420,8 @@ public class ContactFragment extends Fragment {
 
     //匹配输入文字
     public void matchContact(String input) {
-        namesFilterList = new ArrayList<String>();
-        contactIdFilterList = new ArrayList<Long>();
+        namesFilterList = new ArrayList<>();
+        contactIdFilterList = new ArrayList<Integer>();
         if (input.isEmpty()) {
             namesFilterList.addAll(namesList2);
             contactIdFilterList.addAll(contactIdList2);

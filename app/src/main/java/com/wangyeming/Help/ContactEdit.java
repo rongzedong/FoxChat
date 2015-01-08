@@ -7,19 +7,75 @@ import android.os.RemoteException;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
- * Created by Wang on 2014/12/5.
+ * 联系人编辑
+ * 包括：新增联系人、修改联系人信息（姓名，手机号，手机号类型），增加信息（手机号）
+ *
+ * @author 王小明
+ * @data 2015/01/08
  */
+
 public class ContactEdit {
-    protected Long contactId;
-    protected Long rawContactId;
+    protected int contactId;
+    protected int rawContactId;
     protected ContentResolver cr;
 
-    public ContactEdit(Long contactId, Long rawContactId, ContentResolver cr) {
+    public ContactEdit(int contactId, int rawContactId, ContentResolver cr) {
         this.contactId = contactId;
         this.rawContactId = rawContactId;
         this.cr = cr;
+    }
+
+    public ContactEdit(ContentResolver cr) {
+        this.cr = cr;
+    }
+
+    //新增联系人
+    public void addNewContact(Map<String, Object> newContact) throws RemoteException, OperationApplicationException {
+        //1. 提取联系人信息
+        String accountType = (String) newContact.get("accountType");  //账户类型
+        String accountName = (String) newContact.get("accountName");  //账户名称
+        String displayName = (String) newContact.get("displayName");  //显示名
+        List <Map <String, Object>> phoneList =
+                (List <Map <String, Object>>) newContact.get("phoneList");  //电话列表
+        //2.执行新建操作
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+        rawContactId = 0;
+        ops.add(ContentProviderOperation
+                .newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                .build());  //获取或创建账户
+        ops.add(ContentProviderOperation
+                .newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+                .withValue(
+                        ContactsContract.Data.MIMETYPE,
+                        ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName)
+                .build());  //增加displayName
+        //新增手机号
+        for(Map<String, Object> phone: phoneList) {
+            String number = (String) phone.get("phone_num");
+            int numberTypeId = (int) phone.get("phone_type_id");
+            String label = (String) phone.get("phone_label");
+            ops.add(ContentProviderOperation.
+                    newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
+                    .withValue(
+                            ContactsContract.Data.MIMETYPE,
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.TYPE,
+                            numberTypeId)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.LABEL, label)
+                    .build());
+        }
+        //TODO 其他信息
+        cr.applyBatch(ContactsContract.AUTHORITY, ops);
     }
 
     //修改联系人姓名
@@ -61,19 +117,6 @@ public class ContactEdit {
         } catch (OperationApplicationException e) {
             e.printStackTrace();
         }
-        /*
-        //传统的方式修改联系人姓名
-        values.put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName);
-        values.put(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME, familyName);
-        values.put(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName);
-        int count = getContentResolver()
-                .update(ContactsContract.Data.CONTENT_URI,
-                        values,
-                        ContactsContract.Data.CONTACT_ID + "=?" + "AND "
-                                + ContactsContract.Data.MIMETYPE + " = ?",
-                        new String[] { contactId + "",
-                                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE });
-                                */
     }
 
     //修改联系人手机号
@@ -133,13 +176,6 @@ public class ContactEdit {
     //增加联系人手机号
     public void addContactPhoneNum( String number, int numberTypeId, String label) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
-        /*
-        //获取新的rawContactId
-        ContentValues contentValues = new ContentValues();
-        Uri uri = cr.insert(ContactsContract.RawContacts.CONTENT_URI,
-                contentValues);
-        long rawContactId = ContentUris.parseId(uri);
-        */
         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValue(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)
                 .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)

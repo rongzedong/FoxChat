@@ -31,7 +31,6 @@
             android:theme="@style/MyMaterialTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -50,7 +49,8 @@
             android:theme="@android:style/Theme.Holo.Light.NoActionBar" />
         <activity
             android:name=".EditContactDetailActivity"
-            android:label="@string/title_activity_edit_contact_detail" />
+            android:label="@string/title_activity_edit_contact_detail"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".NewContactActivity"
             android:label="@string/title_activity_new_contact"
