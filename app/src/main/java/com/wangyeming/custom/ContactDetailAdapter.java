@@ -69,7 +69,7 @@ public class ContactDetailAdapter extends BaseAdapter {
         System.out.println("id "+data.get(position).get("phone_type_id")+" num "+data.get(position).get("phone_num")
         + " type "+data.get(position).get("phone_type"));
         String typeDisplay = "";
-        if (data.get(position).get("phone_type_id") == 0) {
+        if (data.get(position).get("phone_type_id") == 0 && data.get(position).get("phone_label") != null) {
             typeDisplay = (String) data.get(position).get("phone_label");
         } else {
             typeDisplay = (String) data.get(position).get("phone_type");

@@ -64,7 +64,7 @@ public class MessageFragment extends Fragment {
     private ContentResolver cr;
     //短信存储
     private List<Map<String, Object>> smsDisplay = new ArrayList<>();
-    //
+    //存储thread_id对应的短信数量
     private Map<String, Integer> threadIdMap = new HashMap<>();
 
     private static final String[] SMS_PROJECTION = new String[]{
@@ -201,7 +201,7 @@ public class MessageFragment extends Fragment {
 
             @Override
             public void run() {
-                getAllSms();
+                getSmsMes();
                 Message message = Message.obtain();
                 message.obj = "ok";
                 MessageFragment.this.handler1.sendMessage(message);
@@ -225,7 +225,7 @@ public class MessageFragment extends Fragment {
         }
     };
 
-    //获取短信信息
+    //获取对话短信信息
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void getConversationsSms() {
         Cursor cursor = cr.query(Telephony.Sms.Conversations.CONTENT_URI,
@@ -239,6 +239,58 @@ public class MessageFragment extends Fragment {
         cursor.close();
     }
 
+    //获取短信列表所需信息
+    public void getSmsMes() {
+        List<String> threadIdPos = new ArrayList<>();
+        Uri allURI = Uri.parse(SMS_URI_ALL);
+        //按照对话提取短信
+        Cursor cursor = cr.query(allURI, SMS_PROJECTION, null, null, "date DESC");
+        while (cursor.moveToNext()) {
+            String thread_id = cursor.getString(cursor.getColumnIndex("thread_id"));
+            String address = cursor.getString(cursor.getColumnIndex("address"));
+            int person = cursor.getInt(cursor.getColumnIndex("person"));
+            Long date = cursor.getLong(cursor.getColumnIndex("date"));
+            int type = cursor.getInt(cursor.getColumnIndex("type"));
+            String body = cursor.getString(cursor.getColumnIndex("body"));
+            //判断是否存在已扫描的对话中
+            if(threadIdMap.containsKey(thread_id) ){
+                threadIdMap.put(thread_id, threadIdMap.get(thread_id) + 1);
+            } else {
+                threadIdPos.add(thread_id);
+                threadIdMap.put(thread_id, 1);
+                //时间转换
+                SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
+                String LgTime = sdFormat.format(date);
+                String body_header = body.length() > 20 ? body.substring(0, 19) : body;
+                Boolean isDraft = type == 3 ? true : false;
+                Map<String, Object> smsMap = new HashMap<>();
+                smsMap.put("date", LgTime);
+                smsMap.put("content", body_header);
+                smsMap.put("isDraft", isDraft);
+                String name = "";
+                if (address != null) {
+                    name = person == 0 ? addressToName(address): idToName(person, address);
+                    smsMap.put("contact", name);
+                } else {
+                    //address==null,表示来自草稿
+                    Cursor cursorNew = cr.query(Uri.parse("content://mms-sms/canonical-address/" + thread_id)
+                            , new String[]{"address"}, null, null, null);
+                    if(cursorNew.moveToFirst()) {
+                        address = cursorNew.getString(cursorNew.getColumnIndex("address"));
+                        name = addressToName(address);
+                        smsMap.put("contact", name);
+                    }
+                    cursorNew.close();
+                }
+                smsDisplay.add(smsMap);
+            }
+        }
+        cursor.close();
+        for(int i=0;i<threadIdPos.size();i++) {
+            Log.d(this.getTag(), "thread_id: " + threadIdPos.get(i) + " num " + threadIdMap.get(threadIdPos.get(i)));
+            smsDisplay.get(i).put("number",threadIdMap.get(threadIdPos.get(i)) );
+        }
+    }
 
     //获取所有短信
     public void getAllSms() {
