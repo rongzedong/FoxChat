@@ -24,18 +24,11 @@
 
             <Button
                 android:id="@+id/addNewMes"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@drawable/ic_add_box_black"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_add_circle_outline_black"
                 android:layout_gravity="center_horizontal|center_vertical"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:text="@string/new_message"
-                android:textColor="#778899"
-                android:textSize="14sp"/>
         </LinearLayout>
 
     </LinearLayout>
