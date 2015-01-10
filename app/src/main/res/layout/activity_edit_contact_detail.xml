@@ -33,19 +33,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <EditText
+                <android.support.v7.internal.widget.TintEditText
                     android:id="@+id/edit_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="姓名" />
 
-                <EditText
+                <android.support.v7.internal.widget.TintEditText
                     android:id="@+id/edit_company"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="公司" />
 
-                <EditText
+                <android.support.v7.internal.widget.TintEditText
                     android:id="@+id/edit_career"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
