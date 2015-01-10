@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wangyeming.foxchat" >
+    package="com.wangyeming.foxchat">
 
-    <!--权限-->
-    <!--读取联系人-->
+    <!-- 权限 -->
+    <!-- 读取联系人 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <!--修改联系人-->
+    <!-- 修改联系人 -->
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
-    <!--联网-->
+    <!-- 联网 -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--访问网络状态-->
+    <!-- 访问网络状态 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!--读取短信-->
+    <!-- 读取短信 -->
     <uses-permission android:name="android.permission.READ_SMS" />
-    <!--接收短信-->
+    <!-- 接收短信 -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <!--发送短信-->
+    <!-- 发送短信 -->
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <!--允许编写短信短信-->
+    <!-- 允许编写短信短信 -->
     <uses-permission android:name="android.permission.WRITE_SMS" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ios8_contacts_icon"
         android:label="@string/app_name"
-        android:theme="@style/MyMaterialTheme" >
+        android:theme="@style/MyMaterialTheme">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/MyMaterialTheme" >
+            android:theme="@style/MyMaterialTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
+
         <activity
             android:name=".LineActivity"
-            android:label="@string/app_name" >
-
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme">
             !-- Points to searchable meta data. -->
             <meta-data
                 android:name="android.app.searchable"
@@ -54,7 +58,14 @@
         <activity
             android:name=".NewContactActivity"
             android:label="@string/title_activity_new_contact"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".MessageConversationActivity"
+            android:label="@string/title_activity_message_conversation"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wangyeming.foxchat.MainActivity" />
         </activity>
     </application>
 
