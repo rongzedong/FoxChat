@@ -1,5 +1,6 @@
 package com.wangyeming.foxchat;
 
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,11 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.wangyeming.custom.adapter.MyFragmentPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import it.neokree.materialtabs.MaterialTabHost;
 
 /**
  * Main Activity
@@ -40,26 +42,30 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
     private Fragment fragment1, fragment2, fragment3;
     private List<android.support.v4.app.Fragment> fragmentList;  //fragment数组
     private List<String> titleList;  //标题列表数组
+    private Toolbar toolbar;
+    private android.support.v7.widget.SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //getActionBar().hide();
-        initViewPager();
-        /*
-        if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
-                    .add(android.R.id.tabcontent, new PlaceholderFragment())
-                    .commit();
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+             setSupportActionBar(toolbar);
         }
-        */
+        getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏toolBar标题
+        initViewPager();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setIconifiedByDefault(false);//默认展开搜索框
+        searchView.setQueryHint("搜索联系人、短信");
+        //setSearchViewListener();
         return true;
     }
 
@@ -78,15 +84,10 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
         return super.onOptionsItemSelected(item);
     }
 
-    //toolBar
-    public void setToolBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-    }
-
     //加载viewPager
     public void initViewPager() {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        LayoutInflater inflater=getLayoutInflater();
+        LayoutInflater inflater = getLayoutInflater();
         fragmentList = new ArrayList<>();// 将要分页显示的View装入数组中
         fragmentList.add(new PhoneFragment());
         fragmentList.add(new ContactFragment());
@@ -97,8 +98,25 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
         titleList.add("信息");
         MyFragmentPagerAdapter myPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList, titleList);
         viewPager.setAdapter(myPagerAdapter);
-        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabStrip);
-        tabStrip.setViewPager(viewPager);
+        final MaterialTabHost tabHost = (MaterialTabHost) this.findViewById(R.id.materialTabHost);
+        //PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabStrip);
+        //tabStrip.setViewPager(viewPager);
+        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                // when user do a swipe the selected tab change
+                tabHost.setSelectedNavigationItem(position);
+            }
+        });
+
+        // insert all tabs from pagerAdapter data
+        for (int i = 0; i < myPagerAdapter.getCount(); i++) {
+            tabHost.addTab(
+                    tabHost.newTab()
+                            .setIcon(getIcon(i))
+                            //.setTabListener(this)
+            );
+        }
     }
 
     @Override
@@ -119,6 +137,19 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
+        }
+    }
+
+    public Drawable getIcon(int i) {
+        switch (i) {
+            case 0:
+                return getResources().getDrawable(R.drawable.ic_phone_missed_white);
+            case 1:
+                return getResources().getDrawable(R.drawable.ic_person_black);
+            case 2:
+                return getResources().getDrawable(R.drawable.ic_sms_white);
+            default:
+                return getResources().getDrawable(R.drawable.ic_phone_missed_white);
         }
     }
 }

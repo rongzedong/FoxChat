@@ -222,7 +222,6 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         builder.setTitle(R.string.phone_type);
         builder.setItems(R.array.phone_type, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                System.out.println(context.getResources().getStringArray(R.array.phone_type)[which]);
                 //如果是自定义，弹出提示框“请输入label”
                 if (which == 0) {
                     customAlert(button, position);

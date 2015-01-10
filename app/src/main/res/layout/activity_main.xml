@@ -8,18 +8,24 @@
     tools:context="com.wangyeming.foxchat.MainActivity"
     tools:ignore="MergeRootFrame">
 
-    <android.support.v7.widget.Toolbar
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#1E88E5" />
+    <include layout="@layout/toolbar" />
 
     <TabWidget
         android:id="@android:id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></TabWidget>
 
+    <!-- for icon tabs -->
+    <it.neokree.materialtabs.MaterialTabHost
+        android:id="@+id/materialTabHost"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:iconColor="#FFFFFF"
+        app:primaryColor="#2196F3"
+        app:accentColor="#C5E1A5"
+        app:hasIcons="true"/>
+
+    <!--
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/tabStrip"
         android:layout_width="match_parent"
@@ -32,7 +38,7 @@
         android:background="#2196F3"
         android:textColor="#FFFFFF"
         android:textSize="16sp"/>
-        <!--app:pstsTabBackground="@drawable/divider"/-->
+    -->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"

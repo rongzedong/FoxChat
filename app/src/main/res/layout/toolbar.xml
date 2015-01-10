@@ -5,7 +5,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#1E88E5"
+    android:background="#2196F3"
     app:popupTheme="@style/MyMaterialTheme"
     app:theme="@style/MyMaterialTheme">
 

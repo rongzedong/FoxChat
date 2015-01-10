@@ -2,11 +2,8 @@ package com.wangyeming.foxchat;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.OperationApplicationException;
 import android.net.Uri;
@@ -32,6 +29,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import me.drakeet.materialdialog.MaterialDialog;
 
 /**
  * 编辑联系人信息的Activity
@@ -161,7 +160,7 @@ public class EditContactDetailActivity extends Activity {
         // 储存电话号码信息用于清空和恢复
         for (Map<String, Object> phone : contactDisplay) {
             Map<String, Object> phone2 = new HashMap<>();
-            for(String key: phone.keySet()) {
+            for (String key : phone.keySet()) {
                 phone2.put(key, phone.get(key));
             }
             contactPhoneNumberStore.add(phone2);
@@ -189,7 +188,7 @@ public class EditContactDetailActivity extends Activity {
     public void displayListView() {
         lt3 = (ListView) findViewById(R.id.list_contact_phone_edit);
         adapter = new EditContactPhoneNumAdapter(contactDisplay,
-                 this, cr, this, lt3);
+                this, cr, this, lt3);
         lt3.setAdapter(adapter);
         Utility utility = new Utility(this.lt3);
         utility.setListViewHeightBasedOnChildren();
@@ -206,6 +205,27 @@ public class EditContactDetailActivity extends Activity {
 
     //删除联系人响应
     public void deleteContactWithAlert(View view) {
+        final MaterialDialog mMaterialDialog = new MaterialDialog(this);
+        mMaterialDialog.setTitle("确定删除该联系人？");
+        mMaterialDialog.setMessage("");
+        mMaterialDialog.setPositiveButton("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //删除联系人
+                deleteContact();
+                Intent intent = new Intent(EditContactDetailActivity.this, MainActivity.class);
+                startActivity(intent);
+                Toast.makeText(EditContactDetailActivity.this, "删除联系人成功！", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mMaterialDialog.setNegativeButton("取消", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMaterialDialog.dismiss();
+            }
+        });
+        mMaterialDialog.show();
+        /*
         Dialog alertDialog = new AlertDialog.Builder(this).setTitle("确定删除该联系人？").
                 setIcon(android.R.drawable.ic_dialog_info).
                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -224,24 +244,34 @@ public class EditContactDetailActivity extends Activity {
             }
         }).create();
         alertDialog.show();
+        */
     }
 
     //取消保存已编辑的信息
     public void cancelEdit() {
-        System.out.println("ContactDisplay " + contactDisplay.size()
-        );
+        final MaterialDialog mMaterialDialog = new MaterialDialog(this);
+        mMaterialDialog.setTitle("确定放弃保存已修改的信息？");
+        mMaterialDialog.setMessage("");
+        mMaterialDialog.setPositiveButton("确定", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditContactDetailActivity.this.finish();
+            }
+        });
+        mMaterialDialog.setNegativeButton("取消", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMaterialDialog.dismiss();
+            }
+        });
+        mMaterialDialog.show();
+        /*
         Dialog alertDialog = new AlertDialog.Builder(this).setTitle("确定放弃保存已修改的信息？").
                 setIcon(android.R.drawable.ic_dialog_info).
                 setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         EditContactDetailActivity.this.finish();
-                        /*
-                        Intent intent = new Intent(EditContactDetailActivity.this, ContactDetailActivity.class);
-                        intent.putExtra("ContactId", ContactId);
-                        startActivity(intent);
-                        */
-
                     }
                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
@@ -250,6 +280,7 @@ public class EditContactDetailActivity extends Activity {
             }
         }).create();
         alertDialog.show();
+        */
     }
 
     //确认保存修改
@@ -280,14 +311,14 @@ public class EditContactDetailActivity extends Activity {
 
     //保存对手机号的修改
     public void saveContactPhoneNum() {
-        contactDisplay.remove(contactDisplay.size()-1);
+        contactDisplay.remove(contactDisplay.size() - 1);
         //1. 判断手机号是否有修改
         if (contactPhoneNumberStore.equals(contactDisplay)) {
             return;
         } else {
             //2. 清空手机号
             System.out.println("清空手机号！");
-            for (Map<String, Object> phone :contactPhoneNumberStore) {
+            for (Map<String, Object> phone : contactPhoneNumberStore) {
                 contactEdit.deleteContactPhoneNum((String) phone.get("phone_num"));
             }
             //3. 读取data数据，重建手机号

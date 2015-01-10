@@ -25,9 +25,9 @@
 
     <style name="MyMaterialTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- toolbar（actionbar）颜色 -->
-        <item name="colorPrimary">#4876FF</item>
+        <item name="colorPrimary">#33691E</item>
         <!-- 状态栏颜色 -->
-        <item name="colorPrimaryDark">#3A5FCD</item>
+        <item name="colorPrimaryDark">#689F38</item>
         <!-- 窗口的背景颜色 -->
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:displayOptions"></item>
@@ -38,7 +38,8 @@
 
 
     <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <item name="searchIcon">@drawable/ic_search_black</item>
+        <item name="searchIcon">@drawable/ic_search_white</item>
+        <item name="voiceIcon">@drawable/ic_keyboard_voice_white</item>
     </style>
 
 
