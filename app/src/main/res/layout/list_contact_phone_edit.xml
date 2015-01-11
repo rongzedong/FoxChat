@@ -33,6 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/delete_light"
-        android:layout_gravity="left"/>
+        android:layout_gravity="left" />
 
 </LinearLayout>

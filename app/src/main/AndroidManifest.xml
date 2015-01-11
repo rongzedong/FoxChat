@@ -58,7 +58,7 @@
         <activity
             android:name=".NewContactActivity"
             android:label="@string/title_activity_new_contact"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".MessageConversationActivity"
             android:label="@string/title_activity_message_conversation"

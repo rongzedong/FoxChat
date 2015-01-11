@@ -158,12 +158,12 @@ public class NewContactActivity extends Activity {
     public void saveAccount() {
         String accountType = "com.local.contact";
         String accountName = "local_contact";
-        newContact.put("accountType",accountType);
-        newContact.put("accountName",accountName);
+        newContact.put("accountType", accountType);
+        newContact.put("accountName", accountName);
     }
 
     //判断修改联系人姓名
-    public void saveContactName()  {
+    public void saveContactName() {
         EditText editName = (EditText) findViewById(R.id.new_contact_name);
         String name = editName.getText().toString();
         //姓名不能为空
@@ -176,9 +176,9 @@ public class NewContactActivity extends Activity {
 
     //保存对手机号的修改
     public void saveContactPhoneNum() {
-        contactDisplay.remove(contactDisplay.size()-1);
+        contactDisplay.remove(contactDisplay.size() - 1);
         System.out.println("重建手机号！");
-        List <Map <String, Object>> phoneList = new ArrayList<>();
+        List<Map<String, Object>> phoneList = new ArrayList<>();
         for (Map<String, Object> phone : contactDisplay) {
             phoneList.add(phone);
         }

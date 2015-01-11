@@ -9,15 +9,17 @@
         android:topLeftRadius="2dp"
         android:topRightRadius="2dp"
         android:bottomLeftRadius="2dp"
-        android:bottomRightRadius="2dp"/><!-- 设置圆角半径 -->
+        android:bottomRightRadius="2dp" />
+    <!-- 设置圆角半径 -->
 
     <!-- 大小 -->
     <size
         android:width="100dp"
-        android:height="40dp"/><!-- 宽度和高度 -->
+        android:height="40dp" />
+    <!-- 宽度和高度 -->
 
     <!-- 填充 -->
-    <solid
-        android:color="#E91E63"/><!-- 填充的颜色 -->
+    <solid android:color="#E91E63" />
+    <!-- 填充的颜色 -->
 
 </shape>

@@ -33,6 +33,7 @@ public class SmsListRecyclerAdapter extends RecyclerView.Adapter<SmsListRecycler
         public TextView contentTextView;
         public TextView dateTextView;
         public Button sendFailAlert;
+
         public ViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +50,7 @@ public class SmsListRecyclerAdapter extends RecyclerView.Adapter<SmsListRecycler
         }
     }
 
-    public SmsListRecyclerAdapter(Context context, List<Map<String, Object>> smsDisplay){
+    public SmsListRecyclerAdapter(Context context, List<Map<String, Object>> smsDisplay) {
         this.context = context;
         mInflater = LayoutInflater.from(context);
         this.smsDisplay = smsDisplay;
@@ -71,13 +72,13 @@ public class SmsListRecyclerAdapter extends RecyclerView.Adapter<SmsListRecycler
 
     @Override
     public void onBindViewHolder(ViewHolder vh, int i) {
-        Boolean isDraft =  (Boolean) smsDisplay.get(i).get("isDraft");
+        Boolean isDraft = (Boolean) smsDisplay.get(i).get("isDraft");
         vh.draftTextView.setVisibility(isDraft ? View.VISIBLE : View.GONE);
         vh.nameTextView.setText((String) smsDisplay.get(i).get("contact"));
         vh.numberTextView.setText("(" + (Integer) smsDisplay.get(i).get("number") + ")");
         vh.contentTextView.setText((String) smsDisplay.get(i).get("content"));
         vh.dateTextView.setText((String) smsDisplay.get(i).get("date"));
-        if( (int) smsDisplay.get(i).get("hasFail") == 1) {
+        if ((int) smsDisplay.get(i).get("hasFail") == 1) {
             vh.sendFailAlert.setVisibility(View.VISIBLE);
         } else {
             vh.sendFailAlert.setVisibility(View.INVISIBLE);

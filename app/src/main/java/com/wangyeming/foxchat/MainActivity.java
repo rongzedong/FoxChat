@@ -30,7 +30,7 @@ import it.neokree.materialtabs.MaterialTabHost;
  * @data 2015/01/05
  */
 public class MainActivity extends ActionBarActivity implements PhoneFragment.OnFragmentInteractionListener,
-    ContactFragment.OnFragmentInteractionListener, MessageFragment.OnFragmentInteractionListener{
+        ContactFragment.OnFragmentInteractionListener, MessageFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "FragmentTabs";
     public static final String TAB_PHONES = "phones";
@@ -52,7 +52,7 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
-             setSupportActionBar(toolbar);
+            setSupportActionBar(toolbar);
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏toolBar标题
         initViewPager();
@@ -68,6 +68,7 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
         searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>" + getResources().getString(R.string.query_hint) + "</font>"));
         //searchView.setQueryHint(getString(R.string.query_hint)); // 设置提示词
         //setSearchViewListener();
+        searchView.clearFocus();
         return true;
     }
 
@@ -84,6 +85,12 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        searchView.clearFocus();
     }
 
     //加载viewPager
@@ -116,7 +123,7 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
             tabHost.addTab(
                     tabHost.newTab()
                             .setIcon(getIcon(i))
-                            //.setTabListener(this)
+                    //.setTabListener(this)
             );
         }
     }

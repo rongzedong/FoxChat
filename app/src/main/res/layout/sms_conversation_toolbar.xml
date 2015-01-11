@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mes_con_toolbar"
     android:layout_width="match_parent"
@@ -27,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="8"
             android:gravity="center"
-            android:text="conversation"
+            android:text="@string/conversation"
             android:textColor="#C5E1A5"
             android:textSize="18sp" />
 

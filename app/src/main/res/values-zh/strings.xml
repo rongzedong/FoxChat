@@ -56,4 +56,5 @@
     <string name="new_message">新建信息</string>
     <string name="query_hint">搜索联系人、短信</string>
     <string name="back">返回</string>
+    <string name="conversation">对话</string>
 </resources>

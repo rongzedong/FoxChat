@@ -10,8 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.wangyeming.custom.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.wangyeming.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/left_profile_image"
             android:layout_width="48dp"
             android:layout_height="48dp"
@@ -21,19 +20,21 @@
 
         <TextView
             android:id="@+id/left_dialog"
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rect_shape_blue"
             android:text="你好，什么时候涨工资？"
             android:textColor="#FFFFFF"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/left_date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="30dp"
             android:text="上午11:45"
@@ -49,8 +50,9 @@
 
         <TextView
             android:id="@+id/right_date"
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:layout_marginRight="5dp"
             android:layout_marginTop="30dp"
             android:text="上午11:45"
@@ -58,17 +60,17 @@
 
         <TextView
             android:id="@+id/right_dialog"
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/rect_shape_green"
             android:text="当然是今天！"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"/>
+            android:textColor="#000000"
+            android:textSize="14sp" />
 
-        <com.wangyeming.custom.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.wangyeming.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/right_profile_image"
             android:layout_width="48dp"
             android:layout_height="48dp"

@@ -62,5 +62,6 @@
     <string name="title_activity_message_conversation">MessageConversationActivity</string>
     <string name="query_hint">search for contact and message</string>
     <string name="back">Back</string>
+    <string name="conversation">concersation</string>
 
 </resources>

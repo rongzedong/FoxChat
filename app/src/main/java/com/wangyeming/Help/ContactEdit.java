@@ -39,8 +39,8 @@ public class ContactEdit {
         String accountType = (String) newContact.get("accountType");  //账户类型
         String accountName = (String) newContact.get("accountName");  //账户名称
         String displayName = (String) newContact.get("displayName");  //显示名
-        List <Map <String, Object>> phoneList =
-                (List <Map <String, Object>>) newContact.get("phoneList");  //电话列表
+        List<Map<String, Object>> phoneList =
+                (List<Map<String, Object>>) newContact.get("phoneList");  //电话列表
         //2.执行新建操作
         ArrayList<ContentProviderOperation> ops = new ArrayList<>();
         rawContactId = 0;
@@ -58,7 +58,7 @@ public class ContactEdit {
                 .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName)
                 .build());  //增加displayName
         //新增手机号
-        for(Map<String, Object> phone: phoneList) {
+        for (Map<String, Object> phone : phoneList) {
             String number = (String) phone.get("phone_num");
             int numberTypeId = (int) phone.get("phone_type_id");
             String label = (String) phone.get("phone_label");
@@ -100,10 +100,10 @@ public class ContactEdit {
         ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
                 .withSelection(
                         ContactsContract.Data.CONTACT_ID
-                        + "=?"
-                        + "AND "
-                        + ContactsContract.Data.MIMETYPE
-                        + " = ?",
+                                + "=?"
+                                + "AND "
+                                + ContactsContract.Data.MIMETYPE
+                                + " = ?",
                         new String[]{contactId + "",
                                 ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE})
                 .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, givenName)
@@ -131,10 +131,10 @@ public class ContactEdit {
                                 + " AND "
                                 + ContactsContract.CommonDataKinds.Organization.TYPE
                                 + "=?",
-                        new String[] {
+                        new String[]{
                                 contactId + "",
                                 ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
-                                String.valueOf(numberTypeId) })
+                                String.valueOf(numberTypeId)})
                 .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
                 .build());
         try {
@@ -158,10 +158,10 @@ public class ContactEdit {
                                 + " AND "
                                 + ContactsContract.CommonDataKinds.Phone.NUMBER
                                 + "=?",
-                        new String[] {
+                        new String[]{
                                 contactId + "",
                                 ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE,
-                                String.valueOf(number) })
+                                String.valueOf(number)})
                 .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, numberTypeId)
                 .build());
         try {
@@ -174,7 +174,7 @@ public class ContactEdit {
     }
 
     //增加联系人手机号
-    public void addContactPhoneNum( String number, int numberTypeId, String label) {
+    public void addContactPhoneNum(String number, int numberTypeId, String label) {
         ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
         ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
                 .withValue(ContactsContract.Data.RAW_CONTACT_ID, rawContactId)

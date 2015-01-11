@@ -83,7 +83,7 @@ public class MessageFragment extends Fragment {
             "service_center",//12  短信服务中心号码编号，如+8613800755500
             "locked",        //13  短信是否被锁
             "protocol",      //14  协议0SMS_RPOTO短信，1MMS_PROTO彩信
-             //"creator",    //    （报错）发送短信的app的包名
+            //"creator",    //    （报错）发送短信的app的包名
             "error_code",    //15  错误代码
             "seen",          //16  用户是否阅读过短信？决定是否显示通知
     };
@@ -230,10 +230,10 @@ public class MessageFragment extends Fragment {
     public void getConversationsSms() {
         Cursor cursor = cr.query(Telephony.Sms.Conversations.CONTENT_URI,
                 SMS_CONVERSATIONS_PROJECTION, null, null, Telephony.Sms.Conversations.DEFAULT_SORT_ORDER);
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             int msg_count = cursor.getInt(cursor.getColumnIndex("msg_count"));
             String snippet = cursor.getString(cursor.getColumnIndex("snippet"));
-            Log.d(this.getTag()," msg_count " + msg_count + " snippet " + snippet);
+            Log.d(this.getTag(), " msg_count " + msg_count + " snippet " + snippet);
         }
 
         cursor.close();
@@ -253,12 +253,12 @@ public class MessageFragment extends Fragment {
             Long date = cursor.getLong(cursor.getColumnIndex("date"));
             int type = cursor.getInt(cursor.getColumnIndex("type"));
             String body = cursor.getString(cursor.getColumnIndex("body"));
-            Log.d(this.getTag(),"thread_id " + thread_id +" type " + type + " body " + body);
-            if(type == 5) {
+            //Log.d(this.getTag(),"thread_id " + thread_id +" type " + type + " body " + body);
+            if (type == 5) {
                 failList.add(thread_id);
             }
             //判断是否存在已扫描的对话中
-            if(threadIdMap.containsKey(thread_id) ){
+            if (threadIdMap.containsKey(thread_id)) {
                 threadIdMap.put(thread_id, threadIdMap.get(thread_id) + 1);
             } else {
                 threadIdPos.add(thread_id);
@@ -275,13 +275,13 @@ public class MessageFragment extends Fragment {
                 smsMap.put("isDraft", isDraft);
                 String name = "";
                 if (address != null) {
-                    name = person == 0 ? addressToName(address): idToName(person, address);
+                    name = person == 0 ? addressToName(address) : idToName(person, address);
                     smsMap.put("contact", name);
                 } else {
                     //address==null,表示来自草稿
                     Cursor cursorNew = cr.query(Uri.parse("content://mms-sms/canonical-address/" + thread_id)
                             , new String[]{"address"}, null, null, null);
-                    if(cursorNew.moveToFirst()) {
+                    if (cursorNew.moveToFirst()) {
                         address = cursorNew.getString(cursorNew.getColumnIndex("address"));
                         name = addressToName(address);
                         smsMap.put("contact", name);
@@ -292,9 +292,9 @@ public class MessageFragment extends Fragment {
             }
         }
         cursor.close();
-        for(int i=0;i<threadIdPos.size();i++) {
-            smsDisplay.get(i).put("number",threadIdMap.get(threadIdPos.get(i)) );
-            smsDisplay.get(i).put("hasFail", failList.contains(threadIdPos.get(i)) ? 1 : 0 );
+        for (int i = 0; i < threadIdPos.size(); i++) {
+            smsDisplay.get(i).put("number", threadIdMap.get(threadIdPos.get(i)));
+            smsDisplay.get(i).put("hasFail", failList.contains(threadIdPos.get(i)) ? 1 : 0);
         }
     }
 
@@ -349,13 +349,13 @@ public class MessageFragment extends Fragment {
             smsMap.put("content", body_header);
             smsMap.put("isDraft", isDraft);
             if (address != null) {
-                name = person == 0 ? addressToName(address): idToName(person, address);
+                name = person == 0 ? addressToName(address) : idToName(person, address);
                 smsMap.put("contact", name);
             } else {
                 //address==null,表示来自草稿
                 Cursor cursorNew = cr.query(Uri.parse("content://mms-sms/canonical-address/" + thread_id)
                         , new String[]{"address"}, null, null, null);
-                if(cursorNew.moveToFirst()) {
+                if (cursorNew.moveToFirst()) {
                     address = cursorNew.getString(cursorNew.getColumnIndex("address"));
                     name = addressToName(address);
                     smsMap.put("contact", name);
@@ -422,11 +422,11 @@ public class MessageFragment extends Fragment {
     //id转通讯录姓名
     public String idToName(int person, String address) {
         Cursor cursor = cr.query(ContactsContract.RawContacts.CONTENT_URI, new String[]{"display_name"},
-                ContactsContract.RawContacts._ID + "=" + person,null,null );
+                ContactsContract.RawContacts._ID + "=" + person, null, null);
         String name = "";
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             name = cursor.getString(cursor.getColumnIndex("display_name"));
-        } else{
+        } else {
             name = addressToName(address);
         }
         cursor.close();
@@ -437,11 +437,13 @@ public class MessageFragment extends Fragment {
     public String addressToName(String address) {
         //Log.d(this.getTag(), "address1 " + address);
         address = address.replaceAll(" ", "");//去除电话号码的空格
+        String regex = "\\+\\d\\d";
+        address = address.replaceFirst(regex, ""); //去除电话号码的国家区号
         //Log.d(this.getTag(), "address2 " + address);
         Cursor cursor = cr.query(CONTENT_URI, new String[]{"display_name"},
-                ContactsContract.CommonDataKinds.Phone.NUMBER + "=?" , new String[]{address},null,null );
+                ContactsContract.CommonDataKinds.Phone.NUMBER + "=?", new String[]{address}, null, null);
         String name = "";
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             name = cursor.getString(cursor.getColumnIndex("display_name"));
         } else {
             name = address;

@@ -101,20 +101,13 @@ public class MessageConversationActivity extends ActionBarActivity {
     public void setmRecyclerView() {
         Intent intent = getIntent();
         thread_id = intent.getStringExtra("thread_id");
-        Log.d("wangyeming", "thread_id " + thread_id);
         mRecyclerView = (RecyclerView) findViewById(R.id.mes_con_recycler);
         mRecyclerView.setHasFixedSize(true);
-        Log.d("wangyeming", "1111111111111");
         mLayoutManager = new LinearLayoutManager(this);
-        Log.d("wangyeming", "222222222");
         mRecyclerView.setLayoutManager(mLayoutManager);
-        Log.d("wangyeming", "33333333");
         getConversationMes();
-        Log.d("wangyeming", "444444");
         mAdapter = new SmsConversationAdapter(this, conversationDisplay);
-        Log.d("wangyeming", "55555555");
         mRecyclerView.setAdapter(mAdapter);
-        Log.d("wangyeming", "6666666666666");
     }
 
     //设置tooolbar
@@ -139,20 +132,20 @@ public class MessageConversationActivity extends ActionBarActivity {
             //时间转换
             SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
             String LgTime = sdFormat.format(date);
-            Boolean isDraft = type == 3 ;
+            Boolean isDraft = type == 3;
             Boolean isFail = type == 5;
             Boolean isSent = type != 1;
             Uri imageUri = null;
-            if(isSent) {
+            if (isSent) {
                 //发送的短信
                 // imageUri为机主的头像
             } else {
                 //接收的短信--address不可能为空
                 //查找对方的头像
-                 imageUri = person == 0 ? addressToImage(address): idToImage(person, address);
+                imageUri = person == 0 ? addressToImage(address) : idToImage(person, address);
             }
 
-            if(isDraft) {
+            if (isDraft) {
                 //如果是草稿
             } else {
                 mesMap.put("date", LgTime);
@@ -160,7 +153,7 @@ public class MessageConversationActivity extends ActionBarActivity {
                 mesMap.put("body", body);
                 mesMap.put("isSent", isSent);
                 mesMap.put("imageUri", imageUri);
-                Log.d("wym", "date " + LgTime + " isFail " + isFail
+                Log.d("wym", "address " + address + " person " + person + " date " + LgTime + " isFail " + isFail
                         + " body " + body + " isSent " + isSent + " imageUri " + imageUri);
             }
             conversationDisplay.add(mesMap);
@@ -170,14 +163,17 @@ public class MessageConversationActivity extends ActionBarActivity {
 
     //通过手机号查找联系人头像
     public Uri addressToImage(String address) {
-        address = address.replaceAll(" ", "");//去除电话号码的空格
-        Cursor cursor = cr.query(CONTENT_URI, new String[]{"display_name"},
-                ContactsContract.CommonDataKinds.Phone.NUMBER + "=?" , new String[]{address},null,null );
+        address = address.replaceAll(" ", ""); //去除电话号码的空格
+        String regex = "\\+\\d\\d";
+        address = address.replaceFirst(regex, ""); //去除电话号码的国家区号
+        Log.d("wym", "------------- " + address);
+        Cursor cursor = cr.query(CONTENT_URI, new String[]{"photo_uri"},
+                ContactsContract.CommonDataKinds.Phone.NUMBER + "=?", new String[]{address}, null, null);
         Uri imageUri = null;
-        if(cursor.moveToFirst()) {
-           String photoString = cursor.getString(
-                   cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
-            if(photoString != null) {
+        if (cursor.moveToFirst()) {
+            String photoString = cursor.getString(
+                    cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
+            if (photoString != null) {
                 imageUri = Uri.parse(photoString);
             }
         }
@@ -187,13 +183,13 @@ public class MessageConversationActivity extends ActionBarActivity {
 
     //通过联系人rawContactId查找联系人头像
     public Uri idToImage(int person, String address) {
-        Cursor cursor = cr.query(CONTENT_URI, new String[]{"display_name"},
-                ContactsContract.CommonDataKinds.Phone.NUMBER + "=?" , new String[]{address},null,null );
+        Cursor cursor = cr.query(CONTENT_URI, new String[]{"photo_uri"},
+                ContactsContract.CommonDataKinds.Phone.NUMBER + "=?", new String[]{address}, null, null);
         Uri imageUri = null;
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             String photoString = cursor.getString(
                     cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
-            if(photoString != null) {
+            if (photoString != null) {
                 imageUri = Uri.parse(photoString);
             }
         } else {

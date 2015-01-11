@@ -99,8 +99,8 @@ public class ContactDetailActivity extends Activity {
     public void init() {
         cr = getContentResolver();
         getContactMessage();
-        System.out.println("contactId "+contactId);
-        System.out.println("rawContactId "+rawContactId);
+        System.out.println("contactId " + contactId);
+        System.out.println("rawContactId " + rawContactId);
         displayListView(); //显示listView
         displayStarred(); //设置收藏/未收藏的图标
     }
@@ -231,7 +231,7 @@ public class ContactDetailActivity extends Activity {
     public void editContactDetail(View view) {
         Intent intent = new Intent(this, EditContactDetailActivity.class);
         intent.putExtra("ContactId", contactId);
-        intent.putExtra("RawContactId",rawContactId);
+        intent.putExtra("RawContactId", rawContactId);
         intent.putExtra("hasImage", hasImage);
         intent.setData(photoUri);
         intent.putExtra("ContactDisplay", (Serializable) contactDisplay);

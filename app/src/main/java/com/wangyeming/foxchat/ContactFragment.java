@@ -193,11 +193,9 @@ public class ContactFragment extends Fragment {
         currentActivity = getActivity();
         currentView = getView();
         Button button = (Button) currentView.findViewById(R.id.addNewContact);
-        button.setOnClickListener(new View.OnClickListener()
-        {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 newContact();
             }
         });

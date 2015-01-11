@@ -67,9 +67,9 @@ public class SmsConversationAdapter extends RecyclerView.Adapter<SmsConversation
         Uri imageUri = (Uri) conversationDisplay.get(position).get("imageUri");
         String content = (String) conversationDisplay.get(position).get("body");
         String date = (String) conversationDisplay.get(position).get("date");
-        if(isSent) {
+        if (isSent) {
             //如果是发送的短信
-            if(imageUri != null) {
+            if (imageUri != null) {
                 vh.right_imageView.setImageURI(imageUri);
             }
             vh.right_tv1.setText(content);
@@ -78,7 +78,7 @@ public class SmsConversationAdapter extends RecyclerView.Adapter<SmsConversation
             vh.left_layout.setVisibility(View.GONE);
         } else {
             //如果是接收的短信
-            if(imageUri != null) {
+            if (imageUri != null) {
                 vh.left_imageView.setImageURI(imageUri);
             }
             vh.left_tv1.setText(content);
@@ -92,4 +92,5 @@ public class SmsConversationAdapter extends RecyclerView.Adapter<SmsConversation
     public int getItemCount() {
         return conversationDisplay.size();
     }
+
 }
