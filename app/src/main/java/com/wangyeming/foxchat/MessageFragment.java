@@ -253,7 +253,7 @@ public class MessageFragment extends Fragment {
             Long date = cursor.getLong(cursor.getColumnIndex("date"));
             int type = cursor.getInt(cursor.getColumnIndex("type"));
             String body = cursor.getString(cursor.getColumnIndex("body"));
-            Log.d(this.getTag(),"type " + type + " body " + body);
+            Log.d(this.getTag(),"thread_id " + thread_id +" type " + type + " body " + body);
             if(type == 5) {
                 failList.add(thread_id);
             }
@@ -269,6 +269,7 @@ public class MessageFragment extends Fragment {
                 String body_header = body.length() > 20 ? body.substring(0, 19) : body;
                 Boolean isDraft = type == 3 ? true : false;
                 Map<String, Object> smsMap = new HashMap<>();
+                smsMap.put("thread_id", thread_id);
                 smsMap.put("date", LgTime);
                 smsMap.put("content", body_header);
                 smsMap.put("isDraft", isDraft);
@@ -447,5 +448,9 @@ public class MessageFragment extends Fragment {
         }
         cursor.close();
         return name;
+    }
+
+    //item事件
+    public void itemEvent() {
     }
 }

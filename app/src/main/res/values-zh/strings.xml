@@ -54,4 +54,6 @@
     <string name="smsContent">你好，我要给你涨工资！</string>
     <string name="date">2015/01/01</string>
     <string name="new_message">新建信息</string>
+    <string name="query_hint">搜索联系人、短信</string>
+    <string name="back">返回</string>
 </resources>

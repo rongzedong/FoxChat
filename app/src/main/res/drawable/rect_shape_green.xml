@@ -13,7 +13,7 @@
 
     <!-- 大小 -->
     <size
-        android:width="100dp"
+        android:width="180dp"
         android:height="40dp"/><!-- 宽度和高度 -->
 
     <!-- 填充 -->

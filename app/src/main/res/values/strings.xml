@@ -60,5 +60,7 @@
     <string name="date">2015/01/01</string>
     <string name="new_message">New Message</string>
     <string name="title_activity_message_conversation">MessageConversationActivity</string>
+    <string name="query_hint">search for contact and message</string>
+    <string name="back">Back</string>
 
 </resources>

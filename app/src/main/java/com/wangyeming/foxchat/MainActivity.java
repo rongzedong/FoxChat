@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -64,7 +65,8 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setIconifiedByDefault(false);//默认展开搜索框
-        searchView.setQueryHint("搜索联系人、短信");
+        searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>" + getResources().getString(R.string.query_hint) + "</font>"));
+        //searchView.setQueryHint(getString(R.string.query_hint)); // 设置提示词
         //setSearchViewListener();
         return true;
     }

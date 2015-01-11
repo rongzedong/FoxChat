@@ -26,7 +26,7 @@
                 android:id="@+id/addNewMes"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="@drawable/ic_add_circle_outline_black"
+                android:background="@drawable/ic_create_black"
                 android:layout_gravity="center_horizontal|center_vertical"/>
 
         </LinearLayout>

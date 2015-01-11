@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.wangyeming.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.wangyeming.custom.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/profile_image"
                 android:layout_width="96dp"
                 android:layout_height="96dp"

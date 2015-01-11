@@ -30,12 +30,17 @@
         <item name="colorPrimaryDark">#689F38</item>
         <!-- 窗口的背景颜色 -->
         <item name="android:windowBackground">@android:color/white</item>
+        <!-- 按钮样式 -->
+        <item name="android:buttonStyle">@style/buttonStyle</item>
         <item name="android:displayOptions"></item>
         <!-- SearchView -->
         <item name="searchViewStyle">@style/MySearchViewStyle</item>
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="buttonStyle" parent="android:style/Widget.Material.Button">
+        <item name="android:background">#2196F3</item>
+    </style>
 
     <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="searchIcon">@drawable/ic_search_white</item>
