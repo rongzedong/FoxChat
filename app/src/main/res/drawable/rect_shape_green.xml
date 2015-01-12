@@ -3,13 +3,26 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <!-- 边框 -->
+    <stroke
+        android:width="3dip"
+        android:color="#689F38"/>
+
     <!-- 圆角 -->
     <corners
         android:radius="9dp"
-        android:topLeftRadius="2dp"
-        android:topRightRadius="2dp"
-        android:bottomLeftRadius="2dp"
-        android:bottomRightRadius="2dp" />
+        android:topLeftRadius="20dp"
+        android:topRightRadius="20dp"
+        android:bottomLeftRadius="20dp"
+        android:bottomRightRadius="20dp" />
+
+    <!-- 内边距 -->
+    <padding
+        android:bottom="10dp"
+        android:left="10dp"
+        android:right="10dp"
+        android:top="10dp" />
+
     <!-- 设置圆角半径 -->
 
     <!-- 大小 -->

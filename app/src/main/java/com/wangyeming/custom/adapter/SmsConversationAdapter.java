@@ -67,10 +67,14 @@ public class SmsConversationAdapter extends RecyclerView.Adapter<SmsConversation
         Uri imageUri = (Uri) conversationDisplay.get(position).get("imageUri");
         String content = (String) conversationDisplay.get(position).get("body");
         String date = (String) conversationDisplay.get(position).get("date");
+        Boolean isFail = (Boolean) conversationDisplay.get(position).get("isFail");
         if (isSent) {
             //如果是发送的短信
             if (imageUri != null) {
                 vh.right_imageView.setImageURI(imageUri);
+            }
+            if(isFail) {
+                vh.right_tv1.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_error_red,0);
             }
             vh.right_tv1.setText(content);
             vh.right_tv2.setText(date);
@@ -80,6 +84,9 @@ public class SmsConversationAdapter extends RecyclerView.Adapter<SmsConversation
             //如果是接收的短信
             if (imageUri != null) {
                 vh.left_imageView.setImageURI(imageUri);
+            }
+            if(isFail) {
+                vh.left_tv1.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_error_red,0);
             }
             vh.left_tv1.setText(content);
             vh.left_tv2.setText(date);

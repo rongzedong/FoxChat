@@ -35,6 +35,8 @@ public class MessageConversationActivity extends ActionBarActivity {
     private SmsConversationAdapter mAdapter;
     private Toolbar toolbar;
     private String thread_id;
+    //机主头像Uri
+    private Uri ownerAvaterUri;
     //ContentResolver
     private ContentResolver cr;
     //存放draft信息
@@ -98,8 +100,8 @@ public class MessageConversationActivity extends ActionBarActivity {
     public void init() {
         cr = getContentResolver();
         setToolbar();
+        ownerAvaterUri = getOwnerAvatar();//获取机主头像
         setmRecyclerView();
-
     }
 
 
@@ -164,7 +166,7 @@ public class MessageConversationActivity extends ActionBarActivity {
     public void getConversationMes() {
         Uri allURI = Uri.parse(SMS_URI_ALL);
         Cursor cursor = cr.query(allURI, SMS_PROJECTION,
-                "thread_id=?", new String[]{thread_id}, "date ASC"); //按时间升序
+                "thread_id=?", new String[]{thread_id}, "date DESC"); //按时间升序
         int i = 0;
         while (cursor.moveToNext()) {
             Map<String, Object> mesMap = new HashMap<>();
@@ -184,6 +186,7 @@ public class MessageConversationActivity extends ActionBarActivity {
             if (isSent) {
                 //发送的短信
                 // imageUri为机主的头像
+                imageUri = ownerAvaterUri;
             } else {
                 //接收的短信--address不可能为空
                 //查找对方的头像
@@ -256,5 +259,21 @@ public class MessageConversationActivity extends ActionBarActivity {
     public void setDraft() {
         EditText editText = (EditText) findViewById(R.id.sendBox);
         editText.setText((String) draftMap.get("body"));
+    }
+
+    //获取机主头像
+    public Uri getOwnerAvatar() {
+        Cursor cursor = cr.query(
+                ContactsContract.Profile.CONTENT_URI, new String[]{"photo_uri"}, null, null, null);
+        Uri imageUri = null;
+        if(cursor.moveToFirst() ) {
+            String photoString = cursor.getString(
+                    cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
+            if (photoString != null) {
+                imageUri = Uri.parse(photoString);
+            }
+        }
+        cursor.close();
+        return imageUri;
     }
 }
