@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.wangyeming.foxchat.MainActivity"
-    tools:ignore="MergeRootFrame">
+    tools:ignore="MergeRootFrame"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
 
     <include layout="@layout/toolbar" />
 

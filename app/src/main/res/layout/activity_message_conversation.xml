@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.wangyeming.foxchat.MessageConversationActivity">
+    tools:context="com.wangyeming.foxchat.MessageConversationActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
 
     <include layout="@layout/sms_conversation_toolbar" />
 
@@ -16,10 +18,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dip"
+        android:layout_weight="1"
         android:orientation="horizontal">
         <!--android:layout_weight="1"-->
-
 
         <EditText
             android:layout_width="0dip"
@@ -27,9 +29,8 @@
             android:layout_weight="9" />
 
         <Button
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="70dp"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/ic_send_black" />
 

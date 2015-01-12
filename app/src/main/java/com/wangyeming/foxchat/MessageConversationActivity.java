@@ -108,6 +108,7 @@ public class MessageConversationActivity extends ActionBarActivity {
         getConversationMes();
         mAdapter = new SmsConversationAdapter(this, conversationDisplay);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount()-1); //默认滑动到底部
     }
 
     //设置tooolbar
@@ -121,7 +122,7 @@ public class MessageConversationActivity extends ActionBarActivity {
 
     public void getConversationMes() {
         Uri allURI = Uri.parse(SMS_URI_ALL);
-        Cursor cursor = cr.query(allURI, SMS_PROJECTION, "thread_id=?", new String[]{thread_id}, "date DESC");
+        Cursor cursor = cr.query(allURI, SMS_PROJECTION, "thread_id=?", new String[]{thread_id}, "date ASC");
         while (cursor.moveToNext()) {
             Map<String, Object> mesMap = new HashMap<>();
             String address = cursor.getString(cursor.getColumnIndex("address"));
