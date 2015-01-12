@@ -31,7 +31,7 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 public class MessageConversationActivity extends ActionBarActivity {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
     private SmsConversationAdapter mAdapter;
     private Toolbar toolbar;
     private String thread_id;
@@ -41,6 +41,8 @@ public class MessageConversationActivity extends ActionBarActivity {
     private Map<String, Object> draftMap = new HashMap<>();
     //对话列表
     private List<Map<String, Object>> conversationDisplay = new ArrayList<>();
+    private Long firstDate; //记录当前显示日期最久的短信的日期
+    private final int SMS_NUM = 10;
     private final String SMS_URI_ALL = "content://sms/";  //全部短信
     private static final String[] SMS_PROJECTION = new String[]{
             "_id",           //0  短信序号
@@ -108,9 +110,12 @@ public class MessageConversationActivity extends ActionBarActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.mes_con_recycler);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
+        //mLayoutManager.setStackFromEnd(true);
+        mLayoutManager.setReverseLayout(true);  //倒序排列
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new SmsConversationAdapter(this, conversationDisplay);
         mRecyclerView.setAdapter(mAdapter);
+        //新线程获取sms信息
         new Thread(new Runnable() {
 
             @Override
@@ -128,11 +133,23 @@ public class MessageConversationActivity extends ActionBarActivity {
         public void handleMessage(android.os.Message msg) {
             mAdapter.notifyDataSetChanged();
             setDraft();
-            if(mAdapter.getItemCount() > 0) {
-                mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1); //默认滑动到底部
+            if (mAdapter.getItemCount() > 0) {
+                //mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1); //默认滑动到底部
             }
+            setRecyclerViewListener();
         }
     };
+
+    //设置RecyclerView的监听
+    public void setRecyclerViewListener() {
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
+                if (scrollState == 0) {
+                }
+            }
+        });
+    }
 
     //设置tooolbar
     public void setToolbar() {
@@ -146,7 +163,9 @@ public class MessageConversationActivity extends ActionBarActivity {
     //获取对话信息
     public void getConversationMes() {
         Uri allURI = Uri.parse(SMS_URI_ALL);
-        Cursor cursor = cr.query(allURI, SMS_PROJECTION, "thread_id=?", new String[]{thread_id}, "date ASC");
+        Cursor cursor = cr.query(allURI, SMS_PROJECTION,
+                "thread_id=?", new String[]{thread_id}, "date ASC"); //按时间升序
+        int i = 0;
         while (cursor.moveToNext()) {
             Map<String, Object> mesMap = new HashMap<>();
             String address = cursor.getString(cursor.getColumnIndex("address"));
@@ -161,7 +180,7 @@ public class MessageConversationActivity extends ActionBarActivity {
             Boolean isFail = type == 5;
             Boolean isSent = type != 1;
             Uri imageUri = null;
-            Log.d("wym","address " + address + " person " + person + " date " + LgTime + " type " + type);
+            Log.d("wym", "address " + address + " person " + person + " date " + LgTime + " type " + type);
             if (isSent) {
                 //发送的短信
                 // imageUri为机主的头像
@@ -183,7 +202,14 @@ public class MessageConversationActivity extends ActionBarActivity {
                         + " body " + body + " isSent " + isSent + " imageUri " + imageUri);
                 conversationDisplay.add(mesMap);
             }
-
+            /*
+            if (i > SMS_NUM - 1) {
+                firstDate = date;
+                //只提取日期最近的短信信息
+                break;
+            }
+            */
+            i++;
         }
         cursor.close();
     }
@@ -229,6 +255,6 @@ public class MessageConversationActivity extends ActionBarActivity {
     //设置草稿内容显示
     public void setDraft() {
         EditText editText = (EditText) findViewById(R.id.sendBox);
-        editText.setText((String)draftMap.get("body"));
+        editText.setText((String) draftMap.get("body"));
     }
 }
