@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 import com.wangyeming.custom.adapter.SmsConversationAdapter;
 
@@ -94,6 +97,7 @@ public class MessageConversationActivity extends ActionBarActivity {
         cr = getContentResolver();
         setToolbar();
         setmRecyclerView();
+
     }
 
 
@@ -105,11 +109,30 @@ public class MessageConversationActivity extends ActionBarActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        getConversationMes();
         mAdapter = new SmsConversationAdapter(this, conversationDisplay);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount()-1); //默认滑动到底部
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                getConversationMes();
+                Message message = Message.obtain();
+                message.obj = "ok";
+                MessageConversationActivity.this.handler1.sendMessage(message);
+            }
+        }).start();
     }
+
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            mAdapter.notifyDataSetChanged();
+            setDraft();
+            if(mAdapter.getItemCount() > 0) {
+                mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1); //默认滑动到底部
+            }
+        }
+    };
 
     //设置tooolbar
     public void setToolbar() {
@@ -120,6 +143,7 @@ public class MessageConversationActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏toolBar标题
     }
 
+    //获取对话信息
     public void getConversationMes() {
         Uri allURI = Uri.parse(SMS_URI_ALL);
         Cursor cursor = cr.query(allURI, SMS_PROJECTION, "thread_id=?", new String[]{thread_id}, "date ASC");
@@ -137,6 +161,7 @@ public class MessageConversationActivity extends ActionBarActivity {
             Boolean isFail = type == 5;
             Boolean isSent = type != 1;
             Uri imageUri = null;
+            Log.d("wym","address " + address + " person " + person + " date " + LgTime + " type " + type);
             if (isSent) {
                 //发送的短信
                 // imageUri为机主的头像
@@ -145,9 +170,9 @@ public class MessageConversationActivity extends ActionBarActivity {
                 //查找对方的头像
                 imageUri = person == 0 ? addressToImage(address) : idToImage(person, address);
             }
-
             if (isDraft) {
                 //如果是草稿
+                draftMap.put("body", body);
             } else {
                 mesMap.put("date", LgTime);
                 mesMap.put("isFail", isFail);
@@ -156,8 +181,9 @@ public class MessageConversationActivity extends ActionBarActivity {
                 mesMap.put("imageUri", imageUri);
                 Log.d("wym", "address " + address + " person " + person + " date " + LgTime + " isFail " + isFail
                         + " body " + body + " isSent " + isSent + " imageUri " + imageUri);
+                conversationDisplay.add(mesMap);
             }
-            conversationDisplay.add(mesMap);
+
         }
         cursor.close();
     }
@@ -198,5 +224,11 @@ public class MessageConversationActivity extends ActionBarActivity {
         }
         cursor.close();
         return imageUri;
+    }
+
+    //设置草稿内容显示
+    public void setDraft() {
+        EditText editText = (EditText) findViewById(R.id.sendBox);
+        editText.setText((String)draftMap.get("body"));
     }
 }

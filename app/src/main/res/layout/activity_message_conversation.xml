@@ -24,6 +24,7 @@
         <!--android:layout_weight="1"-->
 
         <EditText
+            android:id="@+id/sendBox"
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="9" />
