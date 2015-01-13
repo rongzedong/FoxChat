@@ -81,6 +81,8 @@ public class ContactFragment extends Fragment {
     protected Cursor cursorID;
     //自定义Adapter
     protected ContactListAdapter adapter;
+    //收藏联系人数目
+    private int starNum = 0;
     protected ListView lt1;
     protected SearchView searchView;
     protected TextView tv1;
@@ -330,6 +332,7 @@ public class ContactFragment extends Fragment {
                 contactList.add(contactMap);
             }
         }
+        starNum = contactList.size();
         Log.d("wym", "一共读取了" + namesList2.size() + "个收藏联系人");
         catalogList.add(namesList.size()); //记录“其他联系人”储存的位置
         cursorID.close();
@@ -347,7 +350,7 @@ public class ContactFragment extends Fragment {
         if (isSearch) {
             adapter = new ContactListAdapter(contactList, currentActivity);
         } else {
-            adapter = new ContactListAdapter(contactList, catalogList, currentActivity);
+            adapter = new ContactListAdapter(contactList, starNum, currentActivity);
         }
         lt1.setAdapter(adapter);
     }

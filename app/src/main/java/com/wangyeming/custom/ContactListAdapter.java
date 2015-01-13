@@ -43,6 +43,7 @@ public class ContactListAdapter extends BaseAdapter {
     private LayoutInflater mInflater = null;
     private List<Integer> catalogList = new ArrayList<Integer>();
     private String keyWord = new String();
+    private int starNum = 0;
     private final Map<String, Integer> resourceIdMap = new HashMap<String, Integer>(){{
         put("star", R.drawable.ic_star_black);
     }};
@@ -52,9 +53,9 @@ public class ContactListAdapter extends BaseAdapter {
         mInflater = LayoutInflater.from(context);
     }
 
-    public ContactListAdapter(List<Map<String, Object>> data, List<Integer> catalogList, Context context) {
+    public ContactListAdapter(List<Map<String, Object>> data, int starNum, Context context) {
         this.data = data;
-        this.catalogList = catalogList;
+        this.starNum = starNum;
         mInflater = LayoutInflater.from(context);
     }
 
@@ -90,6 +91,7 @@ public class ContactListAdapter extends BaseAdapter {
             holder.avatar = (CircleImageView) convertView.findViewById(R.id.profile_image);
             holder.id = (ImageView) convertView.findViewById(R.id.identification);
             holder.letter = (TextView) convertView.findViewById(R.id.letter);
+            holder.divider = (ImageView) convertView.findViewById(R.id.divider);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -104,6 +106,14 @@ public class ContactListAdapter extends BaseAdapter {
         if (avatarUri != null) {
             holder.avatar.setImageURI(avatarUri);
         }
+        holder.avatar.setMaxHeight(holder.avatar.getMeasuredWidth());
+        //设置收藏和未收藏联系人之间的分割线
+        if(position == starNum-1) {
+            holder.divider.setVisibility(View.VISIBLE);
+        } else {
+            holder.divider.setVisibility(View.INVISIBLE);
+        }
+        //设置汉语拼音
         String id = (String) data.get(position).get("identification");
         switch (id) {
             case "star":
@@ -147,5 +157,6 @@ public class ContactListAdapter extends BaseAdapter {
         public CircleImageView avatar;
         public ImageView id;
         public TextView letter;
+        public ImageView divider;
     }
 }

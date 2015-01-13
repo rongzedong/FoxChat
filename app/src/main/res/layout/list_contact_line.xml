@@ -2,61 +2,87 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/identification"
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:src="@drawable/ic_star_black"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:scaleType="center"
-        android:gravity="center_horizontal|center_vertical"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/letter"
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:text="A"
-        android:textSize="20sp"
-        android:textColor="#E91E63"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="10dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/identification"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:scaleType="center"
+            android:src="@drawable/ic_star_black" />
 
-    <TextView
-        android:id="@+id/name"
-        android:text="@string/name"
-        android:layout_width="0dip"
-        android:layout_height="fill_parent"
-        android:layout_weight="5"
-        android:typeface="sans"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="5dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:gravity="left|center_vertical" />
+        <TextView
+            android:id="@+id/letter"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="A"
+            android:textColor="#E91E63"
+            android:textSize="20sp"
+            android:visibility="gone" />
 
-    <com.wangyeming.custom.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/profile_image"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/white_fox"
-        app:border_color="#FFFFFF"
-        app:border_width="2dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginRight="10dp"
-        android:gravity="center_horizontal|center_vertical"/>
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_weight="5"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:text="@string/name"
+            android:typeface="sans" />
 
+        <com.wangyeming.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:src="@drawable/white_fox"
+            app:border_color="#FFFFFF"
+            app:border_width="2dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:src="@drawable/line_white" />
+
+        <ImageView
+            android:id="@+id/divider"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:gravity="center_vertical"
+            android:src="@drawable/line_grey" />
+
+    </LinearLayout>
 
 
 </LinearLayout>

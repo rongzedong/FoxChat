@@ -55,10 +55,9 @@
         <item name="android:textColorSecondary">#8Affff</item>
         <item name="android:textColorHint">#42ffff</item>
         <item name="bs_dialogBackground">#FFFFFF</item>
-        <item name="bs_dividerColor">#90CAF9</item>
+        <item name="bs_dividerColor">#EEEEEE</item>
         <item name="bs_numColumns">4</item>
         <item name="bs_listStyle">@style/BottomSheet.List</item>
     </style>
-
 
 </resources>

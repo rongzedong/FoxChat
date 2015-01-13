@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 import com.cocosw.bottomsheet.BottomSheet;
 import com.wangyeming.custom.adapter.MyFragmentPagerAdapter;
@@ -39,6 +40,7 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
     public static final String TAB_PHONES = "phones";
     public static final String TAB_CONTACTS = "contacts";
     public static final String TAB_MESSAGES = "messages";
+    private long clickTime = 0; //记录第一次点击的时间
 
     private TabHost mTabHost;
     private int mCurrentTab;
@@ -88,6 +90,14 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
             case KeyEvent.KEYCODE_MENU:
                 bottomSheet.show();
                 break;
+            case KeyEvent.KEYCODE_BACK:
+                if ((System.currentTimeMillis() - clickTime) > 2000) {
+                    Toast.makeText(this, "再次点击退出！", Toast.LENGTH_SHORT).show();
+                    clickTime = System.currentTimeMillis();
+                    break;
+                } else {
+                    this.finish();
+                }
         }
         return true;
     }
