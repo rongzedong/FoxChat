@@ -24,7 +24,9 @@ import com.wangyeming.custom.ContactListAdapter;
 import com.wangyeming.custom.NewToast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -32,38 +34,27 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ContactFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ContactFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 读取联系人详细信息的Fragment
+ *
+ * @author 王小明
+ * @data 2015/01/13
  */
 public class ContactFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ContactFragment.
-     */
-
     // 当前activity
     private Activity currentActivity;
     // 当前view
     private View currentView;
+    //联系人数据
+    private List<Map<String, Object>> contactList = new ArrayList<>();
     // 保存联系人的姓名集合---包含分类名称
     private List<String> namesList = new ArrayList<String>();
     // 保存联系人的姓名集合---不包含分类名称
@@ -103,7 +94,6 @@ public class ContactFragment extends Fragment {
             ContactsContract.RawContacts.ACCOUNT_TYPE
     };
 
-    // TODO: Rename and change types and number of parameters
     public static ContactFragment newInstance(String param1, String param2) {
         ContactFragment fragment = new ContactFragment();
         Bundle args = new Bundle();
@@ -174,24 +164,25 @@ public class ContactFragment extends Fragment {
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
 
+    //初始化
     public void init() {
-        currentActivity = getActivity();
-        currentView = getView();
+        currentActivity = getActivity();  //获取当前activity
+        currentView = getView();  //获取当前view
+        setNewContact(); //设置新建联系人按钮
+        cr = currentActivity.getContentResolver();
+        getPhoneContacts();  //获取手机联系人信息
+        displayListView(namesList);  //显示页面布局
+        setOnScrollListener();  //设置滑动监听
+        setOnItemClickListener();  //设置点击监听
+    }
+
+    //设置新建联系人按钮
+    public void setNewContact() {
         Button button = (Button) currentView.findViewById(R.id.addNewContact);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,11 +190,6 @@ public class ContactFragment extends Fragment {
                 newContact();
             }
         });
-        cr = currentActivity.getContentResolver();
-        getPhoneContacts();
-        displayListView(namesList);
-        setOnScrollListener();
-        setOnItemClickListener();
     }
 
     public void initRefrash() {
@@ -229,67 +215,107 @@ public class ContactFragment extends Fragment {
         contactIdList.clear();
         contactIdList2.clear();
         contactIdFilterList.clear();
+        contactList.clear();
     }
 
-    //读取联系人
+    //读取未收藏联系人
     public void readContact() {
-        System.out.println("读取未收藏联系人。。。");
-        namesList.add(getString(R.string.unstarred_contact)); // 其他联系人
-        contactIdList.add(0);
-        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[]{"0"}, "sort_key");// 设置联系人光标,按汉语拼音排序
+        Log.d("wym","读取未收藏联系人。。。");
+        /*
+        //设置副标题
+        Map<String, Object> contactMapTmp = new HashMap<>();
+        contactMapTmp.put("name",getString(R.string.unstarred_contact));
+        contactMapTmp.put("avatarUri",null);
+        contactList.add(contactMapTmp);
+        */
+        //开始读取联系人
+        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?",
+                new String[]{"0"}, "sort_key");// 设置联系人光标,按汉语拼音排序
         String contactName = "";//排除联系人重复
         while (cursorID.moveToNext()) {
-            int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
-            String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
-            if (contact.equals(contactName)) {
-                contactName = contact;
+            String displayName = cursorID.getString(cursorID.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)); //获取联系人姓名
+            if (displayName.equals(contactName)) {
+                //防止重复联系人
+                contactName = displayName;
                 continue;
             } else {
-                contactName = contact;
+                Map<String, Object> contactMap = new HashMap<>();
+                contactName = displayName;
                 namesList.add(contactName); // 保存联系人姓名
                 namesList2.add(contactName); // 保存联系人姓名
-                int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
-                int ContactId = cursorID.getInt(index);//获取联系人对应的ID号
+                int contactId = cursorID.getInt(cursorID.getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID));//获取联系人contact_id
                 int rawContactId = cursorID.getInt(cursorID.getColumnIndex(PHONES_PROJECTION[6]));
-                String account_type = cursorID.getString(cursorID.getColumnIndex("account_type"));
-                String account_name = cursorID.getString(cursorID.getColumnIndex("account_name"));
+                String accountType = cursorID.getString(cursorID.getColumnIndex("account_type"));
+                String accountName = cursorID.getString(cursorID.getColumnIndex("account_name"));
+                String photoString = cursorID.getString(
+                        cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
+                Uri avatarUri = null;
+                if(photoString != null) {
+                    avatarUri = Uri.parse(photoString);
+                }
                 Log.d(this.getTag(), contactName);
-                contactIdList.add(ContactId); //保存联系人ContactId
-                contactIdList2.add(ContactId);
-                contactIdFilterList.add(ContactId);
+                contactIdList.add(contactId); //保存联系人ContactId
+                contactIdList2.add(contactId);
+                contactIdFilterList.add(contactId);
+                contactMap.put("name",contactName);
+                contactMap.put("avatarUri",avatarUri);
+                contactList.add(contactMap);
             }
         }
-        System.out.println("一共读取了" + namesList2.size() + "个联系人");
+        Log.d("wym", "一共读取了" + namesList2.size() + "个联系人");
         cursorID.close();
     }
 
     //读取星标联系人
     public void readStarredContact() {
-        catalogList.add(0);
-        namesList.add(getString(R.string.starred_contact)); // 星标联系人
-        contactIdList.add(0);
-        System.out.println("读取收藏了联系人。。。");
-        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?", new String[]{"1"}, "sort_key");// 设置星标联系人光标,按汉语拼音排序
+        Log.d("wym","读取收藏联系人。。。");
+        /*
+        Map<String, Object> contactMapTmp = new HashMap<>();
+        contactMapTmp.put("name",getString(R.string.starred_contact));
+        contactMapTmp.put("avatarUri",null);
+        contactList.add(contactMapTmp);
+        */
+        //开始读取联系人
+        cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?",
+                new String[]{"1"}, "sort_key");// 设置星标联系人光标,按汉语拼音排序
         String contactName = "";//排除联系人重复
         while (cursorID.moveToNext()) {
-            int nameFieldColumnIndex = cursorID.getColumnIndex(PHONES_PROJECTION[0]);//返回display_name对应列的index--0
-            String contact = cursorID.getString(nameFieldColumnIndex);//获取联系人姓名
-            if (contact.equals(contactName)) {
-                contactName = contact;
+            String displayName = cursorID.getString(cursorID.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)); //获取联系人姓名
+            if (displayName.equals(contactName)) {
+                //防止重复联系人
+                contactName = displayName;
                 continue;
             } else {
-                contactName = contact;
+                Map<String, Object> contactMap = new HashMap<>();
+                contactName = displayName;
                 namesList.add(contactName); // 保存联系人姓名
                 namesList2.add(contactName); // 保存联系人姓名
-                int index = cursorID.getColumnIndex(PHONES_PROJECTION[4]);
-                int contactId = cursorID.getInt(index);//获取联系人对应的contactId号
+                int contactId = cursorID.getInt(cursorID.getColumnIndex(
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID));//获取联系人contact_id
                 int rawContactId = cursorID.getInt(cursorID.getColumnIndex(PHONES_PROJECTION[6])); //获取联系人对应的rawContactId号
+                String photoString = cursorID.getString(cursorID.getColumnIndex(
+                        ContactsContract.CommonDataKinds.Photo.PHOTO_URI)); //获取联系人头像
                 Log.d(this.getTag(), contactName);
+                Uri avatarUri = null;
+                if(photoString != null) {
+                    avatarUri = Uri.parse(photoString);
+                }
                 contactIdList.add(contactId); //保存联系人ContactId
                 contactIdList2.add(contactId); //保存联系人ContactId
+                contactMap.put("name",contactName);
+                contactMap.put("avatarUri",avatarUri);
+                if(contactList.size() == 0) {
+                    contactMap.put("identification", "star");
+                } else {
+                    contactMap.put("identification", null);
+                }
+                contactList.add(contactMap);
             }
         }
-        System.out.println("一共读取了" + namesList2.size() + "个收藏联系人");
+        Log.d("wym", "一共读取了" + namesList2.size() + "个收藏联系人");
         catalogList.add(namesList.size()); //记录“其他联系人”储存的位置
         cursorID.close();
     }
@@ -303,11 +329,10 @@ public class ContactFragment extends Fragment {
         if (namesList == null) {
             System.out.println("namesList is nil");
         }
-
         if (isSearch) {
-            adapter = new ContactListAdapter(namesList, currentActivity);
+            adapter = new ContactListAdapter(contactList, currentActivity);
         } else {
-            adapter = new ContactListAdapter(namesList, catalogList, currentActivity);
+            adapter = new ContactListAdapter(contactList, catalogList, currentActivity);
         }
         lt1.setAdapter(adapter);
     }
@@ -318,7 +343,7 @@ public class ContactFragment extends Fragment {
         if (namesList == null) {
             System.out.println("ContactDisplay is nil");
         }
-        adapter = new ContactListAdapter(namesList, keyWord, currentActivity);
+        adapter = new ContactListAdapter(contactList, keyWord, currentActivity);
         lt1.setAdapter(adapter);
     }
 
@@ -332,7 +357,7 @@ public class ContactFragment extends Fragment {
                     nameToast.cancel();
                 }
                 int firstPos = view.getFirstVisiblePosition() + 1;
-                String name = (String) view.getItemAtPosition(firstPos);
+                String name = (String) ((Map<String, Object>) view.getItemAtPosition(firstPos)).get("name");
                 if (name == null) {
                     System.out.println("name is null");
                     return;
