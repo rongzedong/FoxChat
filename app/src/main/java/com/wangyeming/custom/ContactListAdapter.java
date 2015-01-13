@@ -25,8 +25,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by Wang on 2014/11/9.
- * 基础适配器
+ * 未收藏联系人列表的基础适配器
+ *
+ * @author 王小明
+ * @data 2015/01/13
  */
 public class ContactListAdapter extends BaseAdapter {
 
@@ -87,22 +89,13 @@ public class ContactListAdapter extends BaseAdapter {
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.avatar = (CircleImageView) convertView.findViewById(R.id.profile_image);
             holder.id = (ImageView) convertView.findViewById(R.id.identification);
+            holder.letter = (TextView) convertView.findViewById(R.id.letter);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         //一般按如下方式将数据与UI联系起来
-        //holder.image.setImageResource(mData.get(position).getmIcon());
         String name = (String) data.get(position).get("name");
-        /*
-        if (catalogList.contains((Integer) position)) {
-            holder.name.setText(name);
-            holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeCatalog);
-            holder.name.setTextColor(Color.parseColor(colorCatalog)); // Color.BLACK
-            holder.name.setHeight(heightCatalog);
-            holder.avatar.setVisibility(View.GONE);
-        } else {
-        */
         holder.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, sizeName);
         holder.name.setTextColor(Color.parseColor(colorName));
         holder.name.setHeight(heightName);
@@ -112,13 +105,23 @@ public class ContactListAdapter extends BaseAdapter {
             holder.avatar.setImageURI(avatarUri);
         }
         String id = (String) data.get(position).get("identification");
-        if(id != null) {
-            holder.id.setVisibility(View.VISIBLE);
-            convertView.getResources().getDrawable(
-                    resourceIdMap.get(id)).mutate().setColorFilter(Color.parseColor("#E91E63"), PorterDuff.Mode.MULTIPLY);
-            holder.id.setImageResource(resourceIdMap.get(id));
-        } else {
-            holder.id.setVisibility(View.INVISIBLE);
+        switch (id) {
+            case "star":
+                holder.id.setVisibility(View.VISIBLE);
+                holder.letter.setVisibility(View.GONE);
+                convertView.getResources().getDrawable(
+                        resourceIdMap.get(id)).mutate().setColorFilter(Color.parseColor("#E91E63"), PorterDuff.Mode.MULTIPLY);
+                holder.id.setImageResource(resourceIdMap.get(id));
+                break;
+            case "none":
+                holder.id.setVisibility(View.INVISIBLE);
+                holder.letter.setVisibility(View.GONE);
+                break;
+            default:
+                holder.letter.setVisibility(View.VISIBLE);
+                holder.id.setVisibility(View.GONE);
+                holder.letter.setText(id);
+                break;
         }
         if (!keyWord.isEmpty()) {
             System.out.println("搜索字高亮 " + keyWord);
@@ -143,5 +146,6 @@ public class ContactListAdapter extends BaseAdapter {
         public TextView name;
         public CircleImageView avatar;
         public ImageView id;
+        public TextView letter;
     }
 }

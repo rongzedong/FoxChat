@@ -7,15 +7,17 @@
 
     <ImageView
         android:id="@+id/phone"
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_weight="1"
         android:paddingTop="20dp"
+        android:src="@drawable/ic_local_phone_grey600_18dp"
         android:visibility="visible" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
+        android:layout_weight="5"
         android:paddingTop="10dp"
         android:paddingLeft="@dimen/activity_vertical_margin"
         android:orientation="vertical">
@@ -59,10 +61,10 @@
 
     <ImageView
         android:id="@+id/mes1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
-        android:paddingLeft="100dp"
+        android:layout_weight="1"
         android:paddingTop="20dp"
-        android:src="@drawable/ic_message_black" />
+        android:src="@drawable/ic_message_grey600_18dp" />
 
 </LinearLayout>

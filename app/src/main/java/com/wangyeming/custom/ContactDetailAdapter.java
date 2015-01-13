@@ -64,7 +64,7 @@ public class ContactDetailAdapter extends BaseAdapter {
         } else {
             holder.phone.setVisibility(View.INVISIBLE);
         }
-        holder.phone.setImageResource(R.drawable.ic_local_phone_black);
+        //holder.phone.setImageResource(R.drawable.ic_local_phone_black);
         holder.phone_num.setText(((String) data.get(position).get("phone_num")));
         System.out.println("id " + data.get(position).get("phone_type_id") + " num " + data.get(position).get("phone_num")
                 + " type " + data.get(position).get("phone_type"));
@@ -77,7 +77,7 @@ public class ContactDetailAdapter extends BaseAdapter {
         System.out.println("typeDisplay " + typeDisplay);
         holder.phone_type.setText(typeDisplay);
         holder.phone_location.setText(((String) data.get(position).get("phone_location")));
-        holder.mes1.setImageResource(R.drawable.ic_message_black);
+        //holder.mes1.setImageResource(R.drawable.ic_message_black);
         return convertView;
     }
 

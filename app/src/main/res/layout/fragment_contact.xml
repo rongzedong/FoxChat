@@ -4,63 +4,16 @@
     android:layout_height="match_parent"
     tools:context="com.wangyeming.foxchat.ContactFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".LineActivity">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <include layout="@layout/contact_list" />
 
-            <TextView
-                android:id="@+id/tV1"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:text="@string/result_conclusion"
-                android:textSize="15dp"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/tV2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:text="@string/result_conclusion"
-                android:textSize="15dp"
-                android:visibility="gone" />
-
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/list_contact_line"
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="10"
-            android:smoothScrollbar="true"></ListView>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/addNewContact"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="@drawable/ic_person_add_black"
-                android:layout_gravity="center_horizontal|center_vertical" />
-
-        </LinearLayout>
+        <include layout="@layout/contact_sheet" />
 
     </LinearLayout>
+
 
 </FrameLayout>

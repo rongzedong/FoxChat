@@ -5,6 +5,8 @@
         android:title="@string/addContact"
         android:icon="@drawable/ic_person_add_grey600_24dp" />
 
+    <divider/>
+
     <item
         android:id="@+id/edit"
         android:title="@string/edit"

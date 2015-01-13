@@ -23,6 +23,12 @@ import android.widget.Toast;
 import com.wangyeming.custom.ContactListAdapter;
 import com.wangyeming.custom.NewToast;
 
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -220,7 +226,7 @@ public class ContactFragment extends Fragment {
 
     //读取未收藏联系人
     public void readContact() {
-        Log.d("wym","读取未收藏联系人。。。");
+        Log.d("wym", "读取未收藏联系人。。。");
         /*
         //设置副标题
         Map<String, Object> contactMapTmp = new HashMap<>();
@@ -232,6 +238,7 @@ public class ContactFragment extends Fragment {
         cursorID = cr.query(CONTENT_URI, PHONES_PROJECTION, "starred=?",
                 new String[]{"0"}, "sort_key");// 设置联系人光标,按汉语拼音排序
         String contactName = "";//排除联系人重复
+        String pinyin = "none";
         while (cursorID.moveToNext()) {
             String displayName = cursorID.getString(cursorID.getColumnIndex(
                     ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME)); //获取联系人姓名
@@ -252,15 +259,23 @@ public class ContactFragment extends Fragment {
                 String photoString = cursorID.getString(
                         cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
                 Uri avatarUri = null;
-                if(photoString != null) {
+                if (photoString != null) {
                     avatarUri = Uri.parse(photoString);
                 }
-                Log.d(this.getTag(), contactName);
                 contactIdList.add(contactId); //保存联系人ContactId
                 contactIdList2.add(contactId);
                 contactIdFilterList.add(contactId);
-                contactMap.put("name",contactName);
-                contactMap.put("avatarUri",avatarUri);
+                contactMap.put("name", contactName);
+                contactMap.put("avatarUri", avatarUri);
+                //获取姓名姓的拼音
+                String pinyinTmp = getPinYin(contactName);
+                if (pinyin.equals(pinyinTmp)) {
+                    contactMap.put("identification", "none");
+                } else {
+                    contactMap.put("identification", pinyinTmp);
+                }
+                pinyin = pinyinTmp;
+                Log.d(this.getTag(), contactName);
                 contactList.add(contactMap);
             }
         }
@@ -270,7 +285,7 @@ public class ContactFragment extends Fragment {
 
     //读取星标联系人
     public void readStarredContact() {
-        Log.d("wym","读取收藏联系人。。。");
+        Log.d("wym", "读取收藏联系人。。。");
         /*
         Map<String, Object> contactMapTmp = new HashMap<>();
         contactMapTmp.put("name",getString(R.string.starred_contact));
@@ -300,17 +315,17 @@ public class ContactFragment extends Fragment {
                         ContactsContract.CommonDataKinds.Photo.PHOTO_URI)); //获取联系人头像
                 Log.d(this.getTag(), contactName);
                 Uri avatarUri = null;
-                if(photoString != null) {
+                if (photoString != null) {
                     avatarUri = Uri.parse(photoString);
                 }
                 contactIdList.add(contactId); //保存联系人ContactId
                 contactIdList2.add(contactId); //保存联系人ContactId
-                contactMap.put("name",contactName);
-                contactMap.put("avatarUri",avatarUri);
-                if(contactList.size() == 0) {
+                contactMap.put("name", contactName);
+                contactMap.put("avatarUri", avatarUri);
+                if (contactList.size() == 0) {
                     contactMap.put("identification", "star");
                 } else {
-                    contactMap.put("identification", null);
+                    contactMap.put("identification", "none");
                 }
                 contactList.add(contactMap);
             }
@@ -495,5 +510,31 @@ public class ContactFragment extends Fragment {
     public void newContact() {
         Intent intent = new Intent(currentActivity, NewContactActivity.class);
         startActivity(intent);
+    }
+
+    //提取姓名姓的拼音
+    public String getPinYin(String name) {
+        String firstName = name.substring(0,1);
+        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+        format.setCaseType(HanyuPinyinCaseType.UPPERCASE);
+        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        format.setVCharType(HanyuPinyinVCharType.WITH_V);
+        char[] nameChar = firstName.trim().toCharArray();// 把字符串转化成字符数组
+        String headPinYin = "";
+        try {
+            for (int i = 0; i < nameChar.length; i++) {
+                // \\u4E00是unicode编码，判断是不是中文
+                if (java.lang.Character.toString(nameChar[i]).matches(
+                        "[\\u4E00-\\u9FA5]+")) {
+                    // 将汉语拼音的全拼存到temp数组
+                    String[] temp = PinyinHelper.toHanyuPinyinStringArray(nameChar[i], format);
+                    // 取拼音的第一个读音
+                    headPinYin += temp[0].substring(0, 1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return headPinYin;
     }
 }

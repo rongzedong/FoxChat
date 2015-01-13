@@ -167,7 +167,7 @@ public class MessageConversationActivity extends ActionBarActivity {
         Uri allURI = Uri.parse(SMS_URI_ALL);
         Cursor cursor = cr.query(allURI, SMS_PROJECTION,
                 "thread_id=?", new String[]{thread_id}, "date DESC"); //按时间升序
-        int i = 0;
+        //int i = 0;
         while (cursor.moveToNext()) {
             Map<String, Object> mesMap = new HashMap<>();
             String address = cursor.getString(cursor.getColumnIndex("address"));
@@ -212,7 +212,7 @@ public class MessageConversationActivity extends ActionBarActivity {
                 break;
             }
             */
-            i++;
+            //i++;
         }
         cursor.close();
     }
