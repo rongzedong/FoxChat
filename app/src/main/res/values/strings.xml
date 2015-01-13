@@ -63,5 +63,7 @@
     <string name="query_hint">search for contact and message</string>
     <string name="back">Back</string>
     <string name="conversation">concersation</string>
+    <string name="addContact">Add Contact</string>
+    <string name="share">Share</string>
 
 </resources>

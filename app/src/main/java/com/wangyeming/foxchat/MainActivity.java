@@ -1,5 +1,6 @@
 package com.wangyeming.foxchat;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
 
+import com.cocosw.bottomsheet.BottomSheet;
 import com.wangyeming.custom.adapter.MyFragmentPagerAdapter;
 
 import java.util.ArrayList;
@@ -45,6 +48,7 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
     private List<String> titleList;  //标题列表数组
     private Toolbar toolbar;
     private android.support.v7.widget.SearchView searchView;
+    private BottomSheet.Builder bottomSheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +67,28 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
+        //设置search view
         searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.action_search).getActionView();
         searchView.setIconifiedByDefault(false);//默认展开搜索框
         searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>" + getResources().getString(R.string.query_hint) + "</font>"));
-        //searchView.setQueryHint(getString(R.string.query_hint)); // 设置提示词
-        //setSearchViewListener();
         searchView.clearFocus();
+        //BottomSheet
+        bottomSheet = new BottomSheet.Builder(this).sheet(R.menu.bottom_sheet).
+                listener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_MENU:
+                bottomSheet.show();
+                break;
+        }
         return true;
     }
 
