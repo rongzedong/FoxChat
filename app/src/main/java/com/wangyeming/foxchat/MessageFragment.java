@@ -23,6 +23,7 @@ import com.wangyeming.custom.adapter.SmsListRecyclerAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -263,7 +264,7 @@ public class MessageFragment extends Fragment {
                 threadIdMap.put(thread_id, 1);
                 //时间转换
                 SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
-                String LgTime = sdFormat.format(date);
+                String LgTime = sdFormat.format(new Date(date));
                 String body_header = body.length() > 20 ? body.substring(0, 19) : body;
                 Boolean isDraft = type == 3 ? true : false;
                 Map<String, Object> smsMap = new HashMap<>();

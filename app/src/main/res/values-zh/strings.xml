@@ -52,11 +52,13 @@
     <string name="smsSendName">10010</string>
     <string name="number">(56)</string>
     <string name="smsContent">你好，我要给你涨工资！</string>
-    <string name="date">2015/01/01</string>
+    <string name="date">01/01</string>
     <string name="new_message">新建信息</string>
     <string name="query_hint">搜索联系人、短信</string>
     <string name="back">返回</string>
     <string name="conversation">对话</string>
     <string name="addContact">新增联系人</string>
     <string name="share">分享</string>
+    <string name="label">Work</string>
+    <string name="location">北京</string>
 </resources>

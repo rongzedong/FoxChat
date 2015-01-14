@@ -5,14 +5,29 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.CallLog;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wangyeming.custom.adapter.CallRecordAdapter;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+import static java.lang.StrictMath.abs;
 
 
 /**
@@ -35,6 +50,11 @@ public class PhoneFragment extends Fragment {
     private View currentView;
     //ContentResolver
     private ContentResolver cr;
+    //通话记录储存
+    private List<Map<String, Object>> callRecordsDisplay = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private CallRecordAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     private static final String[] CALL_PROJECTION_ABOVE_16 = new String[]{
             "name",             //姓名
@@ -146,8 +166,25 @@ public class PhoneFragment extends Fragment {
         currentActivity = getActivity(); //获取当前activity
         currentView = getView(); //获取当前view
         cr = currentActivity.getContentResolver(); //获取contact resolver
-        getCallRecords();
+        setRecyclerView();
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                getCallRecords();
+                Message message = Message.obtain();
+                message.obj = "ok";
+                PhoneFragment.this.handler1.sendMessage(message);
+            }
+        }).start();
     }
+
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            mAdapter.notifyDataSetChanged();
+        }
+    };
 
     //读取通话记录
     public void getCallRecords() {
@@ -182,11 +219,14 @@ public class PhoneFragment extends Fragment {
             /*Integer features = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.FEATURES));
             String geocodedLocation = cursor.getString(cursor.getColumnIndex(
                     CallLog.Calls.GEOCODED_LOCATION));*/
+            //时间转换
+            SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
+            String LgTime = sdFormat.format(new Date(abs(date)));
             /* min API>=16 */
             Log.d(this.getTag(), " name " + name
                             + " numberType " + numberType
                             + " numberLabel " + numberLabel
-                            + " date " + date
+                            + " date " + LgTime
                             + " duration " + duration
                             + " isRead " + isRead
                             + " isNew " + isNew
@@ -203,13 +243,44 @@ public class PhoneFragment extends Fragment {
                             + " countryIso " + countryIso
                             + " features " + features
                             + " geocodedLocation " + geocodedLocation);*/
-            //时间转换
-            SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
-            String LgTime = sdFormat.format(date);
 
+            //获取联系人头像
+            Uri avatarUri = name == null ? null : nameToAvatat(name);
+            Map<String, Object> callRecordsMap = new HashMap<>();
+            callRecordsMap.put("name",name);
+            callRecordsMap.put("number",number);
+            callRecordsMap.put("date",LgTime);
+            callRecordsMap.put("numberType",numberType);
+            callRecordsMap.put("numberLabel",numberLabel);
+            callRecordsMap.put("isRead",isRead);
+            callRecordsMap.put("isNew",isNew);
+            callRecordsMap.put("duration",duration);
+            callRecordsMap.put("avatarUri",avatarUri);
+            callRecordsDisplay.add(callRecordsMap);
         }
         cursor.close();
     }
 
+    //通过姓名获得头像
+    public Uri nameToAvatat(String name) {
+        Cursor cursor = cr.query(CONTENT_URI, new String[]{"photo_uri"},
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + "=?", new String[]{name}, null, null);
+        Uri avatarUri = null;
+        if (cursor.moveToFirst()) {
+            String avatarString = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Photo.PHOTO_URI)); //获取联系人头像
+            avatarUri = Uri.parse(avatarString);
+        }
+        cursor.close();
+        return avatarUri;
+    }
 
+    public void setRecyclerView() {
+        mRecyclerView = (RecyclerView) currentView.findViewById(R.id.call_record_recycler);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(currentActivity);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new CallRecordAdapter(currentActivity, callRecordsDisplay);
+        mRecyclerView.setAdapter(mAdapter);
+    }
 }

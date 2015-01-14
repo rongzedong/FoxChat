@@ -65,5 +65,7 @@
     <string name="conversation">concersation</string>
     <string name="addContact">Add Contact</string>
     <string name="share">Share</string>
+    <string name="label">Work</string>
+    <string name="location">Beijing</string>
 
 </resources>

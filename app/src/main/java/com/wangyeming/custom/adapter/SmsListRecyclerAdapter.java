@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wangyeming.foxchat.MessageConversationActivity;
@@ -31,7 +32,7 @@ public class SmsListRecyclerAdapter extends RecyclerView.Adapter<SmsListRecycler
         public TextView numberTextView;
         public TextView contentTextView;
         public TextView dateTextView;
-        public android.widget.ImageView sendFailAlert;
+        public ImageView sendFailAlert;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -65,7 +66,7 @@ public class SmsListRecyclerAdapter extends RecyclerView.Adapter<SmsListRecycler
         vh.numberTextView = (TextView) view.findViewById(R.id.number);
         vh.contentTextView = (TextView) view.findViewById(R.id.content);
         vh.dateTextView = (TextView) view.findViewById(R.id.date);
-        vh.sendFailAlert = (android.widget.ImageView) view.findViewById(R.id.send_fail_alert);
+        vh.sendFailAlert = (ImageView) view.findViewById(R.id.send_fail_alert);
         return vh;
     }
 
