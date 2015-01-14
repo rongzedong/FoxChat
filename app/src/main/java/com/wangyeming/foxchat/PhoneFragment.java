@@ -1,43 +1,85 @@
 package com.wangyeming.foxchat;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CallLog;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.SimpleDateFormat;
+
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link PhoneFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PhoneFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 读取通话记录的Fragment
+ *
+ * @author 王小明
+ * @data 2015/01/14
  */
 public class PhoneFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    // 当前activity
+    private Activity currentActivity;
+    // 当前view
+    private View currentView;
+    //ContentResolver
+    private ContentResolver cr;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PhoneFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+    private static final String[] CALL_PROJECTION_ABOVE_16 = new String[]{
+            "name",             //姓名
+            "numberlabel",      //手机号标签
+            "numbertype",       //手机号类型
+            "date",             //日期
+            "duration",         //持续的时间
+            "is_read",          //是否阅读 Boolean
+            "new",              //Boolean 通话是否被获知
+            "number",           //用户输入的号码
+            "type",             //类型（incoming, outgoing or missed）Integer
+    };
+
+    private static final String[] CALL_PROJECTION_AT_17 = new String[]{
+            "limit",            //用于限制返回通话记录数目的查询参数
+            "offset",           //用于指定返回起始记录的查询参数
+    };
+
+    private static final String[] CALL_PROJECTION_AT_19 = new String[]{
+            /*
+            * 1  号码被允许
+            * 2  号码被用户屏蔽
+            * 3  号码未被指定或网络未知
+            * 4  付费电话
+            *
+            */
+            "presentation",     //权限
+    };
+
+    private static final String[] CALL_PROJEXTION_AT_21 = new String[]{
+            "formatted_number", //缓存的手机号，基于用户所在的国家格式化，如果号码相关的信息被改变，号码可能不存在
+            "lookup_uri",       //联系人的uri(如果存在)，如果号码相关的信息被改变，信息可能不存在
+            "matched_number",   //匹配的号码
+            "normalized_number",//标准化（E164）的手机号
+            "photo_id",         //照片id
+            "vnd.android.cursor.item/calls", //MIME TYPE of CONTENT_URI
+            "vnd.android.cursor.dir/calls",  //MIME TYPE of CONTENT_URI and CONTENT_FILTER_URI
+            "countryiso",       //接电话所在的国家代码
+            "data_usage",       //The data usage of the call in bytes.
+            "features",         //通话的Bit-mask 描述的特色，如vedio等（Integer）
+            "geocoded_location",//通话号码所在地
+            "transcription",    //通话或声音邮件的录音（仅当type VOICEMAIL_TYPE存在的时候）
+            "voicemail_ur",     //声音邮件的uri（仅当type VOICEMAIL_TYPE存在的时候）
+    };
+
     public static PhoneFragment newInstance(String param1, String param2) {
         PhoneFragment fragment = new PhoneFragment();
         Bundle args = new Bundle();
@@ -67,7 +109,12 @@ public class PhoneFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_phone, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    @Override
+    public void onStart() {
+        super.onStart();
+        init();
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -91,19 +138,78 @@ public class PhoneFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
+    public void init() {
+        currentActivity = getActivity(); //获取当前activity
+        currentView = getView(); //获取当前view
+        cr = currentActivity.getContentResolver(); //获取contact resolver
+        getCallRecords();
+    }
+
+    //读取通话记录
+    public void getCallRecords() {
+        Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, CALL_PROJECTION_ABOVE_16,
+                null, null, null);
+        while(cursor.moveToNext()) {
+            Log.d(this.getTag(), "----------------call record----------------");
+            /* min API>=16 */
+            String name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
+            Integer numberType = cursor.getInt(cursor.getColumnIndex(
+                    CallLog.Calls.CACHED_NUMBER_TYPE));
+            String numberLabel = cursor.getString(cursor.getColumnIndex(
+                    CallLog.Calls.CACHED_NUMBER_LABEL));
+            Integer date = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.DATE));
+            Long duration = cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DURATION));
+            Boolean isRead = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.IS_READ)) > 0;
+            Boolean isNew = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.NEW)) > 0;
+            String number = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
+            /* min API>=17 */
+            /*Integer limit = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.LIMIT_PARAM_KEY));*/
+            /* min API>=21 */
+            /*String lookupUri = cursor.getString(cursor.getColumnIndex(
+                    CallLog.Calls.CACHED_LOOKUP_URI));
+            String formattedNumber = cursor.getString(cursor.getColumnIndex(
+                    CallLog.Calls.CACHED_FORMATTED_NUMBER));
+            String matchedNumber = cursor.getString(cursor.getColumnIndex(
+                    CallLog.Calls.CACHED_MATCHED_NUMBER));*/
+            /*String normalizedNumber = cursor.getString(cursor.getColumnIndex(
+                    CallLog.Calls.CACHED_NORMALIZED_NUMBER));*/
+            /*Integer photoId = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.CACHED_PHOTO_ID));*/
+            /*String countryIso = cursor.getString(cursor.getColumnIndex(CallLog.Calls.COUNTRY_ISO));*/
+            /*Integer features = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.FEATURES));
+            String geocodedLocation = cursor.getString(cursor.getColumnIndex(
+                    CallLog.Calls.GEOCODED_LOCATION));*/
+            /* min API>=16 */
+            Log.d(this.getTag(), " name " + name
+                            + " numberType " + numberType
+                            + " numberLabel " + numberLabel
+                            + " date " + date
+                            + " duration " + duration
+                            + " isRead " + isRead
+                            + " isNew " + isNew
+                            + " number " + number
+            );
+            /* min API>=17 */
+            /*Log.d(this.getTag()," limit " + limit );*/
+            /* min API>=21 */
+            /*Log.d(this.getTag(), "lookupUri " + lookupUri
+                            + " formattedNumber " + formattedNumber
+                            + " matchedNumber " + matchedNumber
+                            + " normalizedNumber " + normalizedNumber
+                            + " photoId " + photoId
+                            + " countryIso " + countryIso
+                            + " features " + features
+                            + " geocodedLocation " + geocodedLocation);*/
+            //时间转换
+            SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
+            String LgTime = sdFormat.format(date);
+
+        }
+        cursor.close();
+    }
+
 
 }

@@ -40,7 +40,7 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 
 
 /**
- * 读取联系人详细信息的Fragment
+ * 读取联系人列表信息的Fragment
  *
  * @author 王小明
  * @data 2015/01/13

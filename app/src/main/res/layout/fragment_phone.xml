@@ -10,6 +10,35 @@
         android:background="#ffffff"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="10"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <!--android.support.v7.widget.RecyclerView
+            android:id="@+id/call_record_recycler"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="10" /-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_keyboard_black_36dp" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

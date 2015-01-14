@@ -21,6 +21,12 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <!-- 允许编写短信短信 -->
     <uses-permission android:name="android.permission.WRITE_SMS" />
+    <!--打电话-->
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!--获取通话记录-->
+    <uses-permission android:name="android.permission.READ_CALL_LOG" />
+    <!--修改通话记录-->
+    <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
 
     <application
         android:allowBackup="true"

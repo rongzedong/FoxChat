@@ -31,12 +31,10 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link MessageFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link MessageFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 读取联系人短信的Fragment
+ *
+ * @author 王小明
+ * @data 2015/01/11
  */
 public class MessageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -365,12 +363,12 @@ public class MessageFragment extends Fragment {
             //Log.d(this.getTag(), "date " + LgTime + " number" + threadIdMap.get(key)
             //        + " contact " + name + " content " + body_header + " isDraft " + isDraft);
             /*
-            Log.d(this.getTag(), "id " + id + " thread_id " + thread_id + " address " + address
+             Log.d(this.getTag(), "id " + id + " thread_id " + thread_id + " address " + address
                             + " person " + person + " date " + date + " protocol " + protocol
                             + " read " + read + " status " + status + " type " + type
                             + " reply_path_present " + reply_path_present + " subject "
                             + subject + " body " + body + " service_center " + service_center
-                            + " locked " + locked
+                           + " locked " + locked
             );
             */
             cursor.close();
