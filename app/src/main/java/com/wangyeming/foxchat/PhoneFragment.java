@@ -187,7 +187,7 @@ public class PhoneFragment extends Fragment {
     //读取通话记录
     public void getCallRecords() {
         Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, CALL_PROJECTION_ABOVE_16,
-                null, null, null);
+                null, null, CallLog.Calls.DEFAULT_SORT_ORDER);
         while(cursor.moveToNext()) {
             Log.d(this.getTag(), "----------------call record----------------");
             /* min API>=16 */
@@ -257,6 +257,7 @@ public class PhoneFragment extends Fragment {
             callRecordsMap.put("isNew",isNew);
             callRecordsMap.put("duration",duration);
             callRecordsMap.put("avatarUri",avatarUri);
+            callRecordsMap.put("type",type);
             callRecordsDisplay.add(callRecordsMap);
         }
         cursor.close();

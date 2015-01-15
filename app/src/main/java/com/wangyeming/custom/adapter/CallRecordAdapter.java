@@ -61,20 +61,40 @@ public class CallRecordAdapter extends RecyclerView.Adapter<CallRecordAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder vh, int i) {
+        //设置头像
         Uri avatarUri = (Uri) callRecordsDisplay.get(i).get("avatarUri");
         if (avatarUri != null) {
             vh.avatar.setImageURI(avatarUri);
         }
+        //设置姓名
         String name = (String) callRecordsDisplay.get(i).get("name");
         String number = (String) callRecordsDisplay.get(i).get("number");
         String displayName = name != null ? name : number;
         vh.nameTextView.setText(displayName);
+        //设置电话类型图标
+        int type = (int) callRecordsDisplay.get(i).get("type");
+        switch (type) {
+            //来电
+            case 1:
+                vh.callPng.setImageResource(R.drawable.ic_call_received_black_18dp);
+                break;
+            //去电
+            case 2:
+                vh.callPng.setImageResource(R.drawable.ic_call_made_black_18dp);
+                break;
+            //未接来电
+            case 3:
+                vh.callPng.setImageResource(R.drawable.ic_call_missed_black_18dp);
+                break;
+        }
+        //设置显示电话号码类型
         String label = (String) callRecordsDisplay.get(i).get("numberLabel");
         String[] phoneNumberTypeArray = context.getResources().getStringArray(R.array.phone_type);
-        Integer type = (Integer) callRecordsDisplay.get(i).get("numberType");
-        String numberType = phoneNumberTypeArray[type];
+        Integer numberTypeInt = (Integer) callRecordsDisplay.get(i).get("numberType");
+        String numberType = phoneNumberTypeArray[numberTypeInt];
         String display = label == null ? numberType : label;
         vh.labelTextView.setText(display);
+        //设置日期
         vh.dateTextView.setText((String) callRecordsDisplay.get(i).get("date"));
         //vh.labelTextView.setText((String) callRecordsDisplay.get(i).get("loacation"));
     }
