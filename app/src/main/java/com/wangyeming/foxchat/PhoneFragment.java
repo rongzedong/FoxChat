@@ -21,13 +21,11 @@ import com.wangyeming.custom.adapter.CallRecordAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-import static java.lang.StrictMath.abs;
 
 
 /**
@@ -66,6 +64,8 @@ public class PhoneFragment extends Fragment {
             "new",              //Boolean 通话是否被获知
             "number",           //用户输入的号码
             "type",             //类型（incoming, outgoing or missed）Integer
+            //"vnd.android.cursor.item/calls", //MIME TYPE of CONTENT_URI
+            //"vnd.android.cursor.dir/calls",  //MIME TYPE of CONTENT_URI and CONTENT_FILTER_URI
     };
 
     private static final String[] CALL_PROJECTION_AT_17 = new String[]{
@@ -90,8 +90,6 @@ public class PhoneFragment extends Fragment {
             "matched_number",   //匹配的号码
             "normalized_number",//标准化（E164）的手机号
             "photo_id",         //照片id
-            "vnd.android.cursor.item/calls", //MIME TYPE of CONTENT_URI
-            "vnd.android.cursor.dir/calls",  //MIME TYPE of CONTENT_URI and CONTENT_FILTER_URI
             "countryiso",       //接电话所在的国家代码
             "data_usage",       //The data usage of the call in bytes.
             "features",         //通话的Bit-mask 描述的特色，如vedio等（Integer）
@@ -198,11 +196,12 @@ public class PhoneFragment extends Fragment {
                     CallLog.Calls.CACHED_NUMBER_TYPE));
             String numberLabel = cursor.getString(cursor.getColumnIndex(
                     CallLog.Calls.CACHED_NUMBER_LABEL));
-            Integer date = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.DATE));
+            Long date = cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DATE));
             Long duration = cursor.getLong(cursor.getColumnIndex(CallLog.Calls.DURATION));
             Boolean isRead = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.IS_READ)) > 0;
             Boolean isNew = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.NEW)) > 0;
             String number = cursor.getString(cursor.getColumnIndex(CallLog.Calls.NUMBER));
+            Integer type = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.TYPE));
             /* min API>=17 */
             /*Integer limit = cursor.getInt(cursor.getColumnIndex(CallLog.Calls.LIMIT_PARAM_KEY));*/
             /* min API>=21 */
@@ -221,16 +220,18 @@ public class PhoneFragment extends Fragment {
                     CallLog.Calls.GEOCODED_LOCATION));*/
             //时间转换
             SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
-            String LgTime = sdFormat.format(new Date(abs(date)));
+            String LgTime = sdFormat.format(date);
             /* min API>=16 */
             Log.d(this.getTag(), " name " + name
                             + " numberType " + numberType
                             + " numberLabel " + numberLabel
-                            + " date " + LgTime
+                            + " date " + date
+                            + " LgTime " + LgTime
                             + " duration " + duration
                             + " isRead " + isRead
                             + " isNew " + isNew
                             + " number " + number
+                            + " type " + type
             );
             /* min API>=17 */
             /*Log.d(this.getTag()," limit " + limit );*/

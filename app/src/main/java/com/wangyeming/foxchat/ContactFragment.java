@@ -277,7 +277,7 @@ public class ContactFragment extends Fragment {
                     contactMap.put("identification", pinyinTmp);
                 }
                 pinyin = pinyinTmp;
-                Log.d(this.getTag(), contactName);
+                //Log.d(this.getTag(), contactName);
                 contactList.add(contactMap);
             }
         }
@@ -333,7 +333,7 @@ public class ContactFragment extends Fragment {
             }
         }
         starNum = contactList.size();
-        Log.d("wym", "一共读取了" + namesList2.size() + "个收藏联系人");
+        //Log.d("wym", "一共读取了" + namesList2.size() + "个收藏联系人");
         catalogList.add(namesList.size()); //记录“其他联系人”储存的位置
         cursorID.close();
     }
