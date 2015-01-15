@@ -33,6 +33,7 @@ public class CallRecordAdapter extends RecyclerView.Adapter<CallRecordAdapter.Vi
         public TextView labelTextView;
         public TextView dateTextView;
         public TextView locationTextView;
+        public TextView subheader;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -50,6 +51,7 @@ public class CallRecordAdapter extends RecyclerView.Adapter<CallRecordAdapter.Vi
         View view = mInflater.inflate(R.layout.call_record_item,
                 viewGroup, false);
         ViewHolder vh = new ViewHolder(view);
+        vh.subheader = (TextView) view.findViewById(R.id.subheader);
         vh.avatar = (CircleImageView) view.findViewById(R.id.avatar);
         vh.nameTextView = (TextView) view.findViewById(R.id.name);
         vh.callPng = (ImageView) view.findViewById(R.id.call_png);
@@ -61,6 +63,14 @@ public class CallRecordAdapter extends RecyclerView.Adapter<CallRecordAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder vh, int i) {
+        //设置subheader
+        String timeApart = (String) callRecordsDisplay.get(i).get("timeApart");
+        if(timeApart!=null) {
+            vh.subheader.setText(timeApart);
+            vh.subheader.setVisibility(View.VISIBLE);
+        } else {
+            vh.subheader.setVisibility(View.GONE);
+        }
         //设置头像
         Uri avatarUri = (Uri) callRecordsDisplay.get(i).get("avatarUri");
         if (avatarUri != null) {

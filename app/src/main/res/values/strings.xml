@@ -67,5 +67,14 @@
     <string name="share">Share</string>
     <string name="label">Work</string>
     <string name="location">Beijing</string>
+    <string name="subheader">Toady</string>
+    <!--Date apart-->
+    <string name="within_one_hour">Within One hour</string>
+    <string name="within_one_day">Within One Day</string>
+    <string name="within_two_day">Within Two Day</string>
+    <string name="within_one_week">Within One Week</string>
+    <string name="within_one_month">Within One Month</string>
+    <string name="within_one_year">Within One Year</string>
+    <string name="over_one_hour">Over One Year</string>
 
 </resources>

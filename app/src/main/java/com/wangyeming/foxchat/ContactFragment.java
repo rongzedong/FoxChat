@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -183,11 +185,28 @@ public class ContactFragment extends Fragment {
         currentView = getView();  //获取当前view
         setNewContact(); //设置新建联系人按钮
         cr = currentActivity.getContentResolver();
-        getPhoneContacts();  //获取手机联系人信息
-        displayListView(namesList);  //显示页面布局
-        setOnScrollListener();  //设置滑动监听
-        setOnItemClickListener();  //设置点击监听
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                getPhoneContacts();  //获取手机联系人信息
+                Message message = Message.obtain();
+                message.obj = "ok";
+                ContactFragment.this.handler1.sendMessage(message);
+            }
+        }).start();
     }
+
+
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            //mAdapter.notifyDataSetChanged();
+            displayListView(namesList);  //显示页面布局
+            setOnScrollListener();  //设置滑动监听
+            setOnItemClickListener();  //设置点击监听
+        }
+    };
 
     //设置新建联系人按钮
     public void setNewContact() {

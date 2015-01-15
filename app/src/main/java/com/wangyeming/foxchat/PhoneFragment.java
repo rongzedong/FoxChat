@@ -37,6 +37,12 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 public class PhoneFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final long ONEHOUR = Long.valueOf(3600L*1000L);
+    private static final long ONEDAY = Long.valueOf(86400L*1000L);
+    private static final long TWODAY = Long.valueOf(86400L*2L*1000L);
+    private static final long ONEWEEK = Long.valueOf(604800L*1000L);
+    private static final long ONEMOUTH = Long.valueOf(2629743L*1000L);
+    private static final long ONEYEAR = Long.valueOf(31556926L*1000L);
 
     private String mParam1;
     private String mParam2;
@@ -188,6 +194,7 @@ public class PhoneFragment extends Fragment {
     public void getCallRecords() {
         Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, CALL_PROJECTION_ABOVE_16,
                 null, null, CallLog.Calls.DEFAULT_SORT_ORDER);
+        String subheader = "subheader";
         while(cursor.moveToNext()) {
             Log.d(this.getTag(), "----------------call record----------------");
             /* min API>=16 */
@@ -221,6 +228,13 @@ public class PhoneFragment extends Fragment {
             //时间转换
             SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
             String LgTime = sdFormat.format(date);
+            //计算时间间隔
+            String apart = null;
+            String timeApart =  getCurrentTime(date);
+            if(!timeApart.equals(subheader)) {
+               apart = timeApart;
+            }
+            subheader = timeApart;
             /* min API>=16 */
             Log.d(this.getTag(), " name " + name
                             + " numberType " + numberType
@@ -232,6 +246,7 @@ public class PhoneFragment extends Fragment {
                             + " isNew " + isNew
                             + " number " + number
                             + " type " + type
+                            + " timeApart " + timeApart
             );
             /* min API>=17 */
             /*Log.d(this.getTag()," limit " + limit );*/
@@ -258,6 +273,7 @@ public class PhoneFragment extends Fragment {
             callRecordsMap.put("duration",duration);
             callRecordsMap.put("avatarUri",avatarUri);
             callRecordsMap.put("type",type);
+            callRecordsMap.put("timeApart",apart);
             callRecordsDisplay.add(callRecordsMap);
         }
         cursor.close();
@@ -284,5 +300,30 @@ public class PhoneFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new CallRecordAdapter(currentActivity, callRecordsDisplay);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public String getCurrentTime(Long date) {
+        String[] arr = getResources().getStringArray(R.array.date_apart);
+        Long currentTimeMillis = System.currentTimeMillis();
+        Long time = currentTimeMillis - date;
+        String time_apart;
+        if(time < ONEHOUR) {
+            time_apart = arr[0];
+        } else if(time < ONEDAY) {
+            time_apart = arr[1];
+        } else if(time < TWODAY) {
+            time_apart = arr[2];
+        } else if(time < ONEWEEK) {
+            time_apart = arr[3];
+        } else if(time < ONEMOUTH) {
+            time_apart = arr[4];
+        } else if(time < ONEYEAR) {
+            Log.d("wangyeming", "ONEYEAR " + ONEYEAR + " ONEMOUTH " + ONEMOUTH +" time " + time );
+            time_apart = arr[5];
+        } else {
+            time_apart = arr[6];
+        }
+        return time_apart;
+
     }
 }

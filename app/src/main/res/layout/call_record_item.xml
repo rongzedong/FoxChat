@@ -5,10 +5,20 @@
     android:orientation="vertical"
     android:layout_marginTop="10dp">
 
+    <TextView
+        android:id="@+id/subheader"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:text="@string/subheader"
+        android:fontFamily="roboto"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="16dp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="16dp">
 
         <com.wangyeming.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/avatar"
@@ -16,8 +26,7 @@
             android:layout_height="60dp"
             android:src="@drawable/white_fox"
             app:border_color="#FFFFFF"
-            app:border_width="2dp"
-            android:layout_marginLeft="15dp"/>
+            app:border_width="2dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -53,7 +62,7 @@
                     android:id="@+id/label"
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="@string/label"
                     android:textColor="#9E9E9E"
