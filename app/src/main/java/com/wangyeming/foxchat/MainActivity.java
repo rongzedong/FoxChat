@@ -34,7 +34,7 @@ import it.neokree.materialtabs.MaterialTabHost;
  * @data 2015/01/05
  */
 public class MainActivity extends ActionBarActivity implements PhoneFragment.OnFragmentInteractionListener,
-        ContactFragment.OnFragmentInteractionListener, MessageFragment.OnFragmentInteractionListener {
+        NewContactFragment.OnFragmentInteractionListener, MessageFragment.OnFragmentInteractionListener {
 
     private static final String TAG = "FragmentTabs";
     public static final String TAB_PHONES = "phones";
@@ -129,7 +129,8 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
         LayoutInflater inflater = getLayoutInflater();
         fragmentList = new ArrayList<>();// 将要分页显示的View装入数组中
         fragmentList.add(new PhoneFragment());
-        fragmentList.add(new ContactFragment());
+        //fragmentList.add(new ContactFragment());
+        fragmentList.add(new NewContactFragment());
         fragmentList.add(new MessageFragment());
         titleList = new ArrayList<String>();// 每个页面的Title数据
         titleList.add("拨号");

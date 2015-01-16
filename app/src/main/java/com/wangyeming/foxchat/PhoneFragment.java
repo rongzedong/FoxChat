@@ -37,12 +37,12 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 public class PhoneFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final long ONEHOUR = Long.valueOf(3600L*1000L);
-    private static final long ONEDAY = Long.valueOf(86400L*1000L);
-    private static final long TWODAY = Long.valueOf(86400L*2L*1000L);
-    private static final long ONEWEEK = Long.valueOf(604800L*1000L);
-    private static final long ONEMOUTH = Long.valueOf(2629743L*1000L);
-    private static final long ONEYEAR = Long.valueOf(31556926L*1000L);
+    private static final long ONEHOUR = 3600L * 1000L;
+    private static final long ONEDAY = 86400L * 1000L;
+    private static final long TWODAY = 86400L * 2L * 1000L;
+    private static final long ONEWEEK = 604800L * 1000L;
+    private static final long ONEMOUTH = 2629743L * 1000L;
+    private static final long ONEYEAR = 31556926L * 1000L;
 
     private String mParam1;
     private String mParam2;
@@ -196,7 +196,7 @@ public class PhoneFragment extends Fragment {
                 null, null, CallLog.Calls.DEFAULT_SORT_ORDER);
         String subheader = "subheader";
         while(cursor.moveToNext()) {
-            Log.d(this.getTag(), "----------------call record----------------");
+            //Log.d(this.getTag(), "----------------call record----------------");
             /* min API>=16 */
             String name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
             Integer numberType = cursor.getInt(cursor.getColumnIndex(
@@ -236,7 +236,7 @@ public class PhoneFragment extends Fragment {
             }
             subheader = timeApart;
             /* min API>=16 */
-            Log.d(this.getTag(), " name " + name
+            /*Log.d(this.getTag(), " name " + name
                             + " numberType " + numberType
                             + " numberLabel " + numberLabel
                             + " date " + date
@@ -247,7 +247,7 @@ public class PhoneFragment extends Fragment {
                             + " number " + number
                             + " type " + type
                             + " timeApart " + timeApart
-            );
+            );*/
             /* min API>=17 */
             /*Log.d(this.getTag()," limit " + limit );*/
             /* min API>=21 */

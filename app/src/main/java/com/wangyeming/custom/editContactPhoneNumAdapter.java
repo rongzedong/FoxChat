@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -284,12 +283,9 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("删除第" + positon + "行");
-                Log.d("bug", "前" + data.get(positon).get("phone_num"));
                 data.remove(positon);
                 //删除行若大于空行，则空行不变，否则空行-1
                 blankPosition = positon > blankPosition ? blankPosition : blankPosition - 1;
-                Log.d("bug", "后" + blankPosition);
                 // EditContactDetailActivity.adapter.notifyDataSetChanged();
                 utility.setListViewHeightBasedOnChildren();
                 focusPosition = blankPosition;//记录焦点的位置,默认位于空行

@@ -66,15 +66,12 @@ public class ContactDetailAdapter extends BaseAdapter {
         }
         //holder.phone.setImageResource(R.drawable.ic_local_phone_black);
         holder.phone_num.setText(((String) data.get(position).get("phone_num")));
-        System.out.println("id " + data.get(position).get("phone_type_id") + " num " + data.get(position).get("phone_num")
-                + " type " + data.get(position).get("phone_type"));
         String typeDisplay = "";
         if (data.get(position).get("phone_type_id") == 0 && data.get(position).get("phone_label") != null) {
             typeDisplay = (String) data.get(position).get("phone_label");
         } else {
             typeDisplay = (String) data.get(position).get("phone_type");
         }
-        System.out.println("typeDisplay " + typeDisplay);
         holder.phone_type.setText(typeDisplay);
         holder.phone_location.setText(((String) data.get(position).get("phone_location")));
         //holder.mes1.setImageResource(R.drawable.ic_message_black);

@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import com.wangyeming.custom.ContactListAdapter;
 import com.wangyeming.custom.NewToast;
+import com.wangyeming.custom.adapter.SmsListRecyclerAdapter;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -63,6 +65,11 @@ public class ContactFragment extends Fragment {
     private View currentView;
     //联系人数据
     private List<Map<String, Object>> contactList = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private SmsListRecyclerAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+
     // 保存联系人的姓名集合---包含分类名称
     private List<String> namesList = new ArrayList<String>();
     // 保存联系人的姓名集合---不包含分类名称
@@ -93,7 +100,7 @@ public class ContactFragment extends Fragment {
     protected boolean isSearch = false;
 
     private static final String[] PHONES_PROJECTION = new String[]{
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //姓名
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
             ContactsContract.CommonDataKinds.Photo.PHOTO_ID, //photo_id
             ContactsContract.CommonDataKinds.Photo.PHOTO_URI,//
@@ -120,6 +127,7 @@ public class ContactFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        Log.d("wangyeming1", "onAttach");
         try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {
@@ -135,20 +143,41 @@ public class ContactFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        Log.d("wangyeming1", "onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d("wangyeming1", "onCreateView");
         return inflater.inflate(R.layout.fragment_contact, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         init();
+        Log.d("wangyeming1", "onStart");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("wangyeming1", "onResume");
+        /*
+        System.out.println("onRestart");
+
+        if (!isSearch) {
+            clearData(); //清除缓存数据
+            initRefrash();
+        }
+        */
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -159,19 +188,34 @@ public class ContactFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    public void onPause() {
+        super.onPause();
+        Log.d("wangyeming1", "onPause");
     }
 
     @Override
-    public void onResume() {
-        System.out.println("onRestart");
-        super.onResume();
-        if (!isSearch) {
-            clearData(); //清除缓存数据
-            initRefrash();
-        }
+    public void onStop() {
+        super.onStop();
+        Log.d("wangyeming1", "onStop");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("wangyeming1", "onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("wangyeming1", "onDestroy");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+        Log.d("wangyeming1", "onDetach");
     }
 
     public interface OnFragmentInteractionListener {
@@ -332,6 +376,7 @@ public class ContactFragment extends Fragment {
                 int contactId = cursorID.getInt(cursorID.getColumnIndex(
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID));//获取联系人contact_id
                 int rawContactId = cursorID.getInt(cursorID.getColumnIndex(PHONES_PROJECTION[6])); //获取联系人对应的rawContactId号
+                Log.d("wym","rawContactId " + rawContactId);
                 String photoString = cursorID.getString(cursorID.getColumnIndex(
                         ContactsContract.CommonDataKinds.Photo.PHOTO_URI)); //获取联系人头像
                 Log.d(this.getTag(), contactName);

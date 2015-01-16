@@ -134,14 +134,12 @@ public class ContactListAdapter extends BaseAdapter {
                 break;
         }
         if (!keyWord.isEmpty()) {
-            System.out.println("搜索字高亮 " + keyWord);
             SpannableString sp = new SpannableString(name);
             Pattern p = Pattern.compile(keyWord);
             Matcher m = p.matcher(name);
             while (m.find()) {
                 int start = m.start();
                 int end = m.end();
-                System.out.println("start " + start + "end " + end);
                 sp.setSpan(new ForegroundColorSpan(Color.parseColor("#ff6600")),
                         start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             }

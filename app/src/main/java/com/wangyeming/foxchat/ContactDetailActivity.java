@@ -120,8 +120,8 @@ public class ContactDetailActivity extends Activity {
     //读取联系人信息
     public void getContactMessage() {
         Intent intent = getIntent();
-        contactId = intent.getIntExtra("ContactId", 1);
-        getRawContactId(contactId);
+        rawContactId = (int) intent.getLongExtra("rawContactId", 1);
+        //getRawContactId(contactId);
         readContactName(rawContactId);
         readContactBim(rawContactId);
         readContactPhoneNum(rawContactId);
@@ -150,7 +150,7 @@ public class ContactDetailActivity extends Activity {
         cursorID.moveToFirst();
         int starred = cursorID.getInt(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Phone.STARRED));
         // System.out.println("starred " + starred);
-        isStarred = starred == 1 ? true : false;
+        isStarred = starred == 1;
         String photo_string = cursorID.getString(cursorID.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
         //System.out.println("this 3" +photo_string);
         if (photo_string == null) {

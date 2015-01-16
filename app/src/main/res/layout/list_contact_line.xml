@@ -46,6 +46,8 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:text="@string/name"
+            android:textColor="#000000"
+            android:textSize="18sp"
             android:typeface="sans" />
 
         <com.wangyeming.custom.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
