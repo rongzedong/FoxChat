@@ -33,9 +33,6 @@ import java.util.Map;
 
 public class EditContactPhoneNumAdapter extends BaseAdapter {
 
-    private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>(); //adapter数据--记录电话号码信息
-    private LayoutInflater mInflater = null;
-    private Context context;
     protected ContentResolver cr;
     protected ViewHolder holder;
     protected LayoutInflater inflater;
@@ -47,6 +44,9 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
     protected Boolean isRecoveryFocus;  //是否需要恢复焦点
     protected int focusPosition;  //记录焦点在哪个view
     protected int focusSelection; //记录焦点在文字的哪个位置
+    private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>(); //adapter数据--记录电话号码信息
+    private LayoutInflater mInflater = null;
+    private Context context;
 
     public EditContactPhoneNumAdapter(List<Map<String, Object>> data,
                                       Context context, ContentResolver cr, Activity editActivity, ListView lt) {
@@ -202,12 +202,6 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         return data;
     }
 
-    class ViewHolder {
-        public Button phoneType;
-        public EditText editText;
-        public Button delete;
-    }
-
     //改变电话号码
     public void changePhoneNum(EditText editText, int position) {
         //修改data数据
@@ -306,6 +300,12 @@ public class EditContactPhoneNumAdapter extends BaseAdapter {
         phoneNumMap.put("phone_label", "");
         phoneNumMap.put("message_png", R.drawable.ic_send_sms_p);
         data.add(positon, phoneNumMap);
+    }
+
+    class ViewHolder {
+        public Button phoneType;
+        public EditText editText;
+        public Button delete;
     }
 
 }

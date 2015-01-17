@@ -28,8 +28,8 @@
                 android:id="@+id/dialpad_open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_dialpad_black_18dp"
-                android:background="#FFFFFF"/>
+                android:background="#FFFFFF"
+                android:src="@drawable/ic_dialpad_black_18dp" />
 
         </LinearLayout>
 
@@ -41,8 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:orientation="vertical"
         android:clickable="true"
+        android:orientation="vertical"
         android:visibility="gone">
 
         <LinearLayout
@@ -55,17 +55,17 @@
                 android:id="@+id/number_input"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
+                android:hint="@string/call_hint"
                 android:inputType="text"
-                android:textSize="16sp"
-                android:hint="@string/call_hint" />
+                android:textSize="16sp" />
 
             <ImageView
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="divider"
                 android:gravity="center_vertical"
-                android:src="@drawable/line_grey"
-                android:contentDescription="divider" />
+                android:src="@drawable/line_grey" />
 
             <!--Button
                 android:layout_width="48dp"
@@ -75,10 +75,10 @@
         </LinearLayout>
 
         <include
+            layout="@layout/dial_plate"
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="9"
-            layout="@layout/dial_plate" />
+            android:layout_weight="9" />
 
     </LinearLayout>
 

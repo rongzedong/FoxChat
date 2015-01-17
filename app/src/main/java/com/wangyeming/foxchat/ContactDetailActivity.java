@@ -36,18 +36,6 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 
 public class ContactDetailActivity extends Activity {
 
-    protected List<Map<String, Object>> contactDisplay = new ArrayList<Map<String, Object>>(); //手机号（手机号类型、归属地等信息）
-    protected ListView lt2;
-    protected TextView tv1;
-    protected String contactName;
-    protected int contactId;
-    protected int rawContactId;
-    protected Uri photoUri;
-    protected ContentResolver cr;
-    protected Button starButton;
-    protected TextView starTextView;
-    protected boolean isStarred = false;
-    protected boolean hasImage; //是否有头像
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
@@ -60,6 +48,18 @@ public class ContactDetailActivity extends Activity {
             ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,
             ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME
     };
+    protected List<Map<String, Object>> contactDisplay = new ArrayList<Map<String, Object>>(); //手机号（手机号类型、归属地等信息）
+    protected ListView lt2;
+    protected TextView tv1;
+    protected String contactName;
+    protected int contactId;
+    protected int rawContactId;
+    protected Uri photoUri;
+    protected ContentResolver cr;
+    protected Button starButton;
+    protected TextView starTextView;
+    protected boolean isStarred = false;
+    protected boolean hasImage; //是否有头像
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -24,8 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wangyeming.custom.ContactListAdapter;
-import com.wangyeming.custom.NewToast;
 import com.wangyeming.custom.adapter.SmsListRecyclerAdapter;
+import com.wangyeming.custom.widget.NewToast;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -53,31 +53,17 @@ public class ContactFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    // 当前activity
-    private Activity currentActivity;
-    // 当前view
-    private View currentView;
-    //联系人数据
-    private List<Map<String, Object>> contactList = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private SmsListRecyclerAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-
-
-    // 保存联系人的姓名集合---包含分类名称
-    private List<String> namesList = new ArrayList<String>();
-    // 保存联系人的姓名集合---不包含分类名称
-    private List<String> namesList2 = new ArrayList<String>();
-    // 保存匹配联系人的姓名的集合
-    private List<String> namesFilterList = new ArrayList<String>();
-    // 记录姓名分类名的位置
-    private List<Integer> catalogList = new ArrayList<Integer>();
+    private static final String[] PHONES_PROJECTION = new String[]{
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //姓名
+            ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
+            ContactsContract.CommonDataKinds.Photo.PHOTO_ID, //photo_id
+            ContactsContract.CommonDataKinds.Photo.PHOTO_URI,//
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,  //contact_id
+            ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY, //sort_key
+            ContactsContract.CommonDataKinds.Photo.RAW_CONTACT_ID,
+            ContactsContract.RawContacts.ACCOUNT_NAME,
+            ContactsContract.RawContacts.ACCOUNT_TYPE
+    };
     //保存联系人ContactId的集合---包含分类名称
     protected List<Integer> contactIdList = new ArrayList<Integer>();
     //保存联系人ContactId的集合---不包含分类名称
@@ -90,26 +76,47 @@ public class ContactFragment extends Fragment {
     protected Cursor cursorID;
     //自定义Adapter
     protected ContactListAdapter adapter;
-    //收藏联系人数目
-    private int starNum = 0;
     protected ListView lt1;
     protected SearchView searchView;
     protected TextView tv1;
     protected TextView tv2;
     protected Toast nameToast;
     protected boolean isSearch = false;
-
-    private static final String[] PHONES_PROJECTION = new String[]{
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //姓名
-            ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
-            ContactsContract.CommonDataKinds.Photo.PHOTO_ID, //photo_id
-            ContactsContract.CommonDataKinds.Photo.PHOTO_URI,//
-            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,  //contact_id
-            ContactsContract.CommonDataKinds.Phone.SORT_KEY_PRIMARY, //sort_key
-            ContactsContract.CommonDataKinds.Photo.RAW_CONTACT_ID,
-            ContactsContract.RawContacts.ACCOUNT_NAME,
-            ContactsContract.RawContacts.ACCOUNT_TYPE
+    private String mParam1;
+    private String mParam2;
+    private OnFragmentInteractionListener mListener;
+    // 当前activity
+    private Activity currentActivity;
+    // 当前view
+    private View currentView;
+    //联系人数据
+    private List<Map<String, Object>> contactList = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private SmsListRecyclerAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    // 保存联系人的姓名集合---包含分类名称
+    private List<String> namesList = new ArrayList<String>();
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            //mAdapter.notifyDataSetChanged();
+            displayListView(namesList);  //显示页面布局
+            setOnScrollListener();  //设置滑动监听
+            setOnItemClickListener();  //设置点击监听
+        }
     };
+    // 保存联系人的姓名集合---不包含分类名称
+    private List<String> namesList2 = new ArrayList<String>();
+    // 保存匹配联系人的姓名的集合
+    private List<String> namesFilterList = new ArrayList<String>();
+    // 记录姓名分类名的位置
+    private List<Integer> catalogList = new ArrayList<Integer>();
+    //收藏联系人数目
+    private int starNum = 0;
+
+    public ContactFragment() {
+        // Required empty public constructor
+    }
 
     public static ContactFragment newInstance(String param1, String param2) {
         ContactFragment fragment = new ContactFragment();
@@ -118,10 +125,6 @@ public class ContactFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public ContactFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -218,11 +221,6 @@ public class ContactFragment extends Fragment {
         Log.d("wangyeming1", "onDetach");
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
     //初始化
     public void init() {
         currentActivity = getActivity();  //获取当前activity
@@ -240,17 +238,6 @@ public class ContactFragment extends Fragment {
             }
         }).start();
     }
-
-
-    private Handler handler1 = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            //mAdapter.notifyDataSetChanged();
-            displayListView(namesList);  //显示页面布局
-            setOnScrollListener();  //设置滑动监听
-            setOnItemClickListener();  //设置点击监听
-        }
-    };
 
     //设置新建联系人按钮
     public void setNewContact() {
@@ -376,7 +363,7 @@ public class ContactFragment extends Fragment {
                 int contactId = cursorID.getInt(cursorID.getColumnIndex(
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID));//获取联系人contact_id
                 int rawContactId = cursorID.getInt(cursorID.getColumnIndex(PHONES_PROJECTION[6])); //获取联系人对应的rawContactId号
-                Log.d("wym","rawContactId " + rawContactId);
+                Log.d("wym", "rawContactId " + rawContactId);
                 String photoString = cursorID.getString(cursorID.getColumnIndex(
                         ContactsContract.CommonDataKinds.Photo.PHOTO_URI)); //获取联系人头像
                 Log.d(this.getTag(), contactName);
@@ -428,7 +415,6 @@ public class ContactFragment extends Fragment {
         adapter = new ContactListAdapter(contactList, keyWord, currentActivity);
         lt1.setAdapter(adapter);
     }
-
 
     //设置ListView滑动监听---根据滑动位置Toast提示
     public void setOnScrollListener() {
@@ -581,7 +567,7 @@ public class ContactFragment extends Fragment {
 
     //提取姓名姓的拼音
     public String getPinYin(String name) {
-        String firstName = name.substring(0,1);
+        String firstName = name.substring(0, 1);
         HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
         format.setCaseType(HanyuPinyinCaseType.UPPERCASE);
         format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
@@ -603,5 +589,10 @@ public class ContactFragment extends Fragment {
             e.printStackTrace();
         }
         return headPinYin;
+    }
+
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
     }
 }

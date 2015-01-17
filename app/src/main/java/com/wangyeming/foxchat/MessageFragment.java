@@ -42,30 +42,6 @@ public class MessageFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private final String SMS_URI_ALL = "content://sms/";  //全部短信
-    private final String SMS_URI_INBOX = "content://sms/inbox";  //收件箱短信
-    private final String SMS_URI_SENT = "content://sms/sent";  //已发送短信
-    private final String SMS_URI_DRAFT = "content://sms/draft";  //草稿箱短信
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-    private RecyclerView mRecyclerView;
-    private SmsListRecyclerAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    // 当前activity
-    private Activity currentActivity;
-    // 当前view
-    private View currentView;
-    //ContentResolver
-    private ContentResolver cr;
-    //短信存储
-    private List<Map<String, Object>> smsDisplay = new ArrayList<>();
-    //存储thread_id对应的短信数量
-    private Map<String, Integer> threadIdMap = new HashMap<>();
-
     private static final String[] SMS_PROJECTION = new String[]{
             "_id",           //0  短信序号
             "thread_id",     //1  对话的序号, 与同一个手机号互发的短信，其序号是相同的
@@ -86,11 +62,42 @@ public class MessageFragment extends Fragment {
             "error_code",    //15  错误代码
             "seen",          //16  用户是否阅读过短信？决定是否显示通知
     };
-
     private static final String[] SMS_CONVERSATIONS_PROJECTION = new String[]{
             "msg_count",     //对话中message的数目
             "snippet",       //message前45个字符
     };
+    private final String SMS_URI_ALL = "content://sms/";  //全部短信
+    private final String SMS_URI_INBOX = "content://sms/inbox";  //收件箱短信
+    private final String SMS_URI_SENT = "content://sms/sent";  //已发送短信
+    private final String SMS_URI_DRAFT = "content://sms/draft";  //草稿箱短信
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+    private OnFragmentInteractionListener mListener;
+    private RecyclerView mRecyclerView;
+    private SmsListRecyclerAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    // 当前activity
+    private Activity currentActivity;
+    // 当前view
+    private View currentView;
+    //ContentResolver
+    private ContentResolver cr;
+    //短信存储
+    private List<Map<String, Object>> smsDisplay = new ArrayList<>();
+    //存储thread_id对应的短信数量
+    private Map<String, Integer> threadIdMap = new HashMap<>();
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            Log.d(MessageFragment.this.getTag(), "--------------------------");
+            mAdapter.notifyDataSetChanged();
+        }
+    };
+
+    public MessageFragment() {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -108,10 +115,6 @@ public class MessageFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public MessageFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -161,21 +164,6 @@ public class MessageFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
     public void init() {
         currentActivity = getActivity(); //获取当前activity
         currentView = getView(); //获取当前view
@@ -215,14 +203,6 @@ public class MessageFragment extends Fragment {
         //获取草稿箱短信
         //getDraftSms();
     }
-
-    private Handler handler1 = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            Log.d(MessageFragment.this.getTag(), "--------------------------");
-            mAdapter.notifyDataSetChanged();
-        }
-    };
 
     //获取对话短信信息
     @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -453,5 +433,20 @@ public class MessageFragment extends Fragment {
 
     //item事件
     public void itemEvent() {
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        public void onFragmentInteraction(Uri uri);
     }
 }

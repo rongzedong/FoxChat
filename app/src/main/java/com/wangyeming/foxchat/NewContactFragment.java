@@ -16,12 +16,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
-import com.wangyeming.custom.NewToast;
 import com.wangyeming.custom.adapter.ContactListAdapter;
+import com.wangyeming.custom.widget.NewToast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,30 +38,6 @@ public class NewContactFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-    // 当前activity
-    private Activity currentActivity;
-    // 当前view
-    private View currentView;
-    //联系人数据
-    private List<Map<String, Object>> contactList = new ArrayList<>();
-    private RecyclerView mRecyclerView;
-    private ContactListAdapter mAdapter;
-    //private RecyclerView.LayoutManager mLayoutManager;
-    private LinearLayoutManager mLayoutManager;
-    //联系人数据操作
-    protected ContentResolver cr;
-    //收藏联系人数目
-    private int starNum;
-    //总联系人数目
-    private int totalNum;
-    //滑动时toast姓提示
-    protected Toast nameToast;
-
     private static final String[] CONTACT_PROJECTION = new String[]{
             "_id",                  //raw contact id 考虑使用lookup代替,不会改变
             "lookup",               //一个opaque值，包含当name_raw id改变时如何查找联系人的暗示
@@ -91,6 +66,38 @@ public class NewContactFragment extends Fragment {
             "contact_status_label", //联系人状态icon资源的id
             "contact_status_icon",  //联系人状态label资源的id,如“Google Talk”
     };
+    //联系人数据操作
+    protected ContentResolver cr;
+    //滑动时toast姓提示
+    protected Toast nameToast;
+    private String mParam1;
+    private String mParam2;
+    private OnFragmentInteractionListener mListener;
+    // 当前activity
+    private Activity currentActivity;
+    // 当前view
+    private View currentView;
+    //联系人数据
+    private List<Map<String, Object>> contactList = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private ContactListAdapter mAdapter;
+    //private RecyclerView.LayoutManager mLayoutManager;
+    private LinearLayoutManager mLayoutManager;
+    //收藏联系人数目
+    private int starNum;
+    //总联系人数目
+    private int totalNum;
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            mAdapter.notifyDataSetChanged();
+            setOnScrollListener();  //设置滑动监听
+        }
+    };
+
+    public NewContactFragment() {
+        // Required empty public constructor
+    }
 
     public static NewContactFragment newInstance(String param1, String param2) {
         NewContactFragment fragment = new NewContactFragment();
@@ -99,10 +106,6 @@ public class NewContactFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public NewContactFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -132,13 +135,11 @@ public class NewContactFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_new_contact, container, false);
     }
 
-
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
-
 
     @Override
     public void onStart() {
@@ -150,11 +151,6 @@ public class NewContactFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(Uri uri);
     }
 
     /**
@@ -178,16 +174,8 @@ public class NewContactFragment extends Fragment {
         }).start();
     }
 
-    private Handler handler1 = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            mAdapter.notifyDataSetChanged();
-            setOnScrollListener();  //设置滑动监听
-        }
-    };
-
     /**
-    *设置新建联系人按钮
+     * 设置新建联系人按钮
      */
     public void setNewContact() {
         ButtonFloat button = (ButtonFloat) currentView.findViewById(R.id.addNewContact);
@@ -280,7 +268,7 @@ public class NewContactFragment extends Fragment {
                     ContactsContract.Contacts.CONTACT_STATUS_ICON));
             //提取信息
             String mark = null;
-            String firstPinyin = sortKey.substring(0,1);
+            String firstPinyin = sortKey.substring(0, 1);
             switch (isStarred) {
                 //如果是收藏联系人
                 case "1":
@@ -303,38 +291,38 @@ public class NewContactFragment extends Fragment {
             }
             //存进Map
             Map<String, Object> contactMap = new HashMap<>();
-            contactMap.put("_id",_id);
-            contactMap.put("LookUpKey",LookUpKey);
+            contactMap.put("_id", _id);
+            contactMap.put("LookUpKey", LookUpKey);
             /*contactMap.put("nameRawContactId",nameRawContactId);*/
-            contactMap.put("displayName",displayName);
-            contactMap.put("displayNameAlt",displayNameAlt);
-            contactMap.put("displayNameSource",displayNameSource);
-            contactMap.put("phoneticName",phoneticName);
-            contactMap.put("phoneticNameStyle",phoneticNameStyle);
-            contactMap.put("sortKey",sortKey);
-            contactMap.put("sortkeyAlt",sortkeyAlt);
-            contactMap.put("photoId",photoId);
-            contactMap.put("photoUri",photoUri);
-            contactMap.put("photoThumbUri",photoThumbUri);
-            contactMap.put("inVisibleGroup",inVisibleGroup);
-            contactMap.put("hasPhoneNumber",hasPhoneNumber);
-            contactMap.put("timesContacted",timesContacted);
-            contactMap.put("lastTimeContacted",lastTimeContacted);
-            contactMap.put("starred",starred);
-            contactMap.put("customRingtone",customRingtone);
-            contactMap.put("sendToVoicemail",sendToVoicemail);
-            contactMap.put("contactPresence",contactPresence);
-            contactMap.put("contactStatus",contactStatus);
-            contactMap.put("contactStatusTs",contactStatusTs);
-            contactMap.put("contactStatusResPackage",contactStatusResPackage);
-            contactMap.put("contactStatusLabel",contactStatusLabel);
-            contactMap.put("contactStatusIcon",contactStatusIcon);
+            contactMap.put("displayName", displayName);
+            contactMap.put("displayNameAlt", displayNameAlt);
+            contactMap.put("displayNameSource", displayNameSource);
+            contactMap.put("phoneticName", phoneticName);
+            contactMap.put("phoneticNameStyle", phoneticNameStyle);
+            contactMap.put("sortKey", sortKey);
+            contactMap.put("sortkeyAlt", sortkeyAlt);
+            contactMap.put("photoId", photoId);
+            contactMap.put("photoUri", photoUri);
+            contactMap.put("photoThumbUri", photoThumbUri);
+            contactMap.put("inVisibleGroup", inVisibleGroup);
+            contactMap.put("hasPhoneNumber", hasPhoneNumber);
+            contactMap.put("timesContacted", timesContacted);
+            contactMap.put("lastTimeContacted", lastTimeContacted);
+            contactMap.put("starred", starred);
+            contactMap.put("customRingtone", customRingtone);
+            contactMap.put("sendToVoicemail", sendToVoicemail);
+            contactMap.put("contactPresence", contactPresence);
+            contactMap.put("contactStatus", contactStatus);
+            contactMap.put("contactStatusTs", contactStatusTs);
+            contactMap.put("contactStatusResPackage", contactStatusResPackage);
+            contactMap.put("contactStatusLabel", contactStatusLabel);
+            contactMap.put("contactStatusIcon", contactStatusIcon);
             contactMap.put("mark", mark);
             String logString = "";
-            for(String key: contactMap.keySet()) {
+            for (String key : contactMap.keySet()) {
                 logString = logString + " " + key + " " + contactMap.get(key);
             }
-            Log.d("NewContactFragment",logString);
+            Log.d("NewContactFragment", logString);
             contactList.add(contactMap);
         }
         cursor.close();
@@ -357,9 +345,9 @@ public class NewContactFragment extends Fragment {
      * 设置RecyclerView滑动监听---根据滑动位置Toast提示
      */
     public void setOnScrollListener() {
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener(){
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView view, int scrollState){
+            public void onScrollStateChanged(RecyclerView view, int scrollState) {
                 if (nameToast != null) {
                     nameToast.cancel();
                 }
@@ -376,6 +364,10 @@ public class NewContactFragment extends Fragment {
                 nameToast.show();
             }
         });
+    }
+
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(Uri uri);
     }
 
 }

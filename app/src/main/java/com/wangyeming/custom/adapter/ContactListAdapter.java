@@ -25,8 +25,8 @@ import java.util.Map;
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 
     private static List<Map<String, Object>> contactList = new ArrayList<>();
-    private LayoutInflater mInflater;
     private static Context context;
+    private LayoutInflater mInflater;
     private int starNum;
 
     public ContactListAdapter(Context context, List<Map<String, Object>> contactList, int starNum) {
@@ -51,13 +51,13 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder vh, int i) {
-        vh.name.setText((String)contactList.get(i).get("displayName"));
+        vh.name.setText((String) contactList.get(i).get("displayName"));
         String photoThumbUri = (String) contactList.get(i).get("photoThumbUri");
-        if(photoThumbUri != null) {
+        if (photoThumbUri != null) {
             vh.avatar.setImageURI(Uri.parse(photoThumbUri));
         }
         //设置分割线
-        if (i == starNum-1) {
+        if (i == starNum - 1) {
             vh.divider.setVisibility(View.VISIBLE);
         } else {
             vh.divider.setVisibility(View.INVISIBLE);

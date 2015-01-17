@@ -2,26 +2,37 @@
 <resources>
     <string-array name="phone_type">　　
         <item>@string/TYPE_CUSTOM</item>　　
-        <item>@string/TYPE_HOME</item>        　　
-        <item>@string/TYPE_MOBILE</item>        　　
-        <item>@string/TYPE_WORK</item>       　　
+        <item>@string/TYPE_HOME</item>
+        　　
+        <item>@string/TYPE_MOBILE</item>
+        　　
+        <item>@string/TYPE_WORK</item>
+        　　
         <item>@string/TYPE_FAX_WORK</item>
-        <item>@string/TYPE_FAX_HOME</item>        　　
-        <item>@string/TYPE_PAGER</item>        　　
+        <item>@string/TYPE_FAX_HOME</item>
+        　　
+        <item>@string/TYPE_PAGER</item>
+        　　
         <item>@string/TYPE_OTHER</item>
         <item>@string/TYPE_CALLBACK</item>
-        <item>@string/TYPE_CAR</item>        　　
-        <item>@string/TYPE_COMPANY_MAIN</item>        　　
-        <item>@string/TYPE_ISDN</item>        　　
+        <item>@string/TYPE_CAR</item>
+        　　
+        <item>@string/TYPE_COMPANY_MAIN</item>
+        　　
+        <item>@string/TYPE_ISDN</item>
+        　　
         <item>@string/TYPE_MAIN</item>
-        <item>@string/TYPE_OTHER_FAX</item>        　　
-        <item>@string/TYPE_RADIO</item>        　　
+        <item>@string/TYPE_OTHER_FAX</item>
+        　　
+        <item>@string/TYPE_RADIO</item>
+        　　
         <item>@string/TYPE_TELEX</item>
         <item>@string/TYPE_TTY_TDD</item>
         <item>@string/TYPE_WORK_MOBILE</item>
         <item>@string/TYPE_WORK_PAGER</item>
         <item>@string/TYPE_ASSISTANT</item>
-        <item>@string/TYPE_MMS</item>        　　
+        <item>@string/TYPE_MMS</item>
+        　　
     </string-array>
     <string-array name="date_apart">
         <item>@string/within_one_hour</item>

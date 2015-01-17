@@ -30,22 +30,6 @@ import static android.provider.ContactsContract.CommonDataKinds.Phone.CONTENT_UR
 
 public class MessageConversationActivity extends ActionBarActivity {
 
-    private RecyclerView mRecyclerView;
-    private LinearLayoutManager mLayoutManager;
-    private SmsConversationAdapter mAdapter;
-    private Toolbar toolbar;
-    private String thread_id;
-    //机主头像Uri
-    private Uri ownerAvaterUri;
-    //ContentResolver
-    private ContentResolver cr;
-    //存放draft信息
-    private Map<String, Object> draftMap = new HashMap<>();
-    //对话列表
-    private List<Map<String, Object>> conversationDisplay = new ArrayList<>();
-    private Long firstDate; //记录当前显示日期最久的短信的日期
-    private final int SMS_NUM = 10;
-    private final String SMS_URI_ALL = "content://sms/";  //全部短信
     private static final String[] SMS_PROJECTION = new String[]{
             "_id",           //0  短信序号
             "thread_id",     //1  对话的序号, 与同一个手机号互发的短信，其序号是相同的
@@ -66,6 +50,33 @@ public class MessageConversationActivity extends ActionBarActivity {
             "error_code",    //15  错误代码
             "seen",          //16  用户是否阅读过短信？决定是否显示通知
     };
+    private final int SMS_NUM = 10;
+    private final String SMS_URI_ALL = "content://sms/";  //全部短信
+    private RecyclerView mRecyclerView;
+    private LinearLayoutManager mLayoutManager;
+    private SmsConversationAdapter mAdapter;
+    private Toolbar toolbar;
+    private String thread_id;
+    //机主头像Uri
+    private Uri ownerAvaterUri;
+    //ContentResolver
+    private ContentResolver cr;
+    //存放draft信息
+    private Map<String, Object> draftMap = new HashMap<>();
+    //对话列表
+    private List<Map<String, Object>> conversationDisplay = new ArrayList<>();
+    private Long firstDate; //记录当前显示日期最久的短信的日期
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            mAdapter.notifyDataSetChanged();
+            setDraft();
+            if (mAdapter.getItemCount() > 0) {
+                //mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1); //默认滑动到底部
+            }
+            setRecyclerViewListener();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +84,6 @@ public class MessageConversationActivity extends ActionBarActivity {
         setContentView(R.layout.activity_message_conversation);
         init();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,7 +114,6 @@ public class MessageConversationActivity extends ActionBarActivity {
         setmRecyclerView();
     }
 
-
     //设置RecyclerView
     public void setmRecyclerView() {
         Intent intent = getIntent();
@@ -129,18 +138,6 @@ public class MessageConversationActivity extends ActionBarActivity {
             }
         }).start();
     }
-
-    private Handler handler1 = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            mAdapter.notifyDataSetChanged();
-            setDraft();
-            if (mAdapter.getItemCount() > 0) {
-                //mRecyclerView.smoothScrollToPosition(mAdapter.getItemCount() - 1); //默认滑动到底部
-            }
-            setRecyclerViewListener();
-        }
-    };
 
     //设置RecyclerView的监听
     public void setRecyclerViewListener() {
@@ -266,7 +263,7 @@ public class MessageConversationActivity extends ActionBarActivity {
         Cursor cursor = cr.query(
                 ContactsContract.Profile.CONTENT_URI, new String[]{"photo_uri"}, null, null, null);
         Uri imageUri = null;
-        if(cursor.moveToFirst() ) {
+        if (cursor.moveToFirst()) {
             String photoString = cursor.getString(
                     cursor.getColumnIndex(ContactsContract.CommonDataKinds.Photo.PHOTO_URI));
             if (photoString != null) {

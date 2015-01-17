@@ -36,10 +36,10 @@ import java.util.Map;
 
 public class NewContactActivity extends Activity {
 
-    protected Long contactId;
     public static ListView lt4;  //联系人电话列表listView
     public static EditContactPhoneNumAdapter adapter;  //编辑联系人电话号码的自定义adpter
     public static List<Map<String, Object>> contactDisplay = new ArrayList<Map<String, Object>>();  //用于显示联系人手机号信息的list
+    protected Long contactId;
     protected Map<String, Object> newContact = new HashMap<>(); //用于新建联系人
     protected ContentResolver cr;  //ContentResolver对象
     protected ContactEdit contactEdit;  //联系人编辑自定义类

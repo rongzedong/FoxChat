@@ -27,18 +27,14 @@ public class CircleImageView extends ImageView {
     private static final int COLORDRAWABLE_DIMENSION = 2;
 
     private static final int DEFAULT_BORDER_WIDTH = 0;
+    private int mBorderWidth = DEFAULT_BORDER_WIDTH;
     private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
-
+    private int mBorderColor = DEFAULT_BORDER_COLOR;
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
-
     private final Matrix mShaderMatrix = new Matrix();
     private final Paint mBitmapPaint = new Paint();
     private final Paint mBorderPaint = new Paint();
-
-    private int mBorderColor = DEFAULT_BORDER_COLOR;
-    private int mBorderWidth = DEFAULT_BORDER_WIDTH;
-
     private Bitmap mBitmap;
     private BitmapShader mBitmapShader;
     private int mBitmapWidth;

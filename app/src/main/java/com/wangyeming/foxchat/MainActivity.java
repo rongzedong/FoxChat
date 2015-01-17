@@ -36,10 +36,10 @@ import it.neokree.materialtabs.MaterialTabHost;
 public class MainActivity extends ActionBarActivity implements PhoneFragment.OnFragmentInteractionListener,
         NewContactFragment.OnFragmentInteractionListener, MessageFragment.OnFragmentInteractionListener {
 
-    private static final String TAG = "FragmentTabs";
     public static final String TAB_PHONES = "phones";
     public static final String TAB_CONTACTS = "contacts";
     public static final String TAB_MESSAGES = "messages";
+    private static final String TAG = "FragmentTabs";
     private long clickTime = 0; //记录第一次点击的时间
 
     private TabHost mTabHost;
@@ -164,6 +164,19 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
 
     }
 
+    public Drawable getIcon(int i) {
+        switch (i) {
+            case 0:
+                return getResources().getDrawable(R.drawable.ic_phone_missed_white);
+            case 1:
+                return getResources().getDrawable(R.drawable.ic_person_black);
+            case 2:
+                return getResources().getDrawable(R.drawable.ic_sms_white);
+            default:
+                return getResources().getDrawable(R.drawable.ic_phone_missed_white);
+        }
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -177,19 +190,6 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
-        }
-    }
-
-    public Drawable getIcon(int i) {
-        switch (i) {
-            case 0:
-                return getResources().getDrawable(R.drawable.ic_phone_missed_white);
-            case 1:
-                return getResources().getDrawable(R.drawable.ic_person_black);
-            case 2:
-                return getResources().getDrawable(R.drawable.ic_sms_white);
-            default:
-                return getResources().getDrawable(R.drawable.ic_phone_missed_white);
         }
     }
 }

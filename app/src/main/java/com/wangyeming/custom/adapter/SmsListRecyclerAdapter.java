@@ -22,33 +22,8 @@ import java.util.Map;
  */
 public class SmsListRecyclerAdapter extends RecyclerView.Adapter<SmsListRecyclerAdapter.ViewHolder> {
     private static List<Map<String, Object>> smsDisplay = new ArrayList<>();
-    private LayoutInflater mInflater;
     private static Context context;
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView draftTextView;
-        public TextView nameTextView;
-        public TextView numberTextView;
-        public TextView contentTextView;
-        public TextView dateTextView;
-        public ImageView sendFailAlert;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int postion = getPosition();
-                    Log.d("wym", "当前点击的位置：" + getPosition());
-                    String thread_id = (String) smsDisplay.get(postion).get("thread_id");
-                    Intent intent = new Intent(context, MessageConversationActivity.class);
-                    intent.putExtra("thread_id", thread_id);
-                    context.startActivity(intent);
-                }
-            });
-        }
-    }
+    private LayoutInflater mInflater;
 
     public SmsListRecyclerAdapter(Context context, List<Map<String, Object>> smsDisplay) {
         this.context = context;
@@ -88,5 +63,30 @@ public class SmsListRecyclerAdapter extends RecyclerView.Adapter<SmsListRecycler
     @Override
     public int getItemCount() {
         return smsDisplay.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public TextView draftTextView;
+        public TextView nameTextView;
+        public TextView numberTextView;
+        public TextView contentTextView;
+        public TextView dateTextView;
+        public ImageView sendFailAlert;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int postion = getPosition();
+                    Log.d("wym", "当前点击的位置：" + getPosition());
+                    String thread_id = (String) smsDisplay.get(postion).get("thread_id");
+                    Intent intent = new Intent(context, MessageConversationActivity.class);
+                    intent.putExtra("thread_id", thread_id);
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 }

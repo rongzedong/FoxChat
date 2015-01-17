@@ -41,18 +41,6 @@ import me.drakeet.materialdialog.MaterialDialog;
 
 public class EditContactDetailActivity extends Activity {
 
-    protected int contactId;  //联系人的contactId
-    protected int rawContactId;  //联系人的rawContactId
-    protected Uri photoUri;  //联系人头像的uri
-    protected String contactName;  //联系人姓名
-    public static ListView lt3;  //联系人电话列表listView
-    public static EditContactPhoneNumAdapter adapter;  //编辑联系人电话号码的自定义adpter
-    public static List<Map<String, Object>> contactDisplay = new ArrayList<Map<String, Object>>();  //用于显示联系人手机号信息的list
-    protected List<Map<String, Object>> contactPhoneNumberStore = new ArrayList<>();  //用于存储未修改前的联系人的手机号信息
-    protected ContentResolver cr;  //ContentResolver对象
-    protected boolean hasImage;  //是否有头像
-    protected EditText editName;  //联系人姓名
-    protected ContactEdit contactEdit;  //联系人编辑自定义类
     private static final String[] PHONES_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, //display_name
             ContactsContract.CommonDataKinds.Phone.NUMBER, //data1
@@ -63,6 +51,18 @@ public class EditContactDetailActivity extends Activity {
             ContactsContract.CommonDataKinds.Phone.RAW_CONTACT_ID,
             ContactsContract.CommonDataKinds.Phone.STARRED
     };
+    public static ListView lt3;  //联系人电话列表listView
+    public static EditContactPhoneNumAdapter adapter;  //编辑联系人电话号码的自定义adpter
+    public static List<Map<String, Object>> contactDisplay = new ArrayList<Map<String, Object>>();  //用于显示联系人手机号信息的list
+    protected int contactId;  //联系人的contactId
+    protected int rawContactId;  //联系人的rawContactId
+    protected Uri photoUri;  //联系人头像的uri
+    protected String contactName;  //联系人姓名
+    protected List<Map<String, Object>> contactPhoneNumberStore = new ArrayList<>();  //用于存储未修改前的联系人的手机号信息
+    protected ContentResolver cr;  //ContentResolver对象
+    protected boolean hasImage;  //是否有头像
+    protected EditText editName;  //联系人姓名
+    protected ContactEdit contactEdit;  //联系人编辑自定义类
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

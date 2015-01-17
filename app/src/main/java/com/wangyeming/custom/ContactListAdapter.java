@@ -32,21 +32,20 @@ import java.util.regex.Pattern;
  */
 public class ContactListAdapter extends BaseAdapter {
 
+    private final Map<String, Integer> resourceIdMap = new HashMap<String, Integer>() {{
+        put("star", R.drawable.ic_star_black);
+    }};
     private String colorCatalog = "#778899";
     private String colorName = "#000000";
     private int sizeCatalog = 14;
     private int sizeName = 18;
     private int heightCatalog = 70;
     private int heightName = 120;
-
     private List<Map<String, Object>> data = new ArrayList<>();
     private LayoutInflater mInflater = null;
     private List<Integer> catalogList = new ArrayList<Integer>();
     private String keyWord = new String();
     private int starNum = 0;
-    private final Map<String, Integer> resourceIdMap = new HashMap<String, Integer>(){{
-        put("star", R.drawable.ic_star_black);
-    }};
 
     public ContactListAdapter(List<Map<String, Object>> data, Context context) {
         this.data = data;
@@ -108,7 +107,7 @@ public class ContactListAdapter extends BaseAdapter {
         }
         holder.avatar.setMaxHeight(holder.avatar.getMeasuredWidth());
         //设置收藏和未收藏联系人之间的分割线
-        if(position == starNum-1) {
+        if (position == starNum - 1) {
             holder.divider.setVisibility(View.VISIBLE);
         } else {
             holder.divider.setVisibility(View.INVISIBLE);

@@ -7,30 +7,30 @@
         android:id="@+id/cancelEdit"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
+        android:layout_gravity="left|center_vertical"
         android:background="@drawable/cancel"
+        android:onClick="cancelEdit"
         android:text="@string/cancel_edit"
         android:textColor="#000000"
-        android:textSize="14sp"
-        android:layout_gravity="left|center_vertical"
-        android:onClick="cancelEdit" />
+        android:textSize="14sp" />
 
     <TextView
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="@string/title_activity_edit_contact_detail"
-        android:textColor="#778899"
+        android:layout_gravity="center_vertical"
         android:gravity="center_horizontal|center_vertical"
-        android:layout_gravity="center_vertical" />
+        android:text="@string/title_activity_edit_contact_detail"
+        android:textColor="#778899" />
 
     <Button
         android:id="@+id/saveEdit"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
+        android:layout_gravity="right|center_vertical"
         android:background="@drawable/ensure"
+        android:onClick="ensureEdit"
         android:text="@string/edit_yes"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
-        android:layout_gravity="right|center_vertical"
-        android:onClick="ensureEdit" />
+        android:textSize="14sp" />
 
 </LinearLayout>

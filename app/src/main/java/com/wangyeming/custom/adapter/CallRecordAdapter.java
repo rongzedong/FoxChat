@@ -22,23 +22,8 @@ import java.util.Map;
 public class CallRecordAdapter extends RecyclerView.Adapter<CallRecordAdapter.ViewHolder> {
 
     private static List<Map<String, Object>> callRecordsDisplay = new ArrayList<>();
-    private LayoutInflater mInflater;
     private static Context context;
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public CircleImageView avatar;
-        public TextView nameTextView;
-        public ImageView callPng;
-        public TextView labelTextView;
-        public TextView dateTextView;
-        public TextView locationTextView;
-        public TextView subheader;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
+    private LayoutInflater mInflater;
 
     public CallRecordAdapter(Context context, List<Map<String, Object>> callRecordsDisplay) {
         this.context = context;
@@ -65,7 +50,7 @@ public class CallRecordAdapter extends RecyclerView.Adapter<CallRecordAdapter.Vi
     public void onBindViewHolder(ViewHolder vh, int i) {
         //设置subheader
         String timeApart = (String) callRecordsDisplay.get(i).get("timeApart");
-        if(timeApart!=null) {
+        if (timeApart != null) {
             vh.subheader.setText(timeApart);
             vh.subheader.setVisibility(View.VISIBLE);
         } else {
@@ -112,6 +97,21 @@ public class CallRecordAdapter extends RecyclerView.Adapter<CallRecordAdapter.Vi
     @Override
     public int getItemCount() {
         return callRecordsDisplay.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public CircleImageView avatar;
+        public TextView nameTextView;
+        public ImageView callPng;
+        public TextView labelTextView;
+        public TextView dateTextView;
+        public TextView locationTextView;
+        public TextView subheader;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
 

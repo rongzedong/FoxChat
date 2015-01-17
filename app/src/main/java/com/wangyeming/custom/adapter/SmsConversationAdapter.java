@@ -20,24 +20,8 @@ import java.util.Map;
  */
 public class SmsConversationAdapter extends RecyclerView.Adapter<SmsConversationAdapter.ViewHolder> {
     private static List<Map<String, Object>> conversationDisplay = new ArrayList<>();
-    private LayoutInflater mInflater;
     private static Context context;
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        public View left_layout; //左布局
-        public View right_layout; //右布局
-        public CircleImageView left_imageView;  //左头像
-        public CircleImageView right_imageView;  //右头像
-        public TextView left_tv1;  //左短信内容
-        public TextView right_tv1;  //右短信内容
-        public TextView left_tv2;  //左日期
-        public TextView right_tv2;  //左日期
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
+    private LayoutInflater mInflater;
 
     public SmsConversationAdapter(Context context, List<Map<String, Object>> conversationDisplay) {
         this.context = context;
@@ -73,8 +57,8 @@ public class SmsConversationAdapter extends RecyclerView.Adapter<SmsConversation
             if (imageUri != null) {
                 vh.right_imageView.setImageURI(imageUri);
             }
-            if(isFail) {
-                vh.right_tv1.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_error_red,0);
+            if (isFail) {
+                vh.right_tv1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error_red, 0);
             }
             vh.right_tv1.setText(content);
             vh.right_tv2.setText(date);
@@ -85,8 +69,8 @@ public class SmsConversationAdapter extends RecyclerView.Adapter<SmsConversation
             if (imageUri != null) {
                 vh.left_imageView.setImageURI(imageUri);
             }
-            if(isFail) {
-                vh.left_tv1.setCompoundDrawablesWithIntrinsicBounds(0,0, R.drawable.ic_error_red,0);
+            if (isFail) {
+                vh.left_tv1.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_error_red, 0);
             }
             vh.left_tv1.setText(content);
             vh.left_tv2.setText(date);
@@ -98,6 +82,22 @@ public class SmsConversationAdapter extends RecyclerView.Adapter<SmsConversation
     @Override
     public int getItemCount() {
         return conversationDisplay.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        public View left_layout; //左布局
+        public View right_layout; //右布局
+        public CircleImageView left_imageView;  //左头像
+        public CircleImageView right_imageView;  //右头像
+        public TextView left_tv1;  //左短信内容
+        public TextView right_tv1;  //右短信内容
+        public TextView left_tv2;  //左日期
+        public TextView right_tv2;  //左日期
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+        }
     }
 
 }

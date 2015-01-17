@@ -4,28 +4,28 @@
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context="com.wangyeming.foxchat.MainActivity"
-    tools:ignore="MergeRootFrame"
-    android:focusable="true"
-    android:focusableInTouchMode="true" >
+    tools:ignore="MergeRootFrame">
 
     <include layout="@layout/toolbar" />
 
     <TabWidget
         android:id="@android:id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <!-- for icon tabs -->
     <it.neokree.materialtabs.MaterialTabHost
         android:id="@+id/materialTabHost"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:iconColor="#FFFFFF"
-        app:primaryColor="#3F51B5"
         app:accentColor="#C5E1A5"
-        app:hasIcons="true" />
+        app:hasIcons="true"
+        app:iconColor="#FFFFFF"
+        app:primaryColor="#3F51B5" />
 
     <!--
     <com.astuetz.PagerSlidingTabStrip

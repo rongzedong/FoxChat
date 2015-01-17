@@ -34,7 +34,7 @@
         <item name="android:buttonStyle">@style/buttonStyle</item>
         <!--EditText样式-->
         <item name="android:editTextStyle">@style/editTextStyle</item>
-        <item name="android:displayOptions"/>
+        <item name="android:displayOptions" />
         <!-- SearchView样式-->
         <item name="searchViewStyle">@style/MySearchViewStyle</item>
         <!-- bottomSheet样式 -->

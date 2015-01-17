@@ -48,10 +48,48 @@ public class PhoneFragment extends Fragment {
     private static final long ONEWEEK = 604800L * 1000L;
     private static final long ONEMOUTH = 2629743L * 1000L;
     private static final long ONEYEAR = 31556926L * 1000L;
-
+    private static final String[] CALL_PROJECTION_ABOVE_16 = new String[]{
+            "name",             //姓名
+            "numberlabel",      //手机号标签
+            "numbertype",       //手机号类型
+            "date",             //日期
+            "duration",         //持续的时间
+            "is_read",          //是否阅读 Boolean
+            "new",              //Boolean 通话是否被获知
+            "number",           //用户输入的号码
+            "type",             //类型（incoming, outgoing or missed）Integer
+            //"vnd.android.cursor.item/calls", //MIME TYPE of CONTENT_URI
+            //"vnd.android.cursor.dir/calls",  //MIME TYPE of CONTENT_URI and CONTENT_FILTER_URI
+    };
+    private static final String[] CALL_PROJECTION_AT_17 = new String[]{
+            "limit",            //用于限制返回通话记录数目的查询参数
+            "offset",           //用于指定返回起始记录的查询参数
+    };
+    private static final String[] CALL_PROJECTION_AT_19 = new String[]{
+            /*
+            * 1  号码被允许
+            * 2  号码被用户屏蔽
+            * 3  号码未被指定或网络未知
+            * 4  付费电话
+            *
+            */
+            "presentation",     //权限
+    };
+    private static final String[] CALL_PROJEXTION_AT_21 = new String[]{
+            "formatted_number", //缓存的手机号，基于用户所在的国家格式化，如果号码相关的信息被改变，号码可能不存在
+            "lookup_uri",       //联系人的uri(如果存在)，如果号码相关的信息被改变，信息可能不存在
+            "matched_number",   //匹配的号码
+            "normalized_number",//标准化（E164）的手机号
+            "photo_id",         //照片id
+            "countryiso",       //接电话所在的国家代码
+            "data_usage",       //The data usage of the call in bytes.
+            "features",         //通话的Bit-mask 描述的特色，如vedio等（Integer）
+            "geocoded_location",//通话号码所在地
+            "transcription",    //通话或声音邮件的录音（仅当type VOICEMAIL_TYPE存在的时候）
+            "voicemail_ur",     //声音邮件的uri（仅当type VOICEMAIL_TYPE存在的时候）
+    };
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
     // 当前activity
     private ActionBarActivity currentActivity;
@@ -66,50 +104,16 @@ public class PhoneFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     //手机号输入框
     private EditText numberInput;
-
-    private static final String[] CALL_PROJECTION_ABOVE_16 = new String[]{
-            "name",             //姓名
-            "numberlabel",      //手机号标签
-            "numbertype",       //手机号类型
-            "date",             //日期
-            "duration",         //持续的时间
-            "is_read",          //是否阅读 Boolean
-            "new",              //Boolean 通话是否被获知
-            "number",           //用户输入的号码
-            "type",             //类型（incoming, outgoing or missed）Integer
-            //"vnd.android.cursor.item/calls", //MIME TYPE of CONTENT_URI
-            //"vnd.android.cursor.dir/calls",  //MIME TYPE of CONTENT_URI and CONTENT_FILTER_URI
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            mAdapter.notifyDataSetChanged();
+        }
     };
 
-    private static final String[] CALL_PROJECTION_AT_17 = new String[]{
-            "limit",            //用于限制返回通话记录数目的查询参数
-            "offset",           //用于指定返回起始记录的查询参数
-    };
-
-    private static final String[] CALL_PROJECTION_AT_19 = new String[]{
-            /*
-            * 1  号码被允许
-            * 2  号码被用户屏蔽
-            * 3  号码未被指定或网络未知
-            * 4  付费电话
-            *
-            */
-            "presentation",     //权限
-    };
-
-    private static final String[] CALL_PROJEXTION_AT_21 = new String[]{
-            "formatted_number", //缓存的手机号，基于用户所在的国家格式化，如果号码相关的信息被改变，号码可能不存在
-            "lookup_uri",       //联系人的uri(如果存在)，如果号码相关的信息被改变，信息可能不存在
-            "matched_number",   //匹配的号码
-            "normalized_number",//标准化（E164）的手机号
-            "photo_id",         //照片id
-            "countryiso",       //接电话所在的国家代码
-            "data_usage",       //The data usage of the call in bytes.
-            "features",         //通话的Bit-mask 描述的特色，如vedio等（Integer）
-            "geocoded_location",//通话号码所在地
-            "transcription",    //通话或声音邮件的录音（仅当type VOICEMAIL_TYPE存在的时候）
-            "voicemail_ur",     //声音邮件的uri（仅当type VOICEMAIL_TYPE存在的时候）
-    };
+    public PhoneFragment() {
+        // Required empty public constructor
+    }
 
     public static PhoneFragment newInstance(String param1, String param2) {
         PhoneFragment fragment = new PhoneFragment();
@@ -118,10 +122,6 @@ public class PhoneFragment extends Fragment {
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public PhoneFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -169,10 +169,6 @@ public class PhoneFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnFragmentInteractionListener {
-        public void onFragmentInteraction(Uri uri);
-    }
-
     public void init() {
         currentActivity = (ActionBarActivity) getActivity(); //获取当前activity
         currentView = getView(); //获取当前view
@@ -194,19 +190,12 @@ public class PhoneFragment extends Fragment {
         setClickNumber();//设置拨号盘点击
     }
 
-    private Handler handler1 = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            mAdapter.notifyDataSetChanged();
-        }
-    };
-
     //读取通话记录
     public void getCallRecords() {
         Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, CALL_PROJECTION_ABOVE_16,
                 null, null, CallLog.Calls.DEFAULT_SORT_ORDER);
         String subheader = "subheader";
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             //Log.d(this.getTag(), "----------------call record----------------");
             /* min API>=16 */
             String name = cursor.getString(cursor.getColumnIndex(CallLog.Calls.CACHED_NAME));
@@ -241,9 +230,9 @@ public class PhoneFragment extends Fragment {
             String LgTime = sdFormat.format(date);
             //计算时间间隔
             String apart = null;
-            String timeApart =  getCurrentTime(date);
-            if(!timeApart.equals(subheader)) {
-               apart = timeApart;
+            String timeApart = getCurrentTime(date);
+            if (!timeApart.equals(subheader)) {
+                apart = timeApart;
             }
             subheader = timeApart;
             /* min API>=16 */
@@ -274,17 +263,17 @@ public class PhoneFragment extends Fragment {
             //获取联系人头像
             Uri avatarUri = name == null ? null : nameToAvatat(name);
             Map<String, Object> callRecordsMap = new HashMap<>();
-            callRecordsMap.put("name",name);
-            callRecordsMap.put("number",number);
-            callRecordsMap.put("date",LgTime);
-            callRecordsMap.put("numberType",numberType);
-            callRecordsMap.put("numberLabel",numberLabel);
-            callRecordsMap.put("isRead",isRead);
-            callRecordsMap.put("isNew",isNew);
-            callRecordsMap.put("duration",duration);
-            callRecordsMap.put("avatarUri",avatarUri);
-            callRecordsMap.put("type",type);
-            callRecordsMap.put("timeApart",apart);
+            callRecordsMap.put("name", name);
+            callRecordsMap.put("number", number);
+            callRecordsMap.put("date", LgTime);
+            callRecordsMap.put("numberType", numberType);
+            callRecordsMap.put("numberLabel", numberLabel);
+            callRecordsMap.put("isRead", isRead);
+            callRecordsMap.put("isNew", isNew);
+            callRecordsMap.put("duration", duration);
+            callRecordsMap.put("avatarUri", avatarUri);
+            callRecordsMap.put("type", type);
+            callRecordsMap.put("timeApart", apart);
             callRecordsDisplay.add(callRecordsMap);
         }
         cursor.close();
@@ -314,25 +303,25 @@ public class PhoneFragment extends Fragment {
     }
 
     /**
-    * 获取当前时间
+     * 获取当前时间
      */
     public String getCurrentTime(Long date) {
         String[] arr = getResources().getStringArray(R.array.date_apart);
         Long currentTimeMillis = System.currentTimeMillis();
         Long time = currentTimeMillis - date;
         String time_apart;
-        if(time < ONEHOUR) {
+        if (time < ONEHOUR) {
             time_apart = arr[0];
-        } else if(time < ONEDAY) {
+        } else if (time < ONEDAY) {
             time_apart = arr[1];
-        } else if(time < TWODAY) {
+        } else if (time < TWODAY) {
             time_apart = arr[2];
-        } else if(time < ONEWEEK) {
+        } else if (time < ONEWEEK) {
             time_apart = arr[3];
-        } else if(time < ONEMOUTH) {
+        } else if (time < ONEMOUTH) {
             time_apart = arr[4];
-        } else if(time < ONEYEAR) {
-            Log.d("wangyeming", "ONEYEAR " + ONEYEAR + " ONEMOUTH " + ONEMOUTH +" time " + time );
+        } else if (time < ONEYEAR) {
+            Log.d("wangyeming", "ONEYEAR " + ONEYEAR + " ONEMOUTH " + ONEMOUTH + " time " + time);
             time_apart = arr[5];
         } else {
             time_apart = arr[6];
@@ -381,12 +370,12 @@ public class PhoneFragment extends Fragment {
         Button numberofZero = (Button) currentView.findViewById(R.id.number_0);
         Button asterisk = (Button) currentView.findViewById(R.id.asterisk);
         Button numberSign = (Button) currentView.findViewById(R.id.number_sign);
-        Button[] buttonArr= new Button[] {numberofOne, numberofTwo, numberofThree, numberofFour,
-                numberofFive, numberofSix , numberofSeven, numberofEight, numberofNine,
+        Button[] buttonArr = new Button[]{numberofOne, numberofTwo, numberofThree, numberofFour,
+                numberofFive, numberofSix, numberofSeven, numberofEight, numberofNine,
                 numberofZero, asterisk, numberSign
         };
-        String[] numberArr = new String[] {"1","2","3","4","5","6","7","8","9","0","*","#"};
-        for(int i=0;i<12;i++) {
+        String[] numberArr = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "#"};
+        for (int i = 0; i < 12; i++) {
             setNumberButtonClick(buttonArr[i], numberArr[i]);
         }
         ImageButton deleteButton = (ImageButton) currentView.findViewById(R.id.delete_number);
@@ -394,7 +383,7 @@ public class PhoneFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Editable display = numberInput.getText();
-                if(display.length() != 0) {
+                if (display.length() != 0) {
                     numberInput.setText(display.subSequence(0, display.length() - 1));
                 }
             }
@@ -409,8 +398,12 @@ public class PhoneFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Editable display = numberInput.getText();
-                numberInput.setText(display+number);
+                numberInput.setText(display + number);
             }
         });
+    }
+
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction(Uri uri);
     }
 }
