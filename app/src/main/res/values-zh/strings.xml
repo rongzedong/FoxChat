@@ -70,4 +70,5 @@
     <string name="within_one_month">一个月内</string>
     <string name="within_one_year">一年内</string>
     <string name="over_one_hour">超过一年</string>
+    <string name="call_hint">输入数字或拼音</string>
 </resources>

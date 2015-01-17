@@ -76,5 +76,6 @@
     <string name="within_one_month">Within One Month</string>
     <string name="within_one_year">Within One Year</string>
     <string name="over_one_hour">Over One Year</string>
+    <string name="call_hint">Input number or letter</string>
 
 </resources>

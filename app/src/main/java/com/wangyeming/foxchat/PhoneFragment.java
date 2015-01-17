@@ -10,12 +10,17 @@ import android.os.Message;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.wangyeming.custom.adapter.CallRecordAdapter;
 
@@ -49,7 +54,7 @@ public class PhoneFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
     // 当前activity
-    private Activity currentActivity;
+    private ActionBarActivity currentActivity;
     // 当前view
     private View currentView;
     //ContentResolver
@@ -59,6 +64,8 @@ public class PhoneFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private CallRecordAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    //手机号输入框
+    private EditText numberInput;
 
     private static final String[] CALL_PROJECTION_ABOVE_16 = new String[]{
             "name",             //姓名
@@ -167,9 +174,11 @@ public class PhoneFragment extends Fragment {
     }
 
     public void init() {
-        currentActivity = getActivity(); //获取当前activity
+        currentActivity = (ActionBarActivity) getActivity(); //获取当前activity
         currentView = getView(); //获取当前view
         cr = currentActivity.getContentResolver(); //获取contact resolver
+        assert currentView != null;
+        numberInput = (EditText) currentView.findViewById(R.id.number_input);
         setRecyclerView();
         new Thread(new Runnable() {
 
@@ -181,6 +190,8 @@ public class PhoneFragment extends Fragment {
                 PhoneFragment.this.handler1.sendMessage(message);
             }
         }).start();
+        dialpadOpenClose();//设置拨号盘打开关闭
+        setClickNumber();//设置拨号盘点击
     }
 
     private Handler handler1 = new Handler() {
@@ -302,6 +313,9 @@ public class PhoneFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
     }
 
+    /**
+    * 获取当前时间
+     */
     public String getCurrentTime(Long date) {
         String[] arr = getResources().getStringArray(R.array.date_apart);
         Long currentTimeMillis = System.currentTimeMillis();
@@ -325,5 +339,78 @@ public class PhoneFragment extends Fragment {
         }
         return time_apart;
 
+    }
+
+    /**
+     * 设置弹出回收键盘
+     */
+    public void dialpadOpenClose() {
+        ImageButton dialpadOpen = (ImageButton) currentView.findViewById(R.id.dialpad_open);
+        final View dialpad = currentView.findViewById(R.id.dialpad);
+        ImageButton dialpadClose = (ImageButton) currentView.findViewById(R.id.dialpad_close);
+        final android.support.v7.app.ActionBar toolbar = currentActivity.getSupportActionBar();
+        dialpadOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialpad.setVisibility(View.VISIBLE);
+                toolbar.hide();
+            }
+        });
+        dialpadClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialpad.setVisibility(View.GONE);
+                toolbar.show();
+            }
+        });
+    }
+
+    /**
+     * 设置拨号键
+     */
+    public void setClickNumber() {
+        Button numberofOne = (Button) currentView.findViewById(R.id.number_1);
+        Button numberofTwo = (Button) currentView.findViewById(R.id.number_2);
+        Button numberofThree = (Button) currentView.findViewById(R.id.number_3);
+        Button numberofFour = (Button) currentView.findViewById(R.id.number_4);
+        Button numberofFive = (Button) currentView.findViewById(R.id.number_5);
+        Button numberofSix = (Button) currentView.findViewById(R.id.number_6);
+        Button numberofSeven = (Button) currentView.findViewById(R.id.number_7);
+        Button numberofEight = (Button) currentView.findViewById(R.id.number_8);
+        Button numberofNine = (Button) currentView.findViewById(R.id.number_9);
+        Button numberofZero = (Button) currentView.findViewById(R.id.number_0);
+        Button asterisk = (Button) currentView.findViewById(R.id.asterisk);
+        Button numberSign = (Button) currentView.findViewById(R.id.number_sign);
+        Button[] buttonArr= new Button[] {numberofOne, numberofTwo, numberofThree, numberofFour,
+                numberofFive, numberofSix , numberofSeven, numberofEight, numberofNine,
+                numberofZero, asterisk, numberSign
+        };
+        String[] numberArr = new String[] {"1","2","3","4","5","6","7","8","9","0","*","#"};
+        for(int i=0;i<12;i++) {
+            setNumberButtonClick(buttonArr[i], numberArr[i]);
+        }
+        ImageButton deleteButton = (ImageButton) currentView.findViewById(R.id.delete_number);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Editable display = numberInput.getText();
+                if(display.length() != 0) {
+                    numberInput.setText(display.subSequence(0, display.length() - 1));
+                }
+            }
+        });
+    }
+
+    /**
+     * 设置Button键click
+     */
+    public void setNumberButtonClick(Button numberButton, final String number) {
+        numberButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Editable display = numberInput.getText();
+                numberInput.setText(display+number);
+            }
+        });
     }
 }

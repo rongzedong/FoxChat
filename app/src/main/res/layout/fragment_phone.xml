@@ -12,10 +12,10 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/call_record_recycler"
-            android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="7" />
+            android:layout_weight="7"
+            android:scrollbars="vertical" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,13 +24,61 @@
             android:gravity="center_horizontal|center_vertical"
             android:orientation="horizontal">
 
-            <Button
+            <ImageButton
+                android:id="@+id/dialpad_open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_dialpad_black_18dp" />
+                android:src="@drawable/ic_dialpad_black_18dp"
+                android:background="#FFFFFF"/>
 
         </LinearLayout>
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/dialpad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/number_input"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:inputType="text"
+                android:textSize="16sp"
+                android:hint="@string/call_hint" />
+
+            <ImageView
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:src="@drawable/line_grey"
+                android:contentDescription="divider" />
+
+            <!--Button
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/ic_backspace_grey600_18dp"/-->
+
+        </LinearLayout>
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="9"
+            layout="@layout/dial_plate" />
 
     </LinearLayout>
 
