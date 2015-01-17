@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.wangyeming.custom.NewToast;
 import com.wangyeming.custom.adapter.ContactListAdapter;
 
@@ -189,7 +190,7 @@ public class NewContactFragment extends Fragment {
     *设置新建联系人按钮
      */
     public void setNewContact() {
-        Button button = (Button) currentView.findViewById(R.id.addNewContact);
+        ButtonFloat button = (ButtonFloat) currentView.findViewById(R.id.addNewContact);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

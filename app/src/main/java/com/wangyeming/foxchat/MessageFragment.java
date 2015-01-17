@@ -266,7 +266,7 @@ public class MessageFragment extends Fragment {
                 SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
                 String LgTime = sdFormat.format(new Date(date));
                 String body_header = body.length() > 20 ? body.substring(0, 19) : body;
-                Boolean isDraft = type == 3 ? true : false;
+                Boolean isDraft = type == 3;
                 Map<String, Object> smsMap = new HashMap<>();
                 smsMap.put("thread_id", thread_id);
                 smsMap.put("date", LgTime);
