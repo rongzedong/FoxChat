@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.wangyeming.custom.CircleImageView;
 import com.wangyeming.foxchat.ContactDetailActivity;
+import com.wangyeming.foxchat.QuickContactActivity;
 import com.wangyeming.foxchat.R;
 
 import java.util.ArrayList;
@@ -30,9 +31,9 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     private int starNum;
 
     public ContactListAdapter(Context context, List<Map<String, Object>> contactList, int starNum) {
-        this.context = context;
+        ContactListAdapter.context = context;
         mInflater = LayoutInflater.from(context);
-        this.contactList = contactList;
+        ContactListAdapter.contactList = contactList;
         this.starNum = starNum;
     }
 
@@ -100,10 +101,10 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 @Override
                 public void onClick(View v) {
                     int postion = getPosition();
-                    Log.d("wym", "当前点击的位置：" + getPosition());
-                    Long rawContactId = (Long) contactList.get(postion).get("_id");
-                    Intent intent = new Intent(context, ContactDetailActivity.class);
-                    intent.putExtra("rawContactId", rawContactId);
+                    String lookUpKey = (String) contactList.get(postion).get("LookUpKey");
+                    Log.d("wym", "当前点击的位置：" + getPosition() + " lookUpKey " + lookUpKey);
+                    Intent intent = new Intent(context, QuickContactActivity.class);
+                    intent.putExtra("LookUpKey", lookUpKey);
                     context.startActivity(intent);
                 }
             });

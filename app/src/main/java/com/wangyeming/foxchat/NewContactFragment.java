@@ -13,13 +13,17 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.wangyeming.custom.adapter.ContactListAdapter;
+import com.wangyeming.custom.widget.BottomLayout;
 import com.wangyeming.custom.widget.NewToast;
 
 import java.util.ArrayList;
@@ -183,6 +187,17 @@ public class NewContactFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 newContact();
+                /*
+                BottomLayout bottomLayout = new BottomLayout(currentActivity);
+                View view = View.inflate(currentActivity, R.layout.activity_quick_contact, null);
+                bottomLayout.setContentView(view);
+                Window window = bottomLayout.getWindow();
+                WindowManager.LayoutParams wlp = window.getAttributes();
+                wlp.gravity = Gravity.BOTTOM;
+                //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+                window.setAttributes(wlp);
+                bottomLayout.show();
+                */
             }
         });
     }
@@ -216,7 +231,7 @@ public class NewContactFragment extends Fragment {
         while (cursor.moveToNext()) {
             //获取基本信息
             long _id = cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts._ID));
-            String LookUpKey = cursor.getString(cursor.getColumnIndex(
+            String lookUpKey = cursor.getString(cursor.getColumnIndex(
                     ContactsContract.Contacts.LOOKUP_KEY));
             /*long nameRawContactId = cursor.getLong(cursor.getColumnIndex(
                     ContactsContract.Contacts.NAME_RAW_CONTACT_ID));*/
@@ -292,7 +307,7 @@ public class NewContactFragment extends Fragment {
             //存进Map
             Map<String, Object> contactMap = new HashMap<>();
             contactMap.put("_id", _id);
-            contactMap.put("LookUpKey", LookUpKey);
+            contactMap.put("LookUpKey", lookUpKey);
             /*contactMap.put("nameRawContactId",nameRawContactId);*/
             contactMap.put("displayName", displayName);
             contactMap.put("displayNameAlt", displayNameAlt);

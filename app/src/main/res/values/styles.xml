@@ -68,4 +68,39 @@
         <item name="bs_listStyle">@style/BottomSheet.List</item>
     </style>
 
+    <!--自定义Bottom layout-->
+    <style name="BottomLayout.Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:textColor">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowAnimationStyle">@style/BottomSheet.Animation</item>
+        <item name="android:textColorPrimary">#DD000000</item>
+        <item name="android:textColorSecondary">#8A000000</item>
+        <item name="android:textColorHint">#42000000</item>
+        <item name="bs_dialogBackground">@android:color/background_light</item>
+        <item name="bs_dividerColor">@color/bs_divider_color</item>
+        <item name="bs_numColumns">@integer/bs_grid_colum</item>
+        <item name="bs_titleTextAppearance">@style/Text.Headline</item>
+        <item name="bs_listItemTitleTextAppearance">@style/Text.Title</item>
+        <item name="bs_gridItemTitleTextAppearance">@style/Text.Hint</item>
+        <item name="bs_moreText">@string/bs_more</item>
+        <item name="bs_closeDrawable">@drawable/bs_ic_clear_light</item>
+        <item name="bs_moreDrawable">@drawable/bs_ic_more_light</item>
+        <item name="bs_listStyle">@style/BottomSheet.List</item>
+    </style>
+
+    <!--button dialog-->
+    <style name="CustomDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <!-- Customize your theme here. -->
+        <item name="android:background">#FFFFFF</item>
+        <!--item name="android:windowNoTitle">false</item-->
+    </style>
+
 </resources>

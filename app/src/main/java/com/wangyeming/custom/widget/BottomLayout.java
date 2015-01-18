@@ -3,6 +3,8 @@ package com.wangyeming.custom.widget;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.wangyeming.foxchat.R;
+
 /**
  * 底部Layout
  *
@@ -10,7 +12,10 @@ import android.content.Context;
  * @date 2015/01/18
  */
 public class BottomLayout extends Dialog {
+
     public BottomLayout(Context context) {
-        super(context);
+        super(context,R.style.BottomLayout_Dialog);
     }
+
+
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wangyeming.foxchat">
+    package="com.wangyeming.foxchat" >
 
     <!-- 权限 -->
-    <!--读取手机机主信息-->
+    <!-- 读取手机机主信息 -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <!-- 读取联系人 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -21,26 +21,28 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <!-- 允许编写短信短信 -->
     <uses-permission android:name="android.permission.WRITE_SMS" />
-    <!--打电话-->
+    <!-- 打电话 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <!--获取通话记录-->
+    <!-- 获取通话记录 -->
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
-    <!--修改通话记录-->
+    <!-- 修改通话记录 -->
     <uses-permission android:name="android.permission.WRITE_CALL_LOG" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ios8_contacts_icon"
         android:label="@string/app_name"
-        android:theme="@style/MyMaterialTheme">
+        android:theme="@style/MyMaterialTheme" >
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/MyMaterialTheme">
+            android:theme="@style/MyMaterialTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -60,7 +62,16 @@
         <activity
             android:name=".MessageConversationActivity"
             android:label="@string/title_activity_message_conversation"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wangyeming.foxchat.MainActivity" />
+        </activity>
+        <activity
+            android:name=".QuickContactActivity"
+            android:label="@string/title_activity_quick_contact"
+            android:theme="@style/CustomDialogTheme"
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wangyeming.foxchat.MainActivity" />

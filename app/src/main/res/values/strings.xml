@@ -68,7 +68,7 @@
     <string name="label">Work</string>
     <string name="location">Beijing</string>
     <string name="subheader">Toady</string>
-    <!--Date apart-->
+    <!-- Date apart -->
     <string name="within_one_hour">Within One hour</string>
     <string name="within_one_day">Within One Day</string>
     <string name="within_two_day">Within Two Day</string>
@@ -77,5 +77,6 @@
     <string name="within_one_year">Within One Year</string>
     <string name="over_one_hour">Over One Year</string>
     <string name="call_hint">Input number or letter</string>
+    <string name="title_activity_quick_contact">QucikContactActivity</string>
 
 </resources>

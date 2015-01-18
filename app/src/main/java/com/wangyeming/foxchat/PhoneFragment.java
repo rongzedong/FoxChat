@@ -261,7 +261,7 @@ public class PhoneFragment extends Fragment {
                             + " geocodedLocation " + geocodedLocation);*/
 
             //获取联系人头像
-            Uri avatarUri = name == null ? null : nameToAvatat(name);
+            Uri avatarUri = name == null ? null : nameToAvatar(name);
             Map<String, Object> callRecordsMap = new HashMap<>();
             callRecordsMap.put("name", name);
             callRecordsMap.put("number", number);
@@ -280,7 +280,7 @@ public class PhoneFragment extends Fragment {
     }
 
     //通过姓名获得头像
-    public Uri nameToAvatat(String name) {
+    public Uri nameToAvatar(String name) {
         Cursor cursor = cr.query(CONTENT_URI, new String[]{"photo_uri"},
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + "=?", new String[]{name}, null, null);
         Uri avatarUri = null;
