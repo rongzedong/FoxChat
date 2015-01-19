@@ -10,7 +10,7 @@
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
         <item name="android:icon">@android:color/transparent</item>
-        <item name="android:title"></item>
+        <item name="android:title"/>
     </style>
 
     <!-- ActionBar 标题文本 -->
@@ -101,6 +101,11 @@
         <!-- Customize your theme here. -->
         <item name="android:background">#FFFFFF</item>
         <!--item name="android:windowNoTitle">false</item-->
+    </style>
+
+    <!--透明的actionBar-->
+    <style name="OverlayActionBarTheme" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
 
 </resources>

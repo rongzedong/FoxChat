@@ -64,6 +64,6 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:layout_marginRight="30dp"
-        android:src="@drawable/ic_message_grey600_18dp" />
+        android:src="@drawable/hangout_48" />
 
 </LinearLayout>

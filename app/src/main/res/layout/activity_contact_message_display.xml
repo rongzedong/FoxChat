@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.wangyeming.foxchat.ContactMessageDisplayActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="3">
+
+        <ImageView
+            android:id="@+id/avatar_background"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/contact_pic_demo" />
+
+        <include layout="@layout/toolbar_transparent" />
+
+        <TextView
+            android:id="@+id/contactName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="@string/name"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginBottom="60dp"/>
+
+        <com.gc.materialdesign.views.ButtonFloat
+            android:id="@+id/addNewMes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginRight="20dp"
+            android:background="#E91E63"
+            android:clickable="true"
+            materialdesign:animate="true"
+            materialdesign:iconDrawable="@drawable/ic_star_white_18dp" />
+
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/contact_phone_list_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="3"
+        android:scrollbars="vertical" />
+
+
+</LinearLayout>

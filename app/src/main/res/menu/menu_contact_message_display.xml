@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.wangyeming.foxchat.ContactMessageDisplayActivity">
+    <item
+        android:id="@+id/back"
+        android:icon="@drawable/ic_arrow_back_white_18dp"
+        app:showAsAction="ifRoom"
+        android:title="@string/back" />
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/ic_mode_edit_white_18dp"
+        android:title="@string/edit"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="always"/>
+</menu>

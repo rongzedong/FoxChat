@@ -70,11 +70,20 @@
         <activity
             android:name=".QuickContactActivity"
             android:label="@string/title_activity_quick_contact"
-            android:theme="@style/CustomDialogTheme"
-            android:parentActivityName=".MainActivity" >
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/CustomDialogTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wangyeming.foxchat.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ContactMessageDisplayActivity"
+            android:label="@string/title_activity_contact_message_display"
+            android:theme="@style/MyMaterialTheme"
+            android:parentActivityName=".QuickContactActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wangyeming.foxchat.QuickContactActivity" />
         </activity>
     </application>
 

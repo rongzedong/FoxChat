@@ -4,22 +4,20 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wangyeming.custom.CircleImageView;
@@ -31,14 +29,14 @@ import java.util.List;
 import java.util.Map;
 
 
-public class QuickContactActivity extends ActionBarActivity {
-
+public class ContactMessageDisplayActivity extends ActionBarActivity {
 
     //联系人数据操作
     protected ContentResolver cr;
     private RecyclerView mRecyclerView;
     private PhoneAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
+    private Toolbar toolbar;
     //联系人lookupkey
     private String lookUpKey = null;
     //联系人数据
@@ -79,11 +77,10 @@ public class QuickContactActivity extends ActionBarActivity {
             ContactsContract.CommonDataKinds.Phone.LABEL,        //手机号标签
     };
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quick_contact);
+        setContentView(R.layout.activity_contact_message_display);
         init();
     }
 
@@ -91,7 +88,7 @@ public class QuickContactActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_quick_contact, menu);
+        getMenuInflater().inflate(R.menu.menu_contact_message_display, menu);
         return true;
     }
 
@@ -114,16 +111,11 @@ public class QuickContactActivity extends ActionBarActivity {
      * 初始化
      */
     public void init() {
-        ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
-            //actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.hide();
-        }
+        setToolbar();
         cr = getContentResolver();
         setRecyclerView();
         Intent intent = getIntent();
         lookUpKey = intent.getStringExtra("LookUpKey");
-        Log.d("wym"," lookUpKey " + lookUpKey);
         setContactAvatarAndName(lookUpKey);
         new Thread(new Runnable() {
 
@@ -132,57 +124,37 @@ public class QuickContactActivity extends ActionBarActivity {
                 getContactPhoneNumbers(lookUpKey);  //获取手机联系人信息
                 Message message = Message.obtain();
                 message.obj = "ok";
-                QuickContactActivity.this.handler1.sendMessage(message);
+                ContactMessageDisplayActivity.this.handler1.sendMessage(message);
             }
         }).start();
-    }
-
-    //设置界面显示
-    public void setWindows() {
-        Display display = getWindowManager().getDefaultDisplay();
-        int displayWidth = display.getWidth();
-        int displayHeight = display.getHeight();
-        int halfHeight = displayHeight/2;
-        //int layoutHeight = mLayoutManager.getHeight();
-        //int layoutHeight = mRecyclerView.getMeasuredHeight();
-        int layoutHeight = 0;
-        //获取recyclerView实际高度
-        Log.d("wym","ItemCount " + mAdapter.getItemCount() );
-        for(int i=0;i<mAdapter.getItemCount();i++) {
-            Log.d("wym","i " + i);
-            View child = mRecyclerView.getChildAt(i);
-            if(child != null) {
-                layoutHeight = layoutHeight + child.getMeasuredHeight();
-            }
-        }
-        //获取头像行的高度
-        LinearLayout avatar_and_name = (LinearLayout) findViewById(R.id.avatar_and_name);
-        layoutHeight = layoutHeight + avatar_and_name.getMeasuredHeight() + 100;
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.width = displayWidth;
-        params.height = layoutHeight > halfHeight ? halfHeight : layoutHeight;
-        params.gravity = Gravity.BOTTOM;
-        this.getWindow().setAttributes(params);
     }
 
     private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
             mAdapter.notifyDataSetChanged();
-            setWindows();
         }
     };
 
-    public void setRecyclerView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.quick_contact_phone_list_recycler);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new PhoneAdapter(this, phoneList);
-        mRecyclerView.setAdapter(mAdapter);
+    /**
+     * 设置toolbar
+     */
+    public void setToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar_transparent);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+        getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏toolBar标题
+        //getSupportActionBar().setDisplayShowCustomEnabled(true); //设定自定义布局
+        getSupportActionBar().setDisplayShowHomeEnabled(true);   //显示返回按钮
+        //View actionbarLayout = LayoutInflater.from(this).inflate(
+                //R.layout.contact_detail_toolbar_layout, null);
+        //getSupportActionBar().setCustomView(actionbarLayout);
     }
 
-    //获取手机号信息
+    /**
+    *获取手机号信息
+     */
     public void getContactPhoneNumbers(String lookUpKey) {
         Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 PHONE_PROJECTION, "lookup=?" ,new String[]{lookUpKey}, null);
@@ -203,31 +175,52 @@ public class QuickContactActivity extends ActionBarActivity {
         cursor.close();
     }
 
-    //获取联系人头像和姓名
+    /**
+    * 设置recyclerView
+     */
+    public void setRecyclerView() {
+        mRecyclerView = (RecyclerView) findViewById(R.id.contact_phone_list_recycler);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new PhoneAdapter(this, phoneList);
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    /**
+    * 获取联系人头像和姓名
+     */
     public void setContactAvatarAndName(String lookUpKey) {
         String displayName = null;
-        String photoThumbUri = null;
-        CircleImageView avatar = (CircleImageView) findViewById(R.id.avatar);
-        TextView name = (TextView) findViewById(R.id.name);
+        String photoUri = null;
         Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, CONTACT_PROJECTION,
-               "lookup=?" ,new String[]{lookUpKey}, null);
+                "lookup=?" ,new String[]{lookUpKey}, null);
         if (cursor.moveToFirst()) {
             displayName = cursor.getString(cursor.getColumnIndex(
                     ContactsContract.Contacts.DISPLAY_NAME_PRIMARY));
-            photoThumbUri = cursor.getString(cursor.getColumnIndex(
-                    ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
+            photoUri = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.Contacts.PHOTO_URI));
         }
         cursor.close();
-        if(photoThumbUri != null) {
-            avatar.setImageURI(Uri.parse(photoThumbUri));
+        if(photoUri != null) {
+            setAvatarBackground(Uri.parse(photoUri));
         }
-        name.setText(displayName);
+        setName(displayName);
     }
 
-    //进入联系人详细信息activity
-    public void goDetail(View view) {
-        Intent intent = new Intent(this, ContactMessageDisplayActivity.class);
-        intent.putExtra("LookUpKey", lookUpKey);
-        startActivity(intent);
+    /**
+     * 设置大头像
+     */
+    public void setAvatarBackground(Uri uri) {
+        ImageView avatarBackground = (ImageView) findViewById(R.id.avatar_background);
+        avatarBackground.setImageURI(uri);
+    }
+
+    /**
+     * 设置姓名
+     */
+    public void setName(String name) {
+        TextView contactName = (TextView) findViewById(R.id.contactName);
+        contactName.setText(name);
     }
 }

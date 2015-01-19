@@ -78,5 +78,6 @@
     <string name="over_one_hour">Over One Year</string>
     <string name="call_hint">Input number or letter</string>
     <string name="title_activity_quick_contact">QucikContactActivity</string>
+    <string name="title_activity_contact_message_display">ContactMessageDisplayActivity</string>
 
 </resources>
