@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -92,6 +93,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -102,6 +104,8 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if(id == R.id.edit) {
+            //Intent intent = new Intent(this, EditContactDetailActivity.class);
         }
 
         return super.onOptionsItemSelected(item);
@@ -142,14 +146,12 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     public void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar_transparent);
         if (toolbar != null) {
+            Log.d("wym","toolbar is not null");
             setSupportActionBar(toolbar);
+            //toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_18dp);
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏toolBar标题
-        //getSupportActionBar().setDisplayShowCustomEnabled(true); //设定自定义布局
-        getSupportActionBar().setDisplayShowHomeEnabled(true);   //显示返回按钮
-        //View actionbarLayout = LayoutInflater.from(this).inflate(
-                //R.layout.contact_detail_toolbar_layout, null);
-        //getSupportActionBar().setCustomView(actionbarLayout);
+        getSupportActionBar().setCustomView(R.layout.contact_detail_toolbar_layout);
     }
 
     /**
@@ -222,5 +224,12 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     public void setName(String name) {
         TextView contactName = (TextView) findViewById(R.id.contactName);
         contactName.setText(name);
+    }
+
+    /**
+     *  返回上一层
+     */
+    public void backToMain(View view) {
+        this.finish();
     }
 }

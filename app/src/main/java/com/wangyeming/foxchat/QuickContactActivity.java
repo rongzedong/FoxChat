@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.wangyeming.custom.CircleImageView;
-import com.wangyeming.custom.adapter.PhoneAdapter;
+import com.wangyeming.custom.adapter.QuickPhoneAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class QuickContactActivity extends ActionBarActivity {
     //联系人数据操作
     protected ContentResolver cr;
     private RecyclerView mRecyclerView;
-    private PhoneAdapter mAdapter;
+    private QuickPhoneAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     //联系人lookupkey
     private String lookUpKey = null;
@@ -178,7 +178,7 @@ public class QuickContactActivity extends ActionBarActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new PhoneAdapter(this, phoneList);
+        mAdapter = new QuickPhoneAdapter(this, phoneList);
         mRecyclerView.setAdapter(mAdapter);
     }
 

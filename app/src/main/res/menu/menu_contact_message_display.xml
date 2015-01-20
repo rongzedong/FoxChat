@@ -3,11 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.wangyeming.foxchat.ContactMessageDisplayActivity">
     <item
-        android:id="@+id/back"
-        android:icon="@drawable/ic_arrow_back_white_18dp"
-        app:showAsAction="ifRoom"
-        android:title="@string/back" />
-    <item
         android:id="@+id/edit"
         android:icon="@drawable/ic_mode_edit_white_18dp"
         android:title="@string/edit"
