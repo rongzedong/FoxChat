@@ -67,14 +67,17 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         String mark = (String) contactList.get(i).get("mark");
         switch (mark) {
             case "star":
+                vh.divider.setVisibility(View.INVISIBLE); //设置分割线:不显示
                 vh.id.setVisibility(View.VISIBLE);
                 vh.letter.setVisibility(View.GONE);
                 break;
             case "none":
+                vh.divider.setVisibility(View.INVISIBLE); //设置分割线:不显示
                 vh.id.setVisibility(View.INVISIBLE);
                 vh.letter.setVisibility(View.GONE);
                 break;
             default:
+                vh.divider.setVisibility(View.VISIBLE); //设置分割线:显示
                 vh.id.setVisibility(View.GONE);
                 vh.letter.setVisibility(View.VISIBLE);
                 vh.letter.setText(mark);

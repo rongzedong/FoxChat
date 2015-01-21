@@ -25,6 +25,6 @@
         android:layout_marginRight="60dp"
         android:background="#1E88E5"
         android:clickable="true"
-        materialdesign:iconDrawable="@drawable/ic_action_new" />
+        materialdesign:iconDrawable="@drawable/ic_person_add_white_18dp" />
 
 </FrameLayout>
