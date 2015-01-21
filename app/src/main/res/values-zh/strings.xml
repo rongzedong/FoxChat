@@ -71,4 +71,10 @@
     <string name="within_one_year">一年内</string>
     <string name="over_one_hour">超过一年</string>
     <string name="call_hint">输入数字或拼音</string>
+    <string name="phone">电话号码</string>
+    <string name="email">电子邮箱</string>
+    <string name="address">地址</string>
+    <string name="ringtone">铃声</string>
+    <string name="addNote">备注</string>
+    <string name="addAnotherField">增加新资料</string>
 </resources>

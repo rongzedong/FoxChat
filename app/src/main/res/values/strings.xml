@@ -79,5 +79,12 @@
     <string name="call_hint">Input number or letter</string>
     <string name="title_activity_quick_contact">QucikContactActivity</string>
     <string name="title_activity_contact_message_display">ContactMessageDisplayActivity</string>
+    <string name="title_activity_edit_contact">EditContactActivity</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="address">Address</string>
+    <string name="ringtone">Ringtone</string>
+    <string name="addNote">Add Note</string>
+    <string name="addAnotherField">ADD ANOTHER FIELD</string>
 
 </resources>

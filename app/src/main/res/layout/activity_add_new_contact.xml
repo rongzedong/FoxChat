@@ -1,0 +1,99 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.wangyeming.foxchat.AddNewContactActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include
+                layout="@layout/toolbar_edit_contact"
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="4"
+                android:background="#EEEEEE">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#EEEEEE"
+                    android:contentDescription="@string/new_contact"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_person_48px_grey" />
+            </FrameLayout>
+
+
+            <ImageView
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:src="@drawable/line_grey" />
+
+            <com.gc.materialdesign.views.ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dip"
+                android:layout_weight="5">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <include layout="@layout/edit_name_item" />
+
+                    <include layout="@layout/edit_phone_item" />
+
+                    <include layout="@layout/edit_email_item" />
+
+                    <include layout="@layout/edit_address_item" />
+
+                    <include layout="@layout/edit_ringtone_item" />
+
+                    <include layout="@layout/edit_addnote_item" />
+
+                    <com.gc.materialdesign.views.ButtonRectangle
+                        android:id="@+id/addAnotherField"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="20dp"
+                        android:background="#BDBDBD"
+                        android:text="@string/addAnotherField"
+                        android:textSize="20sp"
+                        materialdesign:textColor="#000"/>
+
+                </LinearLayout>
+            </com.gc.materialdesign.views.ScrollView >
+        </LinearLayout>
+
+        <com.gc.materialdesign.views.ButtonFloat
+            android:id="@+id/setAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="20dp"
+            android:background="#E91E63"
+            android:clickable="true"
+            materialdesign:iconDrawable="@drawable/ic_photo_camera_white_24dp" />
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -561,7 +561,7 @@ public class ContactFragment extends Fragment {
 
     //新建联系人
     public void newContact() {
-        Intent intent = new Intent(currentActivity, NewContactActivity.class);
+        Intent intent = new Intent(currentActivity, AddNewContactActivity.class);
         startActivity(intent);
     }
 

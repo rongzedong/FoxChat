@@ -20,14 +20,11 @@
         android:id="@+id/addNewContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="60dp"
         android:background="#1E88E5"
         android:clickable="true"
-        materialdesign:animate="true"
         materialdesign:iconDrawable="@drawable/ic_action_new" />
 
 </FrameLayout>

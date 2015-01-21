@@ -79,11 +79,20 @@
         <activity
             android:name=".ContactMessageDisplayActivity"
             android:label="@string/title_activity_contact_message_display"
-            android:theme="@style/MyMaterialTheme"
-            android:parentActivityName=".QuickContactActivity" >
+            android:parentActivityName=".QuickContactActivity"
+            android:theme="@style/MyMaterialTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wangyeming.foxchat.QuickContactActivity" />
+        </activity>
+        <activity
+            android:name=".AddNewContactActivity"
+            android:label="@string/title_activity_edit_contact"
+            android:theme="@style/MyMaterialTheme"
+            android:parentActivityName=".ContactMessageDisplayActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wangyeming.foxchat.ContactMessageDisplayActivity" />
         </activity>
     </application>
 

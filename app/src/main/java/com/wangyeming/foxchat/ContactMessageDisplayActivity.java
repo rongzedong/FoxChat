@@ -3,6 +3,7 @@ package com.wangyeming.foxchat;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.wangyeming.custom.CircleImageView;
 import com.wangyeming.custom.adapter.PhoneAdapter;
 
@@ -119,6 +121,8 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
         cr = getContentResolver();
         setRecyclerView();
         Intent intent = getIntent();
+        ButtonFloat buttonFloat = (ButtonFloat) findViewById(R.id.starButton);
+        buttonFloat.setBackgroundColor(Color.parseColor("#E91E63"));
         lookUpKey = intent.getStringExtra("LookUpKey");
         setContactAvatarAndName(lookUpKey);
         new Thread(new Runnable() {

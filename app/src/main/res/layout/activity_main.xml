@@ -21,7 +21,7 @@
     <it.neokree.materialtabs.MaterialTabHost
         android:id="@+id/materialTabHost"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         app:accentColor="#C5E1A5"
         app:hasIcons="true"
         app:iconColor="#FFFFFF"

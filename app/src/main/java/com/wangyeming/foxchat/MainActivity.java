@@ -71,7 +71,7 @@ public class MainActivity extends ActionBarActivity implements PhoneFragment.OnF
         MenuItem searchItem = menu.findItem(R.id.action_search);
         //设置search view
         searchView = (android.support.v7.widget.SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setIconifiedByDefault(false);//默认展开搜索框
+        //searchView.setIconifiedByDefault(false);//默认展开搜索框
         searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>" + getResources().getString(R.string.query_hint) + "</font>"));
         searchView.clearFocus();
         //BottomSheet
