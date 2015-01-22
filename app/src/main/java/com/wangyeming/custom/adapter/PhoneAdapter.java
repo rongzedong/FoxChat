@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.wangyeming.custom.CircleImageView;
 import com.wangyeming.foxchat.R;
 
 import java.util.ArrayList;
@@ -17,7 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Wang on 2015/1/18.
+ * 联系人信息 PhoneAdapter
+ *
+ * @author 王小明
+ * @data 2015/01/18
  */
 public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.ViewHolder> {
 

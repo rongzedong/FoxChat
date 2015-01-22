@@ -22,7 +22,11 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.wangyeming.Help.RecyclerViewLayoutManager;
 import com.wangyeming.custom.CircleImageView;
+import com.wangyeming.custom.adapter.EmailAdapter;
+import com.wangyeming.custom.adapter.PhoneAdapter;
+import com.wangyeming.custom.adapter.QuickEmailAdapter;
 import com.wangyeming.custom.adapter.QuickPhoneAdapter;
 
 import java.util.ArrayList;
@@ -36,13 +40,24 @@ public class QuickContactActivity extends ActionBarActivity {
 
     //联系人数据操作
     protected ContentResolver cr;
-    private RecyclerView mRecyclerView;
-    private QuickPhoneAdapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
+    /**
+     * phone adapter
+     */
+    private RecyclerView phoneRecyclerView;
+    private QuickPhoneAdapter phoneAdapter;
+    private RecyclerViewLayoutManager phoneLayoutManager;
+    /**
+     * email adapter
+     */
+    private RecyclerView emailRecyclerView;
+    private QuickEmailAdapter emailAdapter;
+    private RecyclerViewLayoutManager emailLayoutManager;
     //联系人lookupkey
     private String lookUpKey = null;
-    //联系人数据
+    //联系人手机号数据
     private List<Map<String, Object>> phoneList = new ArrayList<>();
+    //联系人电子邮箱数据
+    private List<Map<String, Object>> emailList = new ArrayList<>();
     //ContactsContract.Contacts
     private static final String[] CONTACT_PROJECTION = new String[]{
             "_id",                  //raw contact id 考虑使用lookup代替,不会改变
@@ -72,11 +87,19 @@ public class QuickContactActivity extends ActionBarActivity {
             "contact_status_label", //联系人状态icon资源的id
             "contact_status_icon",  //联系人状态label资源的id,如“Google Talk”
     };
+
     //ContactsContract.CommonDataKinds.Phone
     private static final String[] PHONE_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.NUMBER,      //手机号
             ContactsContract.CommonDataKinds.Phone.TYPE,        //手机号类型
             ContactsContract.CommonDataKinds.Phone.LABEL,        //手机号标签
+    };
+
+    //ContactsContract.CommonDataKinds.Email
+    private static final String[] EMAIL_PROJECTION = new String[]{
+            ContactsContract.CommonDataKinds.Email.ADDRESS,     //邮件地址
+            ContactsContract.CommonDataKinds.Email.TYPE,        //邮件类型
+            ContactsContract.CommonDataKinds.Email.LABEL,       //邮件标签
     };
 
 
@@ -120,7 +143,8 @@ public class QuickContactActivity extends ActionBarActivity {
             actionBar.hide();
         }
         cr = getContentResolver();
-        setRecyclerView();
+        setPhoneRecyclerView();  //设置phone recyclerView
+        setEmailRecyclerView(); //设置email recyclerView
         Intent intent = getIntent();
         lookUpKey = intent.getStringExtra("LookUpKey");
         Log.d("wym"," lookUpKey " + lookUpKey);
@@ -130,6 +154,7 @@ public class QuickContactActivity extends ActionBarActivity {
             @Override
             public void run() {
                 getContactPhoneNumbers(lookUpKey);  //获取手机联系人信息
+                getContactEmail(lookUpKey);
                 Message message = Message.obtain();
                 message.obj = "ok";
                 QuickContactActivity.this.handler1.sendMessage(message);
@@ -142,22 +167,16 @@ public class QuickContactActivity extends ActionBarActivity {
         Display display = getWindowManager().getDefaultDisplay();
         int displayWidth = display.getWidth();
         int displayHeight = display.getHeight();
-        int halfHeight = displayHeight/2;
-        //int layoutHeight = mLayoutManager.getHeight();
-        //int layoutHeight = mRecyclerView.getMeasuredHeight();
+        int halfHeight = (int) (displayHeight *0.7);
         int layoutHeight = 0;
         //获取recyclerView实际高度
-        Log.d("wym","ItemCount " + mAdapter.getItemCount() );
-        for(int i=0;i<mAdapter.getItemCount();i++) {
-            Log.d("wym","i " + i);
-            View child = mRecyclerView.getChildAt(i);
-            if(child != null) {
-                layoutHeight = layoutHeight + child.getMeasuredHeight();
-            }
-        }
+        int recyclerViewHeight = phoneLayoutManager.getHeight() + emailLayoutManager.getHeight();
         //获取头像行的高度
         LinearLayout avatar_and_name = (LinearLayout) findViewById(R.id.avatar_and_name);
-        layoutHeight = layoutHeight + avatar_and_name.getMeasuredHeight() + 100;
+        int avatarHeight = avatar_and_name.getMeasuredHeight() + avatar_and_name.getPaddingBottom()
+                + avatar_and_name.getPaddingTop();
+        //计算总高度
+        layoutHeight = recyclerViewHeight + avatarHeight;
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.width = displayWidth;
         params.height = layoutHeight > halfHeight ? halfHeight : layoutHeight;
@@ -168,18 +187,34 @@ public class QuickContactActivity extends ActionBarActivity {
     private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
-            mAdapter.notifyDataSetChanged();
+            phoneAdapter.notifyDataSetChanged();  //手机号数据更新
+            emailAdapter.notifyDataSetChanged();  //email数据更新
             setWindows();
         }
     };
 
-    public void setRecyclerView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.quick_contact_phone_list_recycler);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new QuickPhoneAdapter(this, phoneList);
-        mRecyclerView.setAdapter(mAdapter);
+    /**
+     * 设置phone recyclerView
+     */
+    public void setPhoneRecyclerView() {
+        phoneRecyclerView = (RecyclerView) findViewById(R.id.quick_contact_phone_list_recycler);
+        phoneRecyclerView.setHasFixedSize(true);
+        phoneLayoutManager = new RecyclerViewLayoutManager(this);
+        phoneRecyclerView.setLayoutManager(phoneLayoutManager);
+        phoneAdapter = new QuickPhoneAdapter(this, phoneList);
+        phoneRecyclerView.setAdapter(phoneAdapter);
+    }
+
+    /**
+     * 设置email recyclerView
+     */
+    public void setEmailRecyclerView() {
+        emailRecyclerView = (RecyclerView) findViewById(R.id.quick_contact_email_list_recycler);
+        emailRecyclerView.setHasFixedSize(true);
+        emailLayoutManager = new RecyclerViewLayoutManager(this);
+        emailRecyclerView.setLayoutManager(emailLayoutManager);
+        emailAdapter = new QuickEmailAdapter(this, emailList);
+        emailRecyclerView.setAdapter(emailAdapter);
     }
 
     //获取手机号信息
@@ -199,6 +234,29 @@ public class QuickContactActivity extends ActionBarActivity {
             phoneMap.put("type", type);
             phoneMap.put("label", label);
             phoneList.add(phoneMap);
+        }
+        cursor.close();
+    }
+
+    /**
+     *获取电子邮箱信息
+     */
+    public void getContactEmail(String lookUpKey) {
+        Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                EMAIL_PROJECTION, "lookup=?" ,new String[]{lookUpKey}, null);
+        while (cursor.moveToNext()) {
+            String address = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Email.ADDRESS));
+            int type = cursor.getInt(cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Email.TYPE));
+            String label = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Email.LABEL));
+            Log.d("quick contact", "address " + address + " type " + type + " label " + label);
+            Map<String, Object> emailMap = new HashMap<>();
+            emailMap.put("address", address);
+            emailMap.put("type", type);
+            emailMap.put("label", label);
+            emailList.add(emailMap);
         }
         cursor.close();
     }

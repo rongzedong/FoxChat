@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="phone_type">　　
+        <item>自定义</item>　　
+        <item>家庭</item>
+        <item>手机</item>　　
+        <item>工作</item>        　　
+        <item>工作传真</item>
+        <item>家庭传真</item>        　　
+        <item>寻呼机</item>        　　
+        <item>其它</item>
+        <item>电话回拨</item>
+        <item>车载电话</item>        　　
+        <item>公司主要电话</item>        　　
+        <item>综合数字信息网</item>
+        <item>主要</item>
+        <item>其他传真</item>        　　
+        <item>无线电</item>        　　
+        <item>电报</item>
+        <item>文字电话/听障专用电信设备</item>
+        <item>工作手机</item>
+        <item>工作寻呼机</item>
+        <item>助手</item>
+        <item>彩信</item>        　　
+    </string-array>
+    
+    <string-array name="date_apart">
+        <item>一小时内</item>
+        <item>今天</item>
+        <item>昨天</item>
+        <item>一周内</item>
+        <item>一个月内</item>
+        <item>一年内</item>
+        <item>超过一年</item>
+    </string-array>
+
+    <string-array name="email_type">
+        <item>自定义</item>　　
+        <item>家庭</item>
+        <item>工作</item>
+        <item>其它</item>　　　
+        <item>手机</item>
+    </string-array>
+</resources>

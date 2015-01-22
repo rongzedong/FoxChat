@@ -1,39 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="phone_type">　　
-        <item>@string/TYPE_CUSTOM</item>　　
-        <item>@string/TYPE_HOME</item>
-        　　
-        <item>@string/TYPE_MOBILE</item>
-        　　
-        <item>@string/TYPE_WORK</item>
-        　　
-        <item>@string/TYPE_FAX_WORK</item>
-        <item>@string/TYPE_FAX_HOME</item>
-        　　
-        <item>@string/TYPE_PAGER</item>
-        　　
-        <item>@string/TYPE_OTHER</item>
-        <item>@string/TYPE_CALLBACK</item>
-        <item>@string/TYPE_CAR</item>
-        　　
-        <item>@string/TYPE_COMPANY_MAIN</item>
-        　　
-        <item>@string/TYPE_ISDN</item>
-        　　
-        <item>@string/TYPE_MAIN</item>
-        <item>@string/TYPE_OTHER_FAX</item>
-        　　
-        <item>@string/TYPE_RADIO</item>
-        　　
-        <item>@string/TYPE_TELEX</item>
-        <item>@string/TYPE_TTY_TDD</item>
-        <item>@string/TYPE_WORK_MOBILE</item>
-        <item>@string/TYPE_WORK_PAGER</item>
-        <item>@string/TYPE_ASSISTANT</item>
-        <item>@string/TYPE_MMS</item>
-        　　
+        <item>CUSTOM</item>　　
+        <item>HOME</item>
+        <item>MOBILE</item>　　
+        <item>WORK</item>        　　
+        <item>FAX WORK</item>
+        <item>FAX HOME</item>        　　
+        <item>PAGER</item>        　　
+        <item>OTHER</item>
+        <item>CALLBACK</item>
+        <item>CAR</item>        　　
+        <item>COMPANY_MAIN</item>        　　
+        <item>ISDN</item>
+        <item>MAIN</item>
+        <item>OTHER FAX</item>        　　
+        <item>RADIO</item>        　　
+        <item>TELEX</item>
+        <item>TTY TDD</item>
+        <item>WORK_MOBILE</item>
+        <item>WORK PAGER</item>
+        <item>ASSISTANT</item>
+        <item>MMS</item>        　　
     </string-array>
+    
     <string-array name="date_apart">
         <item>@string/within_one_hour</item>
         <item>@string/within_one_day</item>
@@ -42,5 +32,13 @@
         <item>@string/within_one_month</item>
         <item>@string/within_one_year</item>
         <item>@string/over_one_hour</item>
+    </string-array>
+
+    <string-array name="email_type">
+        <item>CUSTOM</item>　　
+        <item>HOME</item>
+        <item>WORK</item>
+        <item>OTHER</item>　　　
+        <item>MOBILE</item>
     </string-array>
 </resources>

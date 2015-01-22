@@ -51,13 +51,14 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <EditText
+            <TextView
                 android:id="@+id/number_input"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:hint="@string/call_hint"
-                android:inputType="text"
-                android:textSize="16sp" />
+                android:textSize="20sp"
+                android:textColor="#000000"
+                android:background="#FFFFFF"/>
 
             <ImageView
                 android:id="@+id/divider"

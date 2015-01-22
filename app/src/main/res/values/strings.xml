@@ -50,6 +50,7 @@
     <string name="TYPE_WORK_PAGER">WORK_PAGER</string>
     <string name="TYPE_ASSISTANT">ASSISTANT</string>
     <string name="TYPE_MMS">MMS</string>
+
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- sms list item -->

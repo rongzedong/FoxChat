@@ -5,17 +5,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +21,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFloat;
-import com.wangyeming.custom.CircleImageView;
+import com.wangyeming.Help.RecyclerViewLayoutManager;
+import com.wangyeming.Help.RecyclerViewUtility;
+import com.wangyeming.custom.adapter.EmailAdapter;
 import com.wangyeming.custom.adapter.PhoneAdapter;
 
 import java.util.ArrayList;
@@ -31,19 +31,38 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * 联系人信息 Activity
+ * 联系人详细信息
+ *
+ * @author 王小明
+ * @data 2015/01/22
+ */
 public class ContactMessageDisplayActivity extends ActionBarActivity {
 
     //联系人数据操作
     protected ContentResolver cr;
-    private RecyclerView mRecyclerView;
-    private PhoneAdapter mAdapter;
-    private LinearLayoutManager mLayoutManager;
+    /**
+     * phone adapter
+     */
+    private RecyclerView phoneRecyclerView;
+    private PhoneAdapter phoneAdapter;
+    //private LinearLayoutManager phoneLayoutManager;
+    private RecyclerViewLayoutManager phoneLayoutManager;
+    /**
+     * email adapter
+     */
+    private RecyclerView emailRecyclerView;
+    private EmailAdapter emailAdapter;
+    //private LinearLayoutManager emailLayoutManager;
+    private RecyclerViewLayoutManager emailLayoutManager;
     private Toolbar toolbar;
     //联系人lookupkey
     private String lookUpKey = null;
-    //联系人数据
+    //联系人手机号数据
     private List<Map<String, Object>> phoneList = new ArrayList<>();
+    //联系人电子邮箱数据
+    private List<Map<String, Object>> emailList = new ArrayList<>();
     //ContactsContract.Contacts
     private static final String[] CONTACT_PROJECTION = new String[]{
             "_id",                  //raw contact id 考虑使用lookup代替,不会改变
@@ -73,11 +92,19 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
             "contact_status_label", //联系人状态icon资源的id
             "contact_status_icon",  //联系人状态label资源的id,如“Google Talk”
     };
+
     //ContactsContract.CommonDataKinds.Phone
     private static final String[] PHONE_PROJECTION = new String[]{
             ContactsContract.CommonDataKinds.Phone.NUMBER,      //手机号
             ContactsContract.CommonDataKinds.Phone.TYPE,        //手机号类型
             ContactsContract.CommonDataKinds.Phone.LABEL,        //手机号标签
+    };
+
+    //ContactsContract.CommonDataKinds.Email
+    private static final String[] EMAIL_PROJECTION = new String[]{
+            ContactsContract.CommonDataKinds.Email.ADDRESS,     //邮件地址
+            ContactsContract.CommonDataKinds.Email.TYPE,        //邮件类型
+            ContactsContract.CommonDataKinds.Email.LABEL,       //邮件标签
     };
 
     @Override
@@ -119,7 +146,8 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     public void init() {
         setToolbar();
         cr = getContentResolver();
-        setRecyclerView();
+        setPhoneRecyclerView();  //设置phone recyclerView
+        setEmailRecyclerView(); //设置email recyclerView
         Intent intent = getIntent();
         ButtonFloat buttonFloat = (ButtonFloat) findViewById(R.id.starButton);
         buttonFloat.setBackgroundColor(Color.parseColor("#E91E63"));
@@ -129,7 +157,8 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
 
             @Override
             public void run() {
-                getContactPhoneNumbers(lookUpKey);  //获取手机联系人信息
+                getContactPhone(lookUpKey);  //获取手机联系人手机号信息
+                getContactEmail(lookUpKey);  //获取手机联系人email信息
                 Message message = Message.obtain();
                 message.obj = "ok";
                 ContactMessageDisplayActivity.this.handler1.sendMessage(message);
@@ -140,7 +169,8 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
-            mAdapter.notifyDataSetChanged();
+            phoneAdapter.notifyDataSetChanged();  //手机号数据更新
+            emailAdapter.notifyDataSetChanged();  //email数据更新
         }
     };
 
@@ -161,7 +191,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     /**
     *获取手机号信息
      */
-    public void getContactPhoneNumbers(String lookUpKey) {
+    public void getContactPhone(String lookUpKey) {
         Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 PHONE_PROJECTION, "lookup=?" ,new String[]{lookUpKey}, null);
         while (cursor.moveToNext()) {
@@ -182,15 +212,51 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     }
 
     /**
-    * 设置recyclerView
+     *获取电子邮箱信息
      */
-    public void setRecyclerView() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.contact_phone_list_recycler);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new PhoneAdapter(this, phoneList);
-        mRecyclerView.setAdapter(mAdapter);
+    public void getContactEmail(String lookUpKey) {
+        Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                EMAIL_PROJECTION, "lookup=?" ,new String[]{lookUpKey}, null);
+        while (cursor.moveToNext()) {
+            String address = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Email.ADDRESS));
+            int type = cursor.getInt(cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Email.TYPE));
+            String label = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Email.LABEL));
+            Log.d("quick contact", "address " + address + " type " + type + " label " + label);
+            Map<String, Object> emailMap = new HashMap<>();
+            emailMap.put("address", address);
+            emailMap.put("type", type);
+            emailMap.put("label", label);
+            emailList.add(emailMap);
+        }
+        cursor.close();
+    }
+
+    /**
+    * 设置phone recyclerView
+     */
+    public void setPhoneRecyclerView() {
+        phoneRecyclerView = (RecyclerView) findViewById(R.id.contact_phone_list_recycler);
+        phoneRecyclerView.setHasFixedSize(true);
+        //phoneLayoutManager = new LinearLayoutManager(this);
+        phoneLayoutManager = new RecyclerViewLayoutManager(this);
+        phoneRecyclerView.setLayoutManager(phoneLayoutManager);
+        phoneAdapter = new PhoneAdapter(this, phoneList);
+        phoneRecyclerView.setAdapter(phoneAdapter);
+    }
+
+    /**
+     * 设置email recyclerView
+     */
+    public void setEmailRecyclerView() {
+        emailRecyclerView = (RecyclerView) findViewById(R.id.contact_email_list_recycler);
+        emailRecyclerView.setHasFixedSize(true);
+        emailLayoutManager = new RecyclerViewLayoutManager(this);
+        emailRecyclerView.setLayoutManager(emailLayoutManager);
+        emailAdapter = new EmailAdapter(this, emailList);
+        emailRecyclerView.setAdapter(emailAdapter);
     }
 
     /**

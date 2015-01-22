@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.wangyeming.custom.adapter.CallRecordAdapter;
 
@@ -103,7 +104,7 @@ public class PhoneFragment extends Fragment {
     private CallRecordAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     //手机号输入框
-    private EditText numberInput;
+    private TextView numberInput;
     private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
@@ -174,7 +175,7 @@ public class PhoneFragment extends Fragment {
         currentView = getView(); //获取当前view
         cr = currentActivity.getContentResolver(); //获取contact resolver
         assert currentView != null;
-        numberInput = (EditText) currentView.findViewById(R.id.number_input);
+        numberInput = (TextView) currentView.findViewById(R.id.number_input);
         setRecyclerView();
         new Thread(new Runnable() {
 
@@ -382,7 +383,7 @@ public class PhoneFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Editable display = numberInput.getText();
+                CharSequence display = numberInput.getText();
                 if (display.length() != 0) {
                     numberInput.setText(display.subSequence(0, display.length() - 1));
                 }
@@ -397,7 +398,7 @@ public class PhoneFragment extends Fragment {
         numberButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Editable display = numberInput.getText();
+                CharSequence display = numberInput.getText();
                 numberInput.setText(display + number);
             }
         });
