@@ -142,9 +142,14 @@ public class PhoneFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        init();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
-        init();
     }
 
     public void onButtonPressed(Uri uri) {

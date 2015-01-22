@@ -25,6 +25,7 @@ import com.wangyeming.Help.RecyclerViewLayoutManager;
 import com.wangyeming.Help.RecyclerViewUtility;
 import com.wangyeming.custom.adapter.EmailAdapter;
 import com.wangyeming.custom.adapter.PhoneAdapter;
+import com.wangyeming.custom.adapter.WebsiteAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,19 +44,23 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     //联系人数据操作
     protected ContentResolver cr;
     /**
-     * phone adapter
+     * phone recycler view
      */
     private RecyclerView phoneRecyclerView;
     private PhoneAdapter phoneAdapter;
-    //private LinearLayoutManager phoneLayoutManager;
     private RecyclerViewLayoutManager phoneLayoutManager;
     /**
-     * email adapter
+     * email recycler view
      */
     private RecyclerView emailRecyclerView;
     private EmailAdapter emailAdapter;
-    //private LinearLayoutManager emailLayoutManager;
     private RecyclerViewLayoutManager emailLayoutManager;
+    /**
+     * website recycler view
+     */
+    private RecyclerView websiteRecyclerView;
+    private WebsiteAdapter websiteAdapter;
+    private RecyclerViewLayoutManager websiteLayoutManager;
     private Toolbar toolbar;
     //联系人lookupkey
     private String lookUpKey = null;
@@ -63,6 +68,8 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     private List<Map<String, Object>> phoneList = new ArrayList<>();
     //联系人电子邮箱数据
     private List<Map<String, Object>> emailList = new ArrayList<>();
+    //联系人网址数据
+    private List<Map<String, Object>> websiteList = new ArrayList<>();
     //ContactsContract.Contacts
     private static final String[] CONTACT_PROJECTION = new String[]{
             "_id",                  //raw contact id 考虑使用lookup代替,不会改变
@@ -107,6 +114,15 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
             ContactsContract.CommonDataKinds.Email.LABEL,       //邮件标签
     };
 
+    //ContactsContract.CommonDataKinds.Website
+    private static final String[] WEBSITE_PROJECTION = new String[]{
+            ContactsContract.CommonDataKinds.Website.URL,       //网址url
+            ContactsContract.CommonDataKinds.Website.TYPE,      //网址类型
+            ContactsContract.CommonDataKinds.Website.LABEL,     //网址标签
+    };
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,6 +164,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
         cr = getContentResolver();
         setPhoneRecyclerView();  //设置phone recyclerView
         setEmailRecyclerView(); //设置email recyclerView
+        setWebisteRecyclerView(); //设置website recyclerView
         Intent intent = getIntent();
         ButtonFloat buttonFloat = (ButtonFloat) findViewById(R.id.starButton);
         buttonFloat.setBackgroundColor(Color.parseColor("#E91E63"));
@@ -159,6 +176,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
             public void run() {
                 getContactPhone(lookUpKey);  //获取手机联系人手机号信息
                 getContactEmail(lookUpKey);  //获取手机联系人email信息
+                getContactWebsite(lookUpKey);   //获取手机联系人网址信息
                 Message message = Message.obtain();
                 message.obj = "ok";
                 ContactMessageDisplayActivity.this.handler1.sendMessage(message);
@@ -171,6 +189,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
         public void handleMessage(android.os.Message msg) {
             phoneAdapter.notifyDataSetChanged();  //手机号数据更新
             emailAdapter.notifyDataSetChanged();  //email数据更新
+            websiteAdapter.notifyDataSetChanged(); //website数据更新
         }
     };
 
@@ -235,6 +254,31 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     }
 
     /**
+     *获取网址信息
+     */
+    public void getContactWebsite(String lookUpKey) {
+        Cursor cursor = cr.query(ContactsContract.Data.CONTENT_URI,
+                WEBSITE_PROJECTION, "lookup = ? ANd mimetype = ?" ,
+                new String[]{lookUpKey, ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE},
+                null);
+        while (cursor.moveToNext()) {
+            String Url = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Website.URL));
+            int type = cursor.getInt(cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Website.TYPE));
+            String label = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.CommonDataKinds.Website.LABEL));
+            Log.d("quick contact", "Url " + Url + " type " + type + " label " + label);
+            Map<String, Object> websiteMap = new HashMap<>();
+            websiteMap.put("Url", Url);
+            websiteMap.put("type", type);
+            websiteMap.put("label", label);
+            websiteList.add(websiteMap);
+        }
+        cursor.close();
+    }
+
+    /**
     * 设置phone recyclerView
      */
     public void setPhoneRecyclerView() {
@@ -257,6 +301,18 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
         emailRecyclerView.setLayoutManager(emailLayoutManager);
         emailAdapter = new EmailAdapter(this, emailList);
         emailRecyclerView.setAdapter(emailAdapter);
+    }
+
+    /**
+     * 设置website recyclerView
+     */
+    public void setWebisteRecyclerView() {
+        websiteRecyclerView = (RecyclerView) findViewById(R.id.contact_website_list_recycler);
+        websiteRecyclerView.setHasFixedSize(true);
+        websiteLayoutManager = new RecyclerViewLayoutManager(this);
+        websiteRecyclerView.setLayoutManager(websiteLayoutManager);
+        websiteAdapter = new WebsiteAdapter(this, websiteList);
+        websiteRecyclerView.setAdapter(websiteAdapter);
     }
 
     /**

@@ -41,4 +41,14 @@
         <item>OTHER</item>　　　
         <item>MOBILE</item>
     </string-array>
+
+    <string-array name="website_type">
+        <item>HOME PAGE</item>
+        <item>BLOG</item>
+        <item>PROFILE</item>
+        <item>HOME</item>
+        <item>WORK</item>　
+        <item>FTP</item>
+        <item>OTHER</item>
+    </string-array>
 </resources>

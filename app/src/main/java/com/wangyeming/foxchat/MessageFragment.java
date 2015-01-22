@@ -135,9 +135,14 @@ public class MessageFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        init();
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
-        init();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -41,7 +41,7 @@
                         android:scrollbars="vertical" />
 
                     <ImageView
-                        android:id="@+id/divider"
+                        android:id="@+id/divider1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -49,6 +49,19 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/contact_email_list_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical" />
+
+                    <ImageView
+                        android:id="@+id/divider2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:src="@drawable/line_grey" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/contact_website_list_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scrollbars="vertical" />

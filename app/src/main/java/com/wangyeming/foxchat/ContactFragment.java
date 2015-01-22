@@ -160,12 +160,12 @@ public class ContactFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        init();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        init();
         Log.d("wangyeming1", "onStart");
     }
 

@@ -42,6 +42,7 @@ public class NewContactFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    //ContactsContract.Contacts
     private static final String[] CONTACT_PROJECTION = new String[]{
             "_id",                  //raw contact id 考虑使用lookup代替,不会改变
             "lookup",               //一个opaque值，包含当name_raw id改变时如何查找联系人的暗示
@@ -139,16 +140,15 @@ public class NewContactFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_new_contact, container, false);
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        init();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        init();
     }
 
     @Override
