@@ -15,7 +15,7 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_location_on_grey600_18dp" />
+            android:src="@drawable/ic_web_grey600_18dp" />
     </FrameLayout>
 
     <EditText
@@ -24,13 +24,13 @@
         android:layout_marginRight="10dp"
         android:layout_weight="3"
         android:gravity="center_vertical"
-        android:hint="@string/address" />
+        android:hint="@string/website" />
 
     <Spinner
         android:layout_width="0dip"
         android:layout_height="match_parent"
         android:layout_weight="1.5"
         android:layout_marginRight="10dp"
-        android:entries="@array/address_type"/>
+        android:entries="@array/website_type"/>
 
 </LinearLayout>

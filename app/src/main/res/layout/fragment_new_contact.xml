@@ -23,7 +23,7 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="60dp"
-        android:background="#1E88E5"
+        android:background="#9C27B0"
         android:clickable="true"
         materialdesign:iconDrawable="@drawable/ic_person_add_white_18dp" />
 

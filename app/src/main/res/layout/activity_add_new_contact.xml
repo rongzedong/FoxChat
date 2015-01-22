@@ -65,6 +65,10 @@
 
                     <include layout="@layout/edit_address_item" />
 
+                    <include layout="@layout/edit_website_item" />
+
+                    <include layout="@layout/edit_im_item" />
+
                     <include layout="@layout/edit_ringtone_item" />
 
                     <include layout="@layout/edit_addnote_item" />

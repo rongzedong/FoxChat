@@ -74,7 +74,7 @@
                         android:src="@drawable/line_grey" />
 
                     <android.support.v7.widget.RecyclerView
-                        android:id="@+id/contact_im_list_recycler"
+                        android:id="@+id/contact_address_list_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scrollbars="vertical" />
@@ -87,7 +87,7 @@
                         android:src="@drawable/line_grey" />
 
                     <android.support.v7.widget.RecyclerView
-                        android:id="@+id/contact_address_list_recycler"
+                        android:id="@+id/contact_im_list_recycler"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scrollbars="vertical" />

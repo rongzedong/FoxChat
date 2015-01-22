@@ -87,5 +87,7 @@
     <string name="ringtone">Ringtone</string>
     <string name="addNote">Add Note</string>
     <string name="addAnotherField">ADD ANOTHER FIELD</string>
+    <string name="website">Website</string>
+    <string name="im">Instant message</string>
 
 </resources>

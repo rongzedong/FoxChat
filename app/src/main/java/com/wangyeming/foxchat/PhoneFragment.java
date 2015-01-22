@@ -3,6 +3,7 @@ package com.wangyeming.foxchat;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.wangyeming.custom.adapter.CallRecordAdapter;
 
 import java.text.SimpleDateFormat;
@@ -340,7 +342,8 @@ public class PhoneFragment extends Fragment {
      * 设置弹出回收键盘
      */
     public void dialpadOpenClose() {
-        ImageButton dialpadOpen = (ImageButton) currentView.findViewById(R.id.dialpad_open);
+        ButtonFloat dialpadOpen = (ButtonFloat) currentView.findViewById(R.id.dialpad_open);
+        dialpadOpen.setBackgroundColor(Color.parseColor("#4CAF50"));
         final View dialpad = currentView.findViewById(R.id.dialpad);
         ImageButton dialpadClose = (ImageButton) currentView.findViewById(R.id.dialpad_close);
         final android.support.v7.app.ActionBar toolbar = currentActivity.getSupportActionBar();

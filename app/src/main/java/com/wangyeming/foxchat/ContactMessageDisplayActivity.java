@@ -255,8 +255,8 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     public void setDivider() {
         setDividerVisibility(emailList, R.id.divider1);
         setDividerVisibility(imList, R.id.divider2);
-        setDividerVisibility(websiteList, R.id.divider3);
-        setDividerVisibility(addressList, R.id.divider4);
+        setDividerVisibility(addressList, R.id.divider3);
+        setDividerVisibility(websiteList, R.id.divider4);
     }
 
     /*

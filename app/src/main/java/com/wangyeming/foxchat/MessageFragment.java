@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gc.materialdesign.views.ButtonFloat;
 import com.wangyeming.custom.adapter.SmsListRecyclerAdapter;
 
 import java.text.SimpleDateFormat;
@@ -173,8 +175,9 @@ public class MessageFragment extends Fragment {
         currentActivity = getActivity(); //获取当前activity
         currentView = getView(); //获取当前view
         cr = currentActivity.getContentResolver(); //获取contact resolver
-        getSmsInPhone();
+        editNewMessage();
         setRecyclerView();
+        getSmsInPhone();
     }
 
     //设置Recycller
@@ -436,20 +439,13 @@ public class MessageFragment extends Fragment {
         return name;
     }
 
-    //item事件
-    public void itemEvent() {
+    public void editNewMessage() {
+        ButtonFloat editNewButton = (ButtonFloat) currentView.findViewById(R.id.addNewMes);
+        editNewButton.setBackgroundColor(Color.parseColor("#F44336"));
+        //TODO 新建短信
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);

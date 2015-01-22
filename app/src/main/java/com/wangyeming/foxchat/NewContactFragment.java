@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,17 +14,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.wangyeming.custom.adapter.ContactListAdapter;
-import com.wangyeming.custom.widget.BottomLayout;
 import com.wangyeming.custom.widget.NewToast;
 
 import java.util.ArrayList;
@@ -39,7 +36,6 @@ import java.util.Map;
  * @date 2015/01/11
  */
 public class NewContactFragment extends Fragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     //ContactsContract.Contacts
@@ -71,6 +67,13 @@ public class NewContactFragment extends Fragment {
             "contact_status_label", //联系人状态icon资源的id
             "contact_status_icon",  //联系人状态label资源的id,如“Google Talk”
     };
+
+    //ContactsContract.RawContacts
+    private static final String[] RAWCONTACT_PROJECTION = new String[]{
+            ContactsContract.RawContacts.ACCOUNT_NAME,
+            ContactsContract.RawContacts.ACCOUNT_TYPE,
+    };
+
     //联系人数据操作
     protected ContentResolver cr;
     //滑动时toast姓提示
@@ -183,6 +186,7 @@ public class NewContactFragment extends Fragment {
      */
     public void setNewContact() {
         ButtonFloat button = (ButtonFloat) currentView.findViewById(R.id.addNewContact);
+        button.setBackgroundColor(Color.parseColor("#9C27B0"));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
