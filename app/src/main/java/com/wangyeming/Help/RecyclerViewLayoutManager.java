@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wangyeming.foxchat.R;
+
 /**
  * 固定RecyclerView高度
  *

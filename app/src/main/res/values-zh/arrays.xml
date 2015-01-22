@@ -59,4 +59,24 @@
         <item>文件传输协议</item>
         <item>其它</item>    　
     </string-array>
+
+    <string-array name="im_type">
+        <item>自定义</item>　　
+        <item>家庭</item>
+        <item>工作</item>
+        <item>其它</item>　　　
+    </string-array>
+
+    <string-array name="im_protocol_type">
+        <item>自定义</item>　　
+        <item>AIM</item>
+        <item>MSN</item>
+        <item>YAHOO</item>
+        <item>SKYPE</item>　　
+        <item>QQ</item>
+        <item>GOOGLE TALK</item>
+        <item>ICQ</item>
+        <item>JABBER</item>　　
+        <item>NETMEETING</item>
+    </string-array>
 </resources>

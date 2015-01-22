@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -22,8 +21,8 @@ import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.wangyeming.Help.RecyclerViewLayoutManager;
-import com.wangyeming.Help.RecyclerViewUtility;
 import com.wangyeming.custom.adapter.EmailAdapter;
+import com.wangyeming.custom.adapter.ImAdapter;
 import com.wangyeming.custom.adapter.PhoneAdapter;
 import com.wangyeming.custom.adapter.WebsiteAdapter;
 
@@ -61,6 +60,12 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     private RecyclerView websiteRecyclerView;
     private WebsiteAdapter websiteAdapter;
     private RecyclerViewLayoutManager websiteLayoutManager;
+    /**
+     * Im recycler view
+     */
+    private RecyclerView imRecyclerView;
+    private ImAdapter imAdapter;
+    private RecyclerViewLayoutManager imLayoutManager;
     private Toolbar toolbar;
     //联系人lookupkey
     private String lookUpKey = null;
@@ -70,6 +75,8 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     private List<Map<String, Object>> emailList = new ArrayList<>();
     //联系人网址数据
     private List<Map<String, Object>> websiteList = new ArrayList<>();
+    //即时通讯数据
+    private List<Map<String, Object>> imList = new ArrayList<>();
     //ContactsContract.Contacts
     private static final String[] CONTACT_PROJECTION = new String[]{
             "_id",                  //raw contact id 考虑使用lookup代替,不会改变
@@ -99,6 +106,24 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
             "contact_status_label", //联系人状态icon资源的id
             "contact_status_icon",  //联系人状态label资源的id,如“Google Talk”
     };
+    //total
+    private static final String[] PROJECTION = new String[]{
+            ContactsContract.Data.MIMETYPE,                     //mimetype
+            ContactsContract.CommonDataKinds.Phone.NUMBER,      //手机号
+            ContactsContract.CommonDataKinds.Phone.TYPE,        //手机号类型
+            ContactsContract.CommonDataKinds.Phone.LABEL,        //手机号标签
+            ContactsContract.CommonDataKinds.Email.ADDRESS,     //邮件地址
+            ContactsContract.CommonDataKinds.Email.TYPE,        //邮件类型
+            ContactsContract.CommonDataKinds.Email.LABEL,       //邮件标签
+            ContactsContract.CommonDataKinds.Website.URL,       //网址url
+            ContactsContract.CommonDataKinds.Website.TYPE,      //网址类型
+            ContactsContract.CommonDataKinds.Website.LABEL,     //网址标签
+            ContactsContract.CommonDataKinds.Im.DATA,           //联系方法的数据
+            ContactsContract.CommonDataKinds.Im.TYPE,           //数据类型
+            ContactsContract.CommonDataKinds.Im.LABEL,          //用户定义的数据标签
+            ContactsContract.CommonDataKinds.Im.PROTOCOL,       //协议
+            ContactsContract.CommonDataKinds.Im.CUSTOM_PROTOCOL,//自定义协议
+    };
 
     //ContactsContract.CommonDataKinds.Phone
     private static final String[] PHONE_PROJECTION = new String[]{
@@ -121,7 +146,14 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
             ContactsContract.CommonDataKinds.Website.LABEL,     //网址标签
     };
 
-
+    //ContactsContract.CommonDataKinds.Im
+    private static final String[] IM_PROJECTION = new String[]{
+            ContactsContract.CommonDataKinds.Im.DATA,       //联系方法的数据
+            ContactsContract.CommonDataKinds.Im.TYPE,       //数据类型
+            ContactsContract.CommonDataKinds.Im.LABEL,      //用户定义的数据标签
+            ContactsContract.CommonDataKinds.Im.PROTOCOL,   //协议
+            ContactsContract.CommonDataKinds.Im.CUSTOM_PROTOCOL,    //自定义协议
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -165,6 +197,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
         setPhoneRecyclerView();  //设置phone recyclerView
         setEmailRecyclerView(); //设置email recyclerView
         setWebisteRecyclerView(); //设置website recyclerView
+        setImRecyclerView();    //设置im recyclerView
         Intent intent = getIntent();
         ButtonFloat buttonFloat = (ButtonFloat) findViewById(R.id.starButton);
         buttonFloat.setBackgroundColor(Color.parseColor("#E91E63"));
@@ -174,9 +207,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
 
             @Override
             public void run() {
-                getContactPhone(lookUpKey);  //获取手机联系人手机号信息
-                getContactEmail(lookUpKey);  //获取手机联系人email信息
-                getContactWebsite(lookUpKey);   //获取手机联系人网址信息
+                getContactMessage(lookUpKey);  //获取联系人信息
                 Message message = Message.obtain();
                 message.obj = "ok";
                 ContactMessageDisplayActivity.this.handler1.sendMessage(message);
@@ -190,6 +221,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
             phoneAdapter.notifyDataSetChanged();  //手机号数据更新
             emailAdapter.notifyDataSetChanged();  //email数据更新
             websiteAdapter.notifyDataSetChanged(); //website数据更新
+            imAdapter.notifyDataSetChanged();   //im数据更新
         }
     };
 
@@ -208,74 +240,109 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     }
 
     /**
-    *获取手机号信息
+     * 获取联系人信息
      */
-    public void getContactPhone(String lookUpKey) {
-        Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                PHONE_PROJECTION, "lookup=?" ,new String[]{lookUpKey}, null);
+    public void getContactMessage(String lookUpKey) {
+        Cursor cursor = cr.query(ContactsContract.Data.CONTENT_URI,
+                PROJECTION, "lookup=?" ,new String[]{lookUpKey}, null);
         while (cursor.moveToNext()) {
-            String number = cursor.getString(cursor.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Phone.NUMBER));
-            int type = cursor.getInt(cursor.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Phone.TYPE));
-            String label = cursor.getString(cursor.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Phone.LABEL));
-            Log.d("quick contact", "number " + number + " type " + type + " label " + label);
-            Map<String, Object> phoneMap = new HashMap<>();
-            phoneMap.put("number", number);
-            phoneMap.put("type", type);
-            phoneMap.put("label", label);
-            phoneList.add(phoneMap);
+            String mimetype = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.Data.MIMETYPE));
+            switch (mimetype) {
+                case ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE:
+                    getPhone(cursor);
+                    break;
+                case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
+                    getEmail(cursor);
+                    break;
+                case ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE:
+                    getWebsite(cursor);
+                    break;
+                case ContactsContract.CommonDataKinds.Im.CONTENT_ITEM_TYPE:
+                    getIm(cursor);
+                    break;
+            }
         }
         cursor.close();
+    }
+
+    /**
+     *获取手机号信息
+     */
+    public void getPhone(Cursor cursor) {
+        String number = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Phone.NUMBER));
+        int type = cursor.getInt(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Phone.TYPE));
+        String label = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Phone.LABEL));
+        Log.d("quick contact", "number " + number + " type " + type + " label " + label);
+        Map<String, Object> phoneMap = new HashMap<>();
+        phoneMap.put("number", number);
+        phoneMap.put("type", type);
+        phoneMap.put("label", label);
+        phoneList.add(phoneMap);
     }
 
     /**
      *获取电子邮箱信息
      */
-    public void getContactEmail(String lookUpKey) {
-        Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-                EMAIL_PROJECTION, "lookup=?" ,new String[]{lookUpKey}, null);
-        while (cursor.moveToNext()) {
-            String address = cursor.getString(cursor.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Email.ADDRESS));
-            int type = cursor.getInt(cursor.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Email.TYPE));
-            String label = cursor.getString(cursor.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Email.LABEL));
-            Log.d("quick contact", "address " + address + " type " + type + " label " + label);
-            Map<String, Object> emailMap = new HashMap<>();
-            emailMap.put("address", address);
-            emailMap.put("type", type);
-            emailMap.put("label", label);
-            emailList.add(emailMap);
-        }
-        cursor.close();
+    public void getEmail(Cursor cursor) {
+        String address = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Email.ADDRESS));
+        int type = cursor.getInt(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Email.TYPE));
+        String label = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Email.LABEL));
+        Log.d("quick contact", "address " + address + " type " + type + " label " + label);
+        Map<String, Object> emailMap = new HashMap<>();
+        emailMap.put("address", address);
+        emailMap.put("type", type);
+        emailMap.put("label", label);
+        emailList.add(emailMap);
     }
 
     /**
      *获取网址信息
      */
-    public void getContactWebsite(String lookUpKey) {
-        Cursor cursor = cr.query(ContactsContract.Data.CONTENT_URI,
-                WEBSITE_PROJECTION, "lookup = ? ANd mimetype = ?" ,
-                new String[]{lookUpKey, ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE},
-                null);
-        while (cursor.moveToNext()) {
-            String Url = cursor.getString(cursor.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Website.URL));
-            int type = cursor.getInt(cursor.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Website.TYPE));
-            String label = cursor.getString(cursor.getColumnIndex(
-                    ContactsContract.CommonDataKinds.Website.LABEL));
-            Log.d("quick contact", "Url " + Url + " type " + type + " label " + label);
-            Map<String, Object> websiteMap = new HashMap<>();
-            websiteMap.put("Url", Url);
-            websiteMap.put("type", type);
-            websiteMap.put("label", label);
-            websiteList.add(websiteMap);
-        }
-        cursor.close();
+    public void getWebsite(Cursor cursor) {
+        String Url = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Website.URL));
+        int type = cursor.getInt(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Website.TYPE));
+        String label = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Website.LABEL));
+        Log.d("quick contact", "Url " + Url + " type " + type + " label " + label);
+        Map<String, Object> websiteMap = new HashMap<>();
+        websiteMap.put("Url", Url);
+        websiteMap.put("type", type);
+        websiteMap.put("label", label);
+        websiteList.add(websiteMap);
+    }
+
+    /**
+     *获取即时通讯信息
+     */
+    public void getIm(Cursor cursor) {
+        String data = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Im.DATA));
+        int type = cursor.getInt(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Phone.TYPE));
+        String label = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Phone.LABEL));
+        String protocol = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Im.PROTOCOL));
+        String customProtocol = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.Im.CUSTOM_PROTOCOL));
+        Log.d("quick contact", "data " + data + " type " + type + " label " + label + " protocol " +
+                protocol + " customProtocol " + customProtocol);
+        Map<String, Object> imMap = new HashMap<>();
+        imMap.put("data", data);
+        imMap.put("type", type);
+        imMap.put("label", label);
+        imMap.put("protocol", protocol);
+        imMap.put("customProtocol", customProtocol);
+        imList.add(imMap);
     }
 
     /**
@@ -313,6 +380,18 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
         websiteRecyclerView.setLayoutManager(websiteLayoutManager);
         websiteAdapter = new WebsiteAdapter(this, websiteList);
         websiteRecyclerView.setAdapter(websiteAdapter);
+    }
+
+    /**
+     * 设置im recyclerView
+     */
+    public void setImRecyclerView() {
+        imRecyclerView = (RecyclerView) findViewById(R.id.contact_im_list_recycler);
+        imRecyclerView.setHasFixedSize(true);
+        imLayoutManager = new RecyclerViewLayoutManager(this);
+        imRecyclerView.setLayoutManager(imLayoutManager);
+        imAdapter = new ImAdapter(this, imList);
+        imRecyclerView.setAdapter(imAdapter);
     }
 
     /**

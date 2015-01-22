@@ -38,10 +38,10 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
         }
     }
 
-    public EmailAdapter(Context context, List<Map<String, Object>> phoneList) {
+    public EmailAdapter(Context context, List<Map<String, Object>> emailList) {
         EmailAdapter.context = context;
         mInflater = LayoutInflater.from(context);
-        EmailAdapter.emailList = phoneList;
+        EmailAdapter.emailList = emailList;
     }
 
     @Override

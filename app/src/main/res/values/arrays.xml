@@ -51,4 +51,25 @@
         <item>FTP</item>
         <item>OTHER</item>
     </string-array>
+
+    <string-array name="im_type">
+        <item>CUSTOM</item>　　
+        <item>HOME</item>
+        <item>WORK</item>
+        <item>OTHER</item>　　　
+    </string-array>
+    
+    <string-array name="im_protocol_type">
+        <item>CUSTOM</item>　　
+        <item>AIM</item>
+        <item>MSN</item>
+        <item>YAHOO</item>
+        <item>SKYPE</item>　　
+        <item>QQ</item>
+        <item>GOOGLE TALK</item>
+        <item>ICQ</item>
+        <item>JABBER</item>　　
+        <item>NETMEETING</item>
+    </string-array>
+
 </resources>
