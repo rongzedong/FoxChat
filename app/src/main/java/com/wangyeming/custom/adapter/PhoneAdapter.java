@@ -71,7 +71,6 @@ public class PhoneAdapter extends RecyclerView.Adapter<PhoneAdapter.ViewHolder> 
         String label = (String) phoneList.get(i).get("label");
         int type = (int) phoneList.get(i).get("type");
         String typeString = typeArr[type];
-        Log.d("wym","typeString "+typeString);
         if(label == null) {
             vh.typeTextView.setText(typeString);
         } else {

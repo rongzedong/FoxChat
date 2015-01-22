@@ -72,4 +72,11 @@
         <item>NETMEETING</item>
     </string-array>
 
+    <string-array name="address_type">
+        <item>CUSTOM</item>　　
+        <item>HOME</item>
+        <item>WORK</item>
+        <item>OTHER</item>　　　
+    </string-array>
+
 </resources>

@@ -79,4 +79,11 @@
         <item>JABBER</item>　　
         <item>NETMEETING</item>
     </string-array>
+
+    <string-array name="address_type">
+        <item>自定义</item>　　
+        <item>家庭</item>
+        <item>工作</item>
+        <item>其它</item>　　　
+    </string-array>
 </resources>

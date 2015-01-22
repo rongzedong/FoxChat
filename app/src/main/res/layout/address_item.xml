@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="10dp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/address_png"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:src="@drawable/ic_location_on_black_18dp" />
+
+    <LinearLayout
+        android:layout_width="0dip"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_weight="7"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/address_formattedAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="江苏省南京市东南大学四牌楼校区求恩8舍406"
+            android:lines="2"
+            android:textColor="#000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/address_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="类别"
+            android:textColor="#778899"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

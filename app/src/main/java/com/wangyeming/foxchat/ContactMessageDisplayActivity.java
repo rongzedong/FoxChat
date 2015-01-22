@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFloat;
 import com.wangyeming.Help.RecyclerViewLayoutManager;
+import com.wangyeming.custom.adapter.AddressAdapter;
 import com.wangyeming.custom.adapter.EmailAdapter;
 import com.wangyeming.custom.adapter.ImAdapter;
 import com.wangyeming.custom.adapter.PhoneAdapter;
@@ -42,31 +43,11 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
 
     //联系人数据操作
     protected ContentResolver cr;
-    /**
-     * phone recycler view
-     */
-    private RecyclerView phoneRecyclerView;
     private PhoneAdapter phoneAdapter;
-    private RecyclerViewLayoutManager phoneLayoutManager;
-    /**
-     * email recycler view
-     */
-    private RecyclerView emailRecyclerView;
     private EmailAdapter emailAdapter;
-    private RecyclerViewLayoutManager emailLayoutManager;
-    /**
-     * website recycler view
-     */
-    private RecyclerView websiteRecyclerView;
     private WebsiteAdapter websiteAdapter;
-    private RecyclerViewLayoutManager websiteLayoutManager;
-    /**
-     * Im recycler view
-     */
-    private RecyclerView imRecyclerView;
     private ImAdapter imAdapter;
-    private RecyclerViewLayoutManager imLayoutManager;
-    private Toolbar toolbar;
+    private AddressAdapter addressAdapter;
     //联系人lookupkey
     private String lookUpKey = null;
     //联系人手机号数据
@@ -77,6 +58,8 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     private List<Map<String, Object>> websiteList = new ArrayList<>();
     //即时通讯数据
     private List<Map<String, Object>> imList = new ArrayList<>();
+    //地址数据
+    private List<Map<String, Object>> addressList = new ArrayList<>();
     //ContactsContract.Contacts
     private static final String[] CONTACT_PROJECTION = new String[]{
             "_id",                  //raw contact id 考虑使用lookup代替,不会改变
@@ -111,7 +94,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
             ContactsContract.Data.MIMETYPE,                     //mimetype
             ContactsContract.CommonDataKinds.Phone.NUMBER,      //手机号
             ContactsContract.CommonDataKinds.Phone.TYPE,        //手机号类型
-            ContactsContract.CommonDataKinds.Phone.LABEL,        //手机号标签
+            ContactsContract.CommonDataKinds.Phone.LABEL,       //手机号标签
             ContactsContract.CommonDataKinds.Email.ADDRESS,     //邮件地址
             ContactsContract.CommonDataKinds.Email.TYPE,        //邮件类型
             ContactsContract.CommonDataKinds.Email.LABEL,       //邮件标签
@@ -123,6 +106,16 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
             ContactsContract.CommonDataKinds.Im.LABEL,          //用户定义的数据标签
             ContactsContract.CommonDataKinds.Im.PROTOCOL,       //协议
             ContactsContract.CommonDataKinds.Im.CUSTOM_PROTOCOL,//自定义协议
+            ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS, //地址
+            ContactsContract.CommonDataKinds.StructuredPostal.TYPE,              //类型
+            ContactsContract.CommonDataKinds.StructuredPostal.LABEL,             //标签
+            ContactsContract.CommonDataKinds.StructuredPostal.STARRED,           //街道
+            ContactsContract.CommonDataKinds.StructuredPostal.POBOX,             //盒子、抽屉、锁
+            ContactsContract.CommonDataKinds.StructuredPostal.NEIGHBORHOOD,      //街道附近表示（区分同名街道）
+            ContactsContract.CommonDataKinds.StructuredPostal.CITY,              //城市
+            ContactsContract.CommonDataKinds.StructuredPostal.REGION,            //区域（省，州）
+            ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE,          //邮编
+            ContactsContract.CommonDataKinds.StructuredPostal.COUNTRY,          //国家
     };
 
     //ContactsContract.CommonDataKinds.Phone
@@ -153,6 +146,20 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
             ContactsContract.CommonDataKinds.Im.LABEL,      //用户定义的数据标签
             ContactsContract.CommonDataKinds.Im.PROTOCOL,   //协议
             ContactsContract.CommonDataKinds.Im.CUSTOM_PROTOCOL,    //自定义协议
+    };
+
+    //ContactsContract.CommonDataKinds.StructuredPostal
+    private static final String[] ADDRESS_PROJECTION = new String[]{
+            ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS, //地址
+            ContactsContract.CommonDataKinds.StructuredPostal.TYPE,              //类型
+            ContactsContract.CommonDataKinds.StructuredPostal.LABEL,             //标签
+            ContactsContract.CommonDataKinds.StructuredPostal.STARRED,           //街道
+            ContactsContract.CommonDataKinds.StructuredPostal.POBOX,             //盒子、抽屉、锁
+            ContactsContract.CommonDataKinds.StructuredPostal.NEIGHBORHOOD,      //街道附近表示（区分同名街道）
+            ContactsContract.CommonDataKinds.StructuredPostal.CITY,              //城市
+            ContactsContract.CommonDataKinds.StructuredPostal.REGION,            //区域（省，州）
+            ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE,          //邮编
+            ContactsContract.CommonDataKinds.StructuredPostal.COUNTRY,          //国家
     };
 
     @Override
@@ -194,10 +201,11 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     public void init() {
         setToolbar();
         cr = getContentResolver();
-        setPhoneRecyclerView();  //设置phone recyclerView
-        setEmailRecyclerView(); //设置email recyclerView
-        setWebisteRecyclerView(); //设置website recyclerView
-        setImRecyclerView();    //设置im recyclerView
+        setPhoneRecyclerView();    //设置phone recyclerView
+        setEmailRecyclerView();    //设置email recyclerView
+        setWebisteRecyclerView();  //设置website recyclerView
+        setImRecyclerView();       //设置im recyclerView
+        setAddressRecyclerView();  //设置address recyclerView
         Intent intent = getIntent();
         ButtonFloat buttonFloat = (ButtonFloat) findViewById(R.id.starButton);
         buttonFloat.setBackgroundColor(Color.parseColor("#E91E63"));
@@ -218,10 +226,12 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
     private Handler handler1 = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
-            phoneAdapter.notifyDataSetChanged();  //手机号数据更新
-            emailAdapter.notifyDataSetChanged();  //email数据更新
-            websiteAdapter.notifyDataSetChanged(); //website数据更新
-            imAdapter.notifyDataSetChanged();   //im数据更新
+            phoneAdapter.notifyDataSetChanged();    //手机号数据更新
+            emailAdapter.notifyDataSetChanged();    //email数据更新
+            websiteAdapter.notifyDataSetChanged();  //website数据更新
+            imAdapter.notifyDataSetChanged();       //im数据更新
+            addressAdapter.notifyDataSetChanged();  //address数据更新
+            setDivider();
         }
     };
 
@@ -229,7 +239,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
      * 设置toolbar
      */
     public void setToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar_transparent);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_transparent);
         if (toolbar != null) {
             Log.d("wym","toolbar is not null");
             setSupportActionBar(toolbar);
@@ -237,6 +247,28 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
         }
         getSupportActionBar().setDisplayShowTitleEnabled(false); //隐藏toolBar标题
         getSupportActionBar().setCustomView(R.layout.contact_detail_toolbar_layout);
+    }
+
+    /*
+    ** 设置分割线
+     */
+    public void setDivider() {
+        setDividerVisibility(emailList, R.id.divider1);
+        setDividerVisibility(imList, R.id.divider2);
+        setDividerVisibility(websiteList, R.id.divider3);
+        setDividerVisibility(addressList, R.id.divider4);
+    }
+
+    /*
+    ** 判断分割线是否显示
+     */
+    public void setDividerVisibility(List<Map<String, Object>> list, int dividerId) {
+        ImageView imageView = (ImageView) findViewById(dividerId);
+        if(list.isEmpty()) {
+            imageView.setVisibility(View.INVISIBLE);
+        } else {
+            imageView.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
@@ -261,6 +293,9 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
                 case ContactsContract.CommonDataKinds.Im.CONTENT_ITEM_TYPE:
                     getIm(cursor);
                     break;
+                case ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE:
+                    getAddress(cursor);
+                    break;
             }
         }
         cursor.close();
@@ -276,11 +311,13 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
                 ContactsContract.CommonDataKinds.Phone.TYPE));
         String label = cursor.getString(cursor.getColumnIndex(
                 ContactsContract.CommonDataKinds.Phone.LABEL));
-        Log.d("quick contact", "number " + number + " type " + type + " label " + label);
         Map<String, Object> phoneMap = new HashMap<>();
         phoneMap.put("number", number);
         phoneMap.put("type", type);
         phoneMap.put("label", label);
+        for(String key:phoneMap.keySet()) {
+            Log.d("wym", key + " " + phoneMap.get(key));
+        }
         phoneList.add(phoneMap);
     }
 
@@ -294,11 +331,13 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
                 ContactsContract.CommonDataKinds.Email.TYPE));
         String label = cursor.getString(cursor.getColumnIndex(
                 ContactsContract.CommonDataKinds.Email.LABEL));
-        Log.d("quick contact", "address " + address + " type " + type + " label " + label);
         Map<String, Object> emailMap = new HashMap<>();
         emailMap.put("address", address);
         emailMap.put("type", type);
         emailMap.put("label", label);
+        for(String key:emailMap.keySet()) {
+            Log.d("wym", key + " " + emailMap.get(key));
+        }
         emailList.add(emailMap);
     }
 
@@ -312,11 +351,13 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
                 ContactsContract.CommonDataKinds.Website.TYPE));
         String label = cursor.getString(cursor.getColumnIndex(
                 ContactsContract.CommonDataKinds.Website.LABEL));
-        Log.d("quick contact", "Url " + Url + " type " + type + " label " + label);
         Map<String, Object> websiteMap = new HashMap<>();
         websiteMap.put("Url", Url);
         websiteMap.put("type", type);
         websiteMap.put("label", label);
+        for(String key:websiteMap.keySet()) {
+            Log.d("wym", key + " " + websiteMap.get(key));
+        }
         websiteList.add(websiteMap);
     }
 
@@ -334,25 +375,68 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
                 ContactsContract.CommonDataKinds.Im.PROTOCOL));
         String customProtocol = cursor.getString(cursor.getColumnIndex(
                 ContactsContract.CommonDataKinds.Im.CUSTOM_PROTOCOL));
-        Log.d("quick contact", "data " + data + " type " + type + " label " + label + " protocol " +
-                protocol + " customProtocol " + customProtocol);
         Map<String, Object> imMap = new HashMap<>();
         imMap.put("data", data);
         imMap.put("type", type);
         imMap.put("label", label);
         imMap.put("protocol", protocol);
         imMap.put("customProtocol", customProtocol);
+        for(String key: imMap.keySet()) {
+            Log.d("wym", key + " " + imMap.get(key));
+        }
         imList.add(imMap);
+    }
+
+    /**
+     *获取地址信息
+     */
+    public void getAddress(Cursor cursor) {
+        String formattedAddress = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS));
+        int type = cursor.getInt(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.StructuredPostal.TYPE));
+        String label = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.StructuredPostal.LABEL));
+/*
+        String street = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.StructuredPostal.STREET));
+*/
+        String pobox = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.StructuredPostal.POBOX));
+        String neighborhood = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.StructuredPostal.NEIGHBORHOOD));
+        String city = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.StructuredPostal.CITY));
+        String region = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.StructuredPostal.REGION));
+        String postcode = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.StructuredPostal.POSTCODE));
+        String country = cursor.getString(cursor.getColumnIndex(
+                ContactsContract.CommonDataKinds.StructuredPostal.COUNTRY));
+        Map<String, Object> addressMap = new HashMap<>();
+        addressMap.put("formattedAddress", formattedAddress);
+        addressMap.put("type", type);
+        addressMap.put("label", label);
+        /*addressMap.put("street", street)*/;
+        addressMap.put("pobox", pobox);
+        addressMap.put("neighborhood", neighborhood);
+        addressMap.put("city", city);
+        addressMap.put("region", region);
+        addressMap.put("postcode", postcode);
+        addressMap.put("country", country);
+        for(String key: addressMap.keySet()) {
+            Log.d("wym", key + " " + addressMap.get(key));
+        }
+        addressList.add(addressMap);
     }
 
     /**
     * 设置phone recyclerView
      */
     public void setPhoneRecyclerView() {
-        phoneRecyclerView = (RecyclerView) findViewById(R.id.contact_phone_list_recycler);
+        RecyclerView phoneRecyclerView = (RecyclerView) findViewById(R.id.contact_phone_list_recycler);
         phoneRecyclerView.setHasFixedSize(true);
-        //phoneLayoutManager = new LinearLayoutManager(this);
-        phoneLayoutManager = new RecyclerViewLayoutManager(this);
+        RecyclerViewLayoutManager phoneLayoutManager = new RecyclerViewLayoutManager(this);
         phoneRecyclerView.setLayoutManager(phoneLayoutManager);
         phoneAdapter = new PhoneAdapter(this, phoneList);
         phoneRecyclerView.setAdapter(phoneAdapter);
@@ -362,9 +446,9 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
      * 设置email recyclerView
      */
     public void setEmailRecyclerView() {
-        emailRecyclerView = (RecyclerView) findViewById(R.id.contact_email_list_recycler);
+        RecyclerView emailRecyclerView = (RecyclerView) findViewById(R.id.contact_email_list_recycler);
         emailRecyclerView.setHasFixedSize(true);
-        emailLayoutManager = new RecyclerViewLayoutManager(this);
+        RecyclerViewLayoutManager emailLayoutManager = new RecyclerViewLayoutManager(this);
         emailRecyclerView.setLayoutManager(emailLayoutManager);
         emailAdapter = new EmailAdapter(this, emailList);
         emailRecyclerView.setAdapter(emailAdapter);
@@ -374,9 +458,9 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
      * 设置website recyclerView
      */
     public void setWebisteRecyclerView() {
-        websiteRecyclerView = (RecyclerView) findViewById(R.id.contact_website_list_recycler);
+        RecyclerView websiteRecyclerView = (RecyclerView) findViewById(R.id.contact_website_list_recycler);
         websiteRecyclerView.setHasFixedSize(true);
-        websiteLayoutManager = new RecyclerViewLayoutManager(this);
+        RecyclerViewLayoutManager websiteLayoutManager = new RecyclerViewLayoutManager(this);
         websiteRecyclerView.setLayoutManager(websiteLayoutManager);
         websiteAdapter = new WebsiteAdapter(this, websiteList);
         websiteRecyclerView.setAdapter(websiteAdapter);
@@ -386,12 +470,24 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
      * 设置im recyclerView
      */
     public void setImRecyclerView() {
-        imRecyclerView = (RecyclerView) findViewById(R.id.contact_im_list_recycler);
+        RecyclerView imRecyclerView = (RecyclerView) findViewById(R.id.contact_im_list_recycler);
         imRecyclerView.setHasFixedSize(true);
-        imLayoutManager = new RecyclerViewLayoutManager(this);
+        RecyclerViewLayoutManager imLayoutManager = new RecyclerViewLayoutManager(this);
         imRecyclerView.setLayoutManager(imLayoutManager);
         imAdapter = new ImAdapter(this, imList);
         imRecyclerView.setAdapter(imAdapter);
+    }
+
+    /**
+     * 设置address recyclerView
+     */
+    public void setAddressRecyclerView() {
+        RecyclerView addressRecyclerView = (RecyclerView) findViewById(R.id.contact_address_list_recycler);
+        addressRecyclerView.setHasFixedSize(true);
+        RecyclerViewLayoutManager addressLayoutManager = new RecyclerViewLayoutManager(this);
+        addressRecyclerView.setLayoutManager(addressLayoutManager);
+        addressAdapter = new AddressAdapter(this, addressList);
+        addressRecyclerView.setAdapter(addressAdapter);
     }
 
     /**

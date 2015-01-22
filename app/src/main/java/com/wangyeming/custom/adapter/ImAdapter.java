@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 联系人信息 imAdapter
+ * 联系人信息 ImAdapter
  *
  * @author 王小明
  * @data 2015/01/22
@@ -85,7 +85,6 @@ public class ImAdapter extends RecyclerView.Adapter<ImAdapter.ViewHolder> {
         String label = (String) imList.get(i).get("label");
         int type = (int) imList.get(i).get("type");
         String typeString = typeArr[type];
-        Log.d("wym", "typeString " + typeString);
         if(label == null) {
             vh.typeTextView.setText(typeString);
         } else {

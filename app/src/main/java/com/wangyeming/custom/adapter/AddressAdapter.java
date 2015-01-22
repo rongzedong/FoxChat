@@ -16,20 +16,20 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 联系人信息 EmailAdapter
+ * 联系人信息 AddressAdapter
  *
  * @author 王小明
  * @data 2015/01/22
  */
-public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> {
+public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHolder> {
 
-    private static List<Map<String, Object>> emailList = new ArrayList<>();
+    private static List<Map<String, Object>> addressList = new ArrayList<>();
     private static Context context;
     private LayoutInflater mInflater;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public ImageView emailPng;
+        public ImageView addressPng;
         public TextView addressTextView;
         public TextView typeTextView;
 
@@ -38,34 +38,34 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
         }
     }
 
-    public EmailAdapter(Context context, List<Map<String, Object>> emailList) {
-        EmailAdapter.context = context;
+    public AddressAdapter(Context context, List<Map<String, Object>> addressList) {
+        AddressAdapter.context = context;
         mInflater = LayoutInflater.from(context);
-        EmailAdapter.emailList = emailList;
+        AddressAdapter.addressList = addressList;
     }
 
     @Override
-    public EmailAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = mInflater.inflate(R.layout.email_item,
+    public AddressAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = mInflater.inflate(R.layout.address_item,
                 viewGroup, false);
         ViewHolder vh = new ViewHolder(view);
-        vh.emailPng = (ImageView) view.findViewById(R.id.email_png);
-        vh.addressTextView = (TextView) view.findViewById(R.id.email_address);
-        vh.typeTextView = (TextView) view.findViewById(R.id.email_type);
+        vh.addressPng = (ImageView) view.findViewById(R.id.address_png);
+        vh.addressTextView = (TextView) view.findViewById(R.id.address_formattedAddress);
+        vh.typeTextView = (TextView) view.findViewById(R.id.address_type);
         return vh;
     }
 
     @Override
-    public void onBindViewHolder(EmailAdapter.ViewHolder vh, int i) {
-        String[] typeArr = context.getResources().getStringArray(R.array.email_type);
+    public void onBindViewHolder(AddressAdapter.ViewHolder vh, int i) {
+        String[] typeArr = context.getResources().getStringArray(R.array.address_type);
         if(i==0) {
-            vh.emailPng.setVisibility(View.VISIBLE);
+            vh.addressPng.setVisibility(View.VISIBLE);
         } else {
-            vh.emailPng.setVisibility(View.INVISIBLE);
+            vh.addressPng.setVisibility(View.INVISIBLE);
         }
-        vh.addressTextView.setText((String) emailList.get(i).get("address"));
-        String label = (String) emailList.get(i).get("label");
-        int type = (int) emailList.get(i).get("type");
+        vh.addressTextView.setText((String) addressList.get(i).get("formattedAddress"));
+        String label = (String) addressList.get(i).get("label");
+        int type = (int) addressList.get(i).get("type");
         String typeString = typeArr[type];
         if(label == null) {
             vh.typeTextView.setText(typeString);
@@ -76,6 +76,6 @@ public class EmailAdapter extends RecyclerView.Adapter<EmailAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return emailList.size();
+        return addressList.size();
     }
 }

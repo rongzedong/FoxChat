@@ -67,7 +67,6 @@ public class WebsiteAdapter extends RecyclerView.Adapter<WebsiteAdapter.ViewHold
         String label = (String) websiteList.get(i).get("label");
         int type = (int) websiteList.get(i).get("type");
         String typeString = typeArr[type-1];
-        Log.d("wym", "typeString " + typeString);
         if(label == null) {
             vh.typeTextView.setText(typeString);
         } else {
