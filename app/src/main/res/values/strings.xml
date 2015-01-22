@@ -89,5 +89,6 @@
     <string name="addAnotherField">ADD ANOTHER FIELD</string>
     <string name="website">Website</string>
     <string name="im">Instant message</string>
+    <string name="all">All</string>
 
 </resources>

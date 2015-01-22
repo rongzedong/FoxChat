@@ -80,4 +80,5 @@
     <string name="addAnotherField">增加新资料</string>
     <string name="website">网址</string>
     <string name="im">即时通讯</string>
+    <string name="all">所有联系人</string>
 </resources>

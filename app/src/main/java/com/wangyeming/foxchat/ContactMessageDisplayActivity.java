@@ -109,7 +109,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
             ContactsContract.CommonDataKinds.StructuredPostal.FORMATTED_ADDRESS, //地址
             ContactsContract.CommonDataKinds.StructuredPostal.TYPE,              //类型
             ContactsContract.CommonDataKinds.StructuredPostal.LABEL,             //标签
-            ContactsContract.CommonDataKinds.StructuredPostal.STARRED,           //街道
+            ContactsContract.CommonDataKinds.StructuredPostal.STREET,           //街道
             ContactsContract.CommonDataKinds.StructuredPostal.POBOX,             //盒子、抽屉、锁
             ContactsContract.CommonDataKinds.StructuredPostal.NEIGHBORHOOD,      //街道附近表示（区分同名街道）
             ContactsContract.CommonDataKinds.StructuredPostal.CITY,              //城市
@@ -397,10 +397,8 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
                 ContactsContract.CommonDataKinds.StructuredPostal.TYPE));
         String label = cursor.getString(cursor.getColumnIndex(
                 ContactsContract.CommonDataKinds.StructuredPostal.LABEL));
-/*
         String street = cursor.getString(cursor.getColumnIndex(
                 ContactsContract.CommonDataKinds.StructuredPostal.STREET));
-*/
         String pobox = cursor.getString(cursor.getColumnIndex(
                 ContactsContract.CommonDataKinds.StructuredPostal.POBOX));
         String neighborhood = cursor.getString(cursor.getColumnIndex(
@@ -417,7 +415,7 @@ public class ContactMessageDisplayActivity extends ActionBarActivity {
         addressMap.put("formattedAddress", formattedAddress);
         addressMap.put("type", type);
         addressMap.put("label", label);
-        /*addressMap.put("street", street)*/;
+        addressMap.put("street", street);
         addressMap.put("pobox", pobox);
         addressMap.put("neighborhood", neighborhood);
         addressMap.put("city", city);

@@ -13,13 +13,16 @@ import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.wangyeming.custom.adapter.AccountFilterAdapter;
 import com.wangyeming.custom.adapter.ContactListAdapter;
 import com.wangyeming.custom.widget.NewToast;
 
@@ -66,6 +69,8 @@ public class NewContactFragment extends Fragment {
             "contact_status_res_package",  //包含label和icon的资源包
             "contact_status_label", //联系人状态icon资源的id
             "contact_status_icon",  //联系人状态label资源的id,如“Google Talk”
+            ContactsContract.RawContacts.ACCOUNT_NAME,
+            ContactsContract.RawContacts.ACCOUNT_TYPE,
     };
 
     //ContactsContract.RawContacts
@@ -95,14 +100,11 @@ public class NewContactFragment extends Fragment {
     private int starNum;
     //总联系人数目
     private int totalNum;
-    private Handler handler1 = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
-            mAdapter.notifyDataSetChanged();
-            setOnScrollListener();  //设置滑动监听
-        }
-    };
-
+    //通讯录账号--Map
+    private Map<String, Integer> accountMap = new HashMap<>();
+    //通讯录账号--List
+    private List<Map<String, Object>> accountList = new ArrayList<>();
+    private AccountFilterAdapter accountFilterAdapter;
     public NewContactFragment() {
         // Required empty public constructor
     }
@@ -169,6 +171,7 @@ public class NewContactFragment extends Fragment {
         setNewContact(); //设置新建联系人按钮
         cr = currentActivity.getContentResolver();
         setRecyclerView();  //设置recyclerView
+        setSpinner();
         new Thread(new Runnable() {
 
             @Override
@@ -181,6 +184,44 @@ public class NewContactFragment extends Fragment {
         }).start();
     }
 
+    private Handler handler1 = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            mAdapter.notifyDataSetChanged();
+            setSpinnerData();
+            accountFilterAdapter.notifyDataSetChanged();
+            setOnScrollListener();  //设置滑动监听
+        }
+    };
+
+    /**
+     * 联系人账户过滤
+     */
+    public void setSpinner() {
+        Toolbar toolbar = (Toolbar) currentActivity.findViewById(R.id.toolbar);
+        Spinner spinner = (Spinner) toolbar.findViewById(R.id.filterAccount);
+        accountFilterAdapter = new AccountFilterAdapter(accountList, currentActivity);
+        spinner.setAdapter(accountFilterAdapter);
+        //spinner
+    }
+
+    /**
+    *
+     */
+    public void setSpinnerData() {
+        //添加All-所有联系人
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("accountName",getString(R.string.all));
+        map1.put("accountNum",totalNum);
+        accountList.add(map1);
+        for(String key: accountMap.keySet()) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("accountName", key);
+            map.put("accountNum", accountMap.get(key));
+            accountList.add(map);
+        }
+    }
+
     /**
      * 设置新建联系人按钮
      */
@@ -191,17 +232,6 @@ public class NewContactFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 newContact();
-                /*
-                BottomLayout bottomLayout = new BottomLayout(currentActivity);
-                View view = View.inflate(currentActivity, R.layout.activity_quick_contact, null);
-                bottomLayout.setContentView(view);
-                Window window = bottomLayout.getWindow();
-                WindowManager.LayoutParams wlp = window.getAttributes();
-                wlp.gravity = Gravity.BOTTOM;
-                //wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-                window.setAttributes(wlp);
-                bottomLayout.show();
-                */
             }
         });
     }
@@ -235,6 +265,10 @@ public class NewContactFragment extends Fragment {
         while (cursor.moveToNext()) {
             //获取基本信息
             long _id = cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+            String accountName = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.RawContacts.ACCOUNT_NAME));
+            String accountType = cursor.getString(cursor.getColumnIndex(
+                    ContactsContract.RawContacts.ACCOUNT_TYPE));
             String lookUpKey = cursor.getString(cursor.getColumnIndex(
                     ContactsContract.Contacts.LOOKUP_KEY));
             /*long nameRawContactId = cursor.getLong(cursor.getColumnIndex(
@@ -311,6 +345,8 @@ public class NewContactFragment extends Fragment {
             //存进Map
             Map<String, Object> contactMap = new HashMap<>();
             contactMap.put("_id", _id);
+            contactMap.put("accountName",accountName);
+            contactMap.put("accountType",accountType);
             contactMap.put("LookUpKey", lookUpKey);
             /*contactMap.put("nameRawContactId",nameRawContactId);*/
             contactMap.put("displayName", displayName);
@@ -343,6 +379,11 @@ public class NewContactFragment extends Fragment {
             }
             Log.d("NewContactFragment", logString);
             contactList.add(contactMap);
+            if(accountMap.containsKey(accountName)) {
+                accountMap.put(accountName, accountMap.get(accountName) + 1);
+            } else {
+                accountMap.put(accountName, 1);
+            }
         }
         cursor.close();
         return contactList.size();
