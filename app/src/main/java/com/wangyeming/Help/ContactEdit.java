@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,23 @@ import java.util.Map;
 public class ContactEdit {
     protected int contactId;
     protected int rawContactId;
+    protected String lookupKey;
     protected ContentResolver cr;
+    protected long id;
 
     public ContactEdit(int contactId, int rawContactId, ContentResolver cr) {
         this.contactId = contactId;
         this.rawContactId = rawContactId;
+        this.cr = cr;
+    }
+
+    public ContactEdit(String lookupKey, ContentResolver cr) {
+        this.lookupKey = lookupKey;
+        this.cr = cr;
+    }
+
+    public ContactEdit(long id, ContentResolver cr) {
+        this.id = id;
         this.cr = cr;
     }
 
@@ -79,7 +92,7 @@ public class ContactEdit {
     }
 
     //修改联系人姓名
-    public void updateContactName(String name) throws RemoteException, OperationApplicationException {
+    public void updateContactName(String name) {
         String displayName = name;  //姓名
         String givenName = null;  //姓
         String familyName = null;  //名
@@ -112,9 +125,48 @@ public class ContactEdit {
                 .build());
         try {
             cr.applyBatch(ContactsContract.AUTHORITY, ops);
-        } catch (RemoteException e) {
+        } catch (RemoteException | OperationApplicationException e) {
             e.printStackTrace();
-        } catch (OperationApplicationException e) {
+        }
+    }
+
+    //修改联系人拼音
+    public void updateContactPinyin(String pinyin) {
+        String displayName = "ZTE客服";
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+        Log.d("wym", "id  " + id);
+        ContentProviderOperation.Builder builder =
+                ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI);
+        builder.withSelection(ContactsContract.Data.CONTACT_ID + "=?" + " AND " +
+                ContactsContract.Data.MIMETYPE + "=?",
+                new String[]{String.valueOf(id),
+                        ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE});
+        builder.withValue(ContactsContract.CommonDataKinds.StructuredName.SORT_KEY_PRIMARY, pinyin);
+        builder.withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName);
+        ops.add(builder.build());
+        try {
+            cr.applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException | OperationApplicationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //修改联系人拼音2
+    public void updateContactPinyin2(String pinyin) {
+        String displayName = "ZTE客服2";
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        Log.d("wym", "id  " + id);
+        ContentProviderOperation.Builder builder =
+                ContentProviderOperation.newUpdate(ContactsContract.Contacts.CONTENT_URI);
+        builder.withSelection(ContactsContract.Contacts._ID ,
+                new String[]{String.valueOf(id)});
+        builder.withValue(ContactsContract.Contacts.SORT_KEY_PRIMARY, pinyin);
+        builder.withValue(ContactsContract.Contacts.DISPLAY_NAME, displayName);
+        //builder.withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, displayName);
+        ops.add(builder.build());
+        try {
+            cr.applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException | OperationApplicationException e) {
             e.printStackTrace();
         }
     }
@@ -139,9 +191,7 @@ public class ContactEdit {
                 .build());
         try {
             cr.applyBatch(ContactsContract.AUTHORITY, ops);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (OperationApplicationException e) {
+        } catch (RemoteException | OperationApplicationException e) {
             e.printStackTrace();
         }
     }

@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.wangyeming.custom.CircleImageView;
-import com.wangyeming.foxchat.ContactDetailActivity;
 import com.wangyeming.foxchat.QuickContactActivity;
 import com.wangyeming.foxchat.R;
 
@@ -21,7 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Wang on 2015/1/16.
+ * 联系人列表adapter
+ *
+ * @author 王小明
+ * @date 2015/01/16
  */
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder> {
 
