@@ -88,11 +88,19 @@
         <activity
             android:name=".AddNewContactActivity"
             android:label="@string/title_activity_edit_contact"
-            android:theme="@style/MyMaterialTheme"
-            android:parentActivityName=".ContactMessageDisplayActivity" >
+            android:parentActivityName=".ContactMessageDisplayActivity"
+            android:theme="@style/MyMaterialTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.wangyeming.foxchat.ContactMessageDisplayActivity" />
+        </activity>
+        <activity
+            android:name=".CallNumberActivity"
+            android:label="@string/title_activity_call_number"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.wangyeming.foxchat.MainActivity" />
         </activity>
     </application>
 

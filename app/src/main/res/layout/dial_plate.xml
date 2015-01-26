@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="16dp"
     android:background="#FFFFFF"
     android:orientation="vertical">
 
@@ -16,101 +21,96 @@
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:gravity="center_horizontal|bottom"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/number_1"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="3"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/rect_shape_white"
-                android:gravity="center_horizontal|bottom"
-                android:paddingBottom="0dp"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical|right"
                 android:text="1"
                 android:textColor="#2196F3"
                 android:textSize="35sp"
                 tools:ignore="NestedWeights" />
 
-
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_width="0dip"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
                 android:contentDescription="voice_mail"
-                android:gravity="center_horizontal|top"
                 android:paddingTop="0dp"
+                android:scaleType="fitStart"
                 android:src="@drawable/ic_voicemail_grey600_18dp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            android:gravity="center_horizontal|bottom"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/number_2"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="3"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/rect_shape_white"
-                android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical|right"
                 android:text="2"
                 android:textColor="#2196F3"
-
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                tools:ignore="NestedWeights" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_width="0dip"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
                 android:text="ABC"
                 android:textColor="#757575"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            android:gravity="center_horizontal|bottom"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp">
 
             <Button
                 android:id="@+id/number_3"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="3"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/rect_shape_white"
-                android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical|right"
                 android:text="3"
                 android:textColor="#2196F3"
-
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                tools:ignore="NestedWeights" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_width="0dip"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
                 android:text="DEF"
                 android:textColor="#757575"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -118,104 +118,101 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:baselineAligned="false"
+        android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            android:gravity="center_horizontal|bottom"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/number_4"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="3"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/rect_shape_white"
-                android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical|right"
                 android:text="4"
                 android:textColor="#2196F3"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                tools:ignore="NestedWeights" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_width="0dip"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
                 android:text="GHI"
                 android:textColor="#757575"
-                android:textSize="16sp" />
-
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            android:gravity="center_horizontal|bottom"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/number_5"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="3"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/rect_shape_white"
-                android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical|right"
                 android:text="5"
                 android:textColor="#2196F3"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                tools:ignore="NestedWeights" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_width="0dip"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
                 android:text="JKL"
                 android:textColor="#757575"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            android:gravity="center_horizontal|bottom"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp">
 
             <Button
                 android:id="@+id/number_6"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="3"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/rect_shape_white"
-                android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical|right"
                 android:text="6"
                 android:textColor="#2196F3"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                tools:ignore="NestedWeights" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_width="0dip"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
                 android:text="MNO"
                 android:textColor="#757575"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -223,104 +220,101 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:baselineAligned="false"
+        android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            android:gravity="center_horizontal|bottom"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/number_7"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="3"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/rect_shape_white"
-                android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical|right"
                 android:text="7"
                 android:textColor="#2196F3"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                tools:ignore="NestedWeights" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_width="0dip"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
                 android:text="PQRS"
                 android:textColor="#757575"
-                android:textSize="16sp" />
-
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            android:gravity="center_horizontal|bottom"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/number_8"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="3"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/rect_shape_white"
-                android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical|right"
                 android:text="8"
                 android:textColor="#2196F3"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                tools:ignore="NestedWeights" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_width="0dip"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
                 android:text="TUV"
                 android:textColor="#757575"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            android:gravity="center_horizontal|bottom"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp">
 
             <Button
                 android:id="@+id/number_9"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="3"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:background="@drawable/rect_shape_white"
-                android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical|right"
                 android:text="9"
                 android:textColor="#2196F3"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                tools:ignore="NestedWeights" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_width="0dip"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
                 android:text="WXYZ"
                 android:textColor="#757575"
-                android:textSize="16sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
     </LinearLayout>
@@ -356,35 +350,32 @@
 
         <LinearLayout
             android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
+            android:gravity="center_horizontal|bottom"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/number_0"
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
-                android:layout_weight="3"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:background="@drawable/rect_shape_white"
-                android:gravity="center"
-                android:paddingBottom="0dp"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical|right"
                 android:text="0"
                 android:textColor="#2196F3"
-                android:textSize="35sp" />
+                android:textSize="35sp"
+                tools:ignore="NestedWeights" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dip"
+                android:layout_width="0dip"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical|left"
                 android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:paddingTop="0dp"
                 android:text="+"
                 android:textColor="#757575"
-                android:textSize="16sp" />
-
+                android:textSize="12sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -408,42 +399,22 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
         android:baselineAligned="false"
-        android:gravity="clip_vertical|center_horizontal"
         android:orientation="horizontal">
 
-        <ImageButton
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_gravity="clip_vertical"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:contentDescription="call"
-            android:src="@drawable/ic_call_green" />
+        <com.gc.materialdesign.views.ButtonFloat
+            android:id="@+id/call"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#8BC34A"
+            android:layout_gravity="center_horizontal"
+            android:clickable="true"
+            materialdesign:iconDrawable="@drawable/ic_local_phone_white_24dp" />
 
-        <ImageButton
-            android:id="@+id/dialpad_close"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:contentDescription="dialpad"
-            android:src="@drawable/ic_dialpad_black_18dp" />
-
-        <ImageButton
-            android:id="@+id/delete_number"
-            android:layout_width="0dip"
-            android:layout_height="match_parent"
-            android:layout_gravity="clip_vertical"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:contentDescription="delete"
-            android:src="@drawable/ic_backspace_grey600_18dp" />
-    </LinearLayout>
+    </FrameLayout>
 
 </LinearLayout>

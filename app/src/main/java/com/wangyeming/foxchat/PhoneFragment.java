@@ -2,8 +2,8 @@ package com.wangyeming.foxchat;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,14 +14,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.gc.materialdesign.views.ButtonFloat;
@@ -194,8 +190,7 @@ public class PhoneFragment extends Fragment {
                 PhoneFragment.this.handler1.sendMessage(message);
             }
         }).start();
-        dialpadOpenClose();//设置拨号盘打开关闭
-        setClickNumber();//设置拨号盘点击
+        setDialpad();//拨号
     }
 
     //读取通话记录
@@ -339,78 +334,20 @@ public class PhoneFragment extends Fragment {
     }
 
     /**
-     * 设置弹出回收键盘
+     * 拨号码
      */
-    public void dialpadOpenClose() {
-        ButtonFloat dialpadOpen = (ButtonFloat) currentView.findViewById(R.id.dialpad_open);
-        dialpadOpen.setBackgroundColor(Color.parseColor("#4CAF50"));
-        final View dialpad = currentView.findViewById(R.id.dialpad);
-        ImageButton dialpadClose = (ImageButton) currentView.findViewById(R.id.dialpad_close);
-        final android.support.v7.app.ActionBar toolbar = currentActivity.getSupportActionBar();
-        dialpadOpen.setOnClickListener(new View.OnClickListener() {
+    public void setDialpad() {
+        ButtonFloat buttonFloat = (ButtonFloat) currentView.findViewById(R.id.dialpad_open);
+        buttonFloat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialpad.setVisibility(View.VISIBLE);
-                toolbar.hide();
+                Intent intent = new Intent(currentActivity, CallNumberActivity.class);
+                startActivity(intent);
             }
         });
-        dialpadClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialpad.setVisibility(View.GONE);
-                toolbar.show();
-            }
-        });
+
     }
 
-    /**
-     * 设置拨号键
-     */
-    public void setClickNumber() {
-        Button numberofOne = (Button) currentView.findViewById(R.id.number_1);
-        Button numberofTwo = (Button) currentView.findViewById(R.id.number_2);
-        Button numberofThree = (Button) currentView.findViewById(R.id.number_3);
-        Button numberofFour = (Button) currentView.findViewById(R.id.number_4);
-        Button numberofFive = (Button) currentView.findViewById(R.id.number_5);
-        Button numberofSix = (Button) currentView.findViewById(R.id.number_6);
-        Button numberofSeven = (Button) currentView.findViewById(R.id.number_7);
-        Button numberofEight = (Button) currentView.findViewById(R.id.number_8);
-        Button numberofNine = (Button) currentView.findViewById(R.id.number_9);
-        Button numberofZero = (Button) currentView.findViewById(R.id.number_0);
-        Button asterisk = (Button) currentView.findViewById(R.id.asterisk);
-        Button numberSign = (Button) currentView.findViewById(R.id.number_sign);
-        Button[] buttonArr = new Button[]{numberofOne, numberofTwo, numberofThree, numberofFour,
-                numberofFive, numberofSix, numberofSeven, numberofEight, numberofNine,
-                numberofZero, asterisk, numberSign
-        };
-        String[] numberArr = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "#"};
-        for (int i = 0; i < 12; i++) {
-            setNumberButtonClick(buttonArr[i], numberArr[i]);
-        }
-        ImageButton deleteButton = (ImageButton) currentView.findViewById(R.id.delete_number);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CharSequence display = numberInput.getText();
-                if (display.length() != 0) {
-                    numberInput.setText(display.subSequence(0, display.length() - 1));
-                }
-            }
-        });
-    }
-
-    /**
-     * 设置Button键click
-     */
-    public void setNumberButtonClick(Button numberButton, final String number) {
-        numberButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CharSequence display = numberInput.getText();
-                numberInput.setText(display + number);
-            }
-        });
-    }
 
     public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(Uri uri);

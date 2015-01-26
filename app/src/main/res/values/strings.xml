@@ -50,7 +50,6 @@
     <string name="TYPE_WORK_PAGER">WORK_PAGER</string>
     <string name="TYPE_ASSISTANT">ASSISTANT</string>
     <string name="TYPE_MMS">MMS</string>
-
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <!-- sms list item -->
@@ -90,5 +89,6 @@
     <string name="website">Website</string>
     <string name="im">Instant message</string>
     <string name="all">All</string>
+    <string name="title_activity_call_number">CallNumberActivity</string>
 
 </resources>
