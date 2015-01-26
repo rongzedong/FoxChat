@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,6 +23,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.gc.materialdesign.views.ButtonFloat;
+import com.wangyeming.Help.ContactEdit;
+import com.wangyeming.Help.HanZiToPinYin;
 import com.wangyeming.custom.adapter.AccountFilterAdapter;
 import com.wangyeming.custom.adapter.ContactListAdapter;
 import com.wangyeming.custom.widget.NewToast;
@@ -45,7 +48,7 @@ public class NewContactFragment extends Fragment {
     private static final String[] CONTACT_PROJECTION = new String[]{
             "_id",                  //raw contact id 考虑使用lookup代替,不会改变
             "lookup",               //一个opaque值，包含当name_raw id改变时如何查找联系人的暗示
-            //"name_raw_contact_id",  //name_raw_contact_id，随姓名改变
+//            "name_raw_contact_id",  //name_raw_contact_id，随姓名改变
             "display_name",         //联系人姓名 DISPLAY_NAME_PRIMARY
             "display_name_alt",     //两者选一的展现display_name的方式，姓在前或名在前，如果选择不可用，则以DISPLAY_NAME_PRIMARY
             "display_name_source",  //用于产生联系人姓名的数据种类（EMAIL, PHONE, ORGANIZATION, NICKNAME, STRUCTURED_NAME）
@@ -166,6 +169,7 @@ public class NewContactFragment extends Fragment {
      * 初始化
      */
     public void init() {
+        getPhoneMessage();
         currentActivity = getActivity();  //获取当前activity
         currentView = getView();  //获取当前view
         setNewContact(); //设置新建联系人按钮
@@ -182,6 +186,13 @@ public class NewContactFragment extends Fragment {
                 NewContactFragment.this.handler1.sendMessage(message);
             }
         }).start();
+    }
+    /*
+    *   获取手机信息
+     */
+    public void getPhoneMessage() {
+        int targetSDK = Build.VERSION.SDK_INT;
+        Log.d("wym", "targetSDK " + targetSDK);
     }
 
     private Handler handler1 = new Handler() {
@@ -248,6 +259,8 @@ public class NewContactFragment extends Fragment {
      * 得到手机通讯录联系人信息
      */
     public void getPhoneContacts() {
+        Log.d(this.getTag(), "对汉字联系人拼音正确标记");
+        //setPinYin();
         Log.d(this.getTag(), "读取收藏联系人。。。");
         starNum = readContact("starred=?", new String[]{"1"}); //读取星标联系人
         Log.d(this.getTag(), "读取未收藏联系人。。。");
@@ -255,6 +268,29 @@ public class NewContactFragment extends Fragment {
     }
 
     /**
+     * 为汉字联系人设置正确的拼音
+     */
+     public void setPinYin() {
+         Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, CONTACT_PROJECTION,
+                 null, null , null);
+         while (cursor.moveToNext()) {
+             long _id = cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+             String lookUpKey = cursor.getString(cursor.getColumnIndex(
+                     ContactsContract.Contacts.LOOKUP_KEY));
+             String displayName = cursor.getString(cursor.getColumnIndex(
+                     ContactsContract.Contacts.DISPLAY_NAME_PRIMARY));
+             //ContactEdit contactEdit = new ContactEdit(lookUpKey, cr);
+             ContactEdit contactEdit = new ContactEdit(_id, cr);
+             String sortKey = HanZiToPinYin.getPinyin(displayName);
+             Log.d("wym", "拼音 " + sortKey);
+             if(displayName.equals("ZTE客服2")) {
+                 contactEdit.updateContactPinyin(sortKey);
+             }
+         }
+         cursor.close();
+     }
+
+    /**-
      * 读取联系人基本信息
      */
     public int readContact(String selection, String[] selectionArgs) {
@@ -271,8 +307,8 @@ public class NewContactFragment extends Fragment {
                     ContactsContract.RawContacts.ACCOUNT_TYPE));
             String lookUpKey = cursor.getString(cursor.getColumnIndex(
                     ContactsContract.Contacts.LOOKUP_KEY));
-            /*long nameRawContactId = cursor.getLong(cursor.getColumnIndex(
-                    ContactsContract.Contacts.NAME_RAW_CONTACT_ID));*/
+//            long nameRawContactId = cursor.getLong(cursor.getColumnIndex(
+//                    ContactsContract.Contacts.NAME_RAW_CONTACT_ID));
             String displayName = cursor.getString(cursor.getColumnIndex(
                     ContactsContract.Contacts.DISPLAY_NAME_PRIMARY));
             String displayNameAlt = cursor.getString(cursor.getColumnIndex(
@@ -334,6 +370,9 @@ public class NewContactFragment extends Fragment {
                     break;
                 //如果是非收藏联系人
                 case "0":
+                    //如果是汉字，转化为PinYin
+                    firstPinyin = HanZiToPinYin.getFirstPinyin(firstPinyin);
+                    Log.d("wym", displayName + " " + firstPinyin);
                     if (firstPinyin.equals(flag)) {
                         mark = "none";
                     } else {
@@ -348,7 +387,7 @@ public class NewContactFragment extends Fragment {
             contactMap.put("accountName",accountName);
             contactMap.put("accountType",accountType);
             contactMap.put("LookUpKey", lookUpKey);
-            /*contactMap.put("nameRawContactId",nameRawContactId);*/
+            contactMap.put("nameRawContactId",nameRawContactId);
             contactMap.put("displayName", displayName);
             contactMap.put("displayNameAlt", displayNameAlt);
             contactMap.put("displayNameSource", displayNameSource);
