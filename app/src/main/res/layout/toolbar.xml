@@ -12,6 +12,7 @@
         android:id="@+id/filterAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#2196F3" />
+        android:background="#2196F3"
+        android:popupBackground="#2196F3"/>
 
 </android.support.v7.widget.Toolbar>

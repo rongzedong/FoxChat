@@ -38,7 +38,7 @@
         <!-- bottomSheet样式 -->
         <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog</item>
         <!--spinner样式-->
-        <item name="android:spinnerStyle">@style/CustomSpinnerStyle</item>
+        <!--item name="android:spinnerStyle">@style/CustomSpinnerStyle</item-->
     </style>
 
     <style name="buttonStyle" parent="android:style/Widget.Material.Button">
