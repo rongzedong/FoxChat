@@ -198,6 +198,7 @@ public class PhoneFragment extends Fragment {
         Cursor cursor = cr.query(CallLog.Calls.CONTENT_URI, CALL_PROJECTION_ABOVE_16,
                 null, null, CallLog.Calls.DEFAULT_SORT_ORDER);
         String subheader = "subheader";
+        String timeApartMark = "timeApartMark";
         while (cursor.moveToNext()) {
             //Log.d(this.getTag(), "----------------call record----------------");
             /* min API>=16 */
@@ -231,13 +232,20 @@ public class PhoneFragment extends Fragment {
             //时间转换
             SimpleDateFormat sdFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//24小时制
             String LgTime = sdFormat.format(date);
-            //计算时间间隔
-            String apart = null;
-            String timeApart = getCurrentTime(date);
-            if (!timeApart.equals(subheader)) {
-                apart = timeApart;
+            //计算今天或更早
+            String isTodaySp = null;
+            String isToday = getTimeApart(date);
+            if (!isToday.equals(subheader)) {
+                isTodaySp = isToday;
             }
-            subheader = timeApart;
+            subheader = isToday;
+            //计算时间间隔
+//            String apart = null;
+//            String timeApart = getCurrentTime(date);
+//            if (!timeApart.equals(timeApartMark)) {
+//                apart = timeApart;
+//            }
+//            timeApartMark = timeApart;
             /* min API>=16 */
             /*Log.d(this.getTag(), " name " + name
                             + " numberType " + numberType
@@ -276,7 +284,8 @@ public class PhoneFragment extends Fragment {
             callRecordsMap.put("duration", duration);
             callRecordsMap.put("avatarUri", avatarUri);
             callRecordsMap.put("type", type);
-            callRecordsMap.put("timeApart", apart);
+            callRecordsMap.put("isToday", isTodaySp);
+//            callRecordsMap.put("timeapart", apart);
             callRecordsDisplay.add(callRecordsMap);
         }
         cursor.close();
@@ -332,6 +341,33 @@ public class PhoneFragment extends Fragment {
         return time_apart;
 
     }
+
+    /**
+     * 获取时间间隔
+     */
+    public String getTimeApart(Long date) {
+        String[] arr = getResources().getStringArray(R.array.is_today);
+        Long currentTimeMillis = System.currentTimeMillis();
+        SimpleDateFormat todayFormat = new SimpleDateFormat("yyyyMMdd");
+        String callRecordTime = todayFormat.format(date);
+        String currentTime = todayFormat.format(currentTimeMillis);
+        int apart = Integer.valueOf(currentTime) - Integer.valueOf(callRecordTime);
+        String subHeader = "";
+        switch (apart) {
+            case 0:
+                subHeader = arr[0];
+                break;
+            case 1:
+                subHeader = arr[1];
+                break;
+            default:
+                subHeader = arr[2];
+                break;
+        }
+        return subHeader;
+
+    }
+
 
     /**
      * 拨号码

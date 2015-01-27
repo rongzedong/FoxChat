@@ -17,7 +17,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Wang on 2015/1/14.
+ * 读取通话记录的Fragment
+ *
+ * @author 王小明
+ * @data 2015/01/27
  */
 public class CallRecordAdapter extends RecyclerView.Adapter<CallRecordAdapter.ViewHolder> {
 
@@ -49,7 +52,7 @@ public class CallRecordAdapter extends RecyclerView.Adapter<CallRecordAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder vh, int i) {
         //设置subheader
-        String timeApart = (String) callRecordsDisplay.get(i).get("timeApart");
+        String timeApart = (String) callRecordsDisplay.get(i).get("isToday");
         if (timeApart != null) {
             vh.subheader.setText(timeApart);
             vh.subheader.setVisibility(View.VISIBLE);

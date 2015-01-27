@@ -33,13 +33,18 @@
     </string-array>
 
     <string-array name="date_apart">
-        <item>一小时内</item>
+        <item>小时前</item>
+        <item>天前</item>
+        <item>周前</item>
+        <item>月前</item>
+        <item>年前</item>
+        <item>超过1年</item>
+    </string-array>
+
+    <string-array name="is_today">
         <item>今天</item>
         <item>昨天</item>
-        <item>一周内</item>
-        <item>一个月内</item>
-        <item>一年内</item>
-        <item>超过一年</item>
+        <item>更早</item>
     </string-array>
 
     <string-array name="email_type">

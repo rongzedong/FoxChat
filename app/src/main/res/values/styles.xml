@@ -25,9 +25,9 @@
 
     <style name="MyMaterialTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- toolbar（actionbar）颜色 -->
-        <item name="colorPrimary">#33691E</item>
+        <item name="colorPrimary">#2196F3</item>
         <!-- 状态栏颜色 -->
-        <item name="colorPrimaryDark">#689F38</item>
+        <item name="colorPrimaryDark">#2196F3</item>
         <!-- 窗口的背景颜色 -->
         <item name="android:windowBackground">@android:color/white</item>
         <!-- 按钮样式 -->
@@ -38,7 +38,7 @@
         <!-- bottomSheet样式 -->
         <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog</item>
         <!--spinner样式-->
-        <!--item name="android:spinnerStyle">@style/CustomSpinnerStyle</item-->
+        <item name="android:spinnerStyle">@style/CustomSpinnerStyle</item>
     </style>
 
     <style name="buttonStyle" parent="android:style/Widget.Material.Button">
@@ -111,6 +111,7 @@
     <style name="CustomSpinnerStyle" parent="android:style/Widget.Material.Spinner">
         <!-- Customize your theme here. -->
         <!--item name="android:windowNoTitle">false</item-->
+        <item name="android:background">#2196F3</item>
     </style>
 
 </resources>

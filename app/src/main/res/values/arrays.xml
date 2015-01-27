@@ -23,15 +23,20 @@
         <item>ASSISTANT</item>
         <item>MMS</item>        　　
     </string-array>
-    
+
     <string-array name="date_apart">
-        <item>@string/within_one_hour</item>
-        <item>@string/within_one_day</item>
-        <item>@string/within_two_day</item>
-        <item>@string/within_one_week</item>
-        <item>@string/within_one_month</item>
-        <item>@string/within_one_year</item>
-        <item>@string/over_one_hour</item>
+        <item>hour</item>
+        <item>day</item>
+        <item>week</item>
+        <item>month</item>
+        <item>year</item>
+        <item>over one year</item>
+    </string-array>
+
+    <string-array name="is_today">
+        <item>Today</item>
+        <item>Yesterday</item>
+        <item>Earlier</item>
     </string-array>
 
     <string-array name="email_type">

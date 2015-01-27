@@ -4,7 +4,7 @@
     android:id="@+id/toolbar_edit_contact"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#3F51B5"
+    android:background="#2196F3"
     app:popupTheme="@style/MyMaterialTheme"
     app:theme="@style/MyMaterialTheme">
 

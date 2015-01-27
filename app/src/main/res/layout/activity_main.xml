@@ -25,7 +25,7 @@
         app:accentColor="#C5E1A5"
         app:hasIcons="true"
         app:iconColor="#FFFFFF"
-        app:primaryColor="#3F51B5" />
+        app:primaryColor="#2196F3" />
 
     <!--
     <com.astuetz.PagerSlidingTabStrip

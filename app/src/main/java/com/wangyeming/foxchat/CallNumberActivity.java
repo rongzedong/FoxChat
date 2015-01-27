@@ -56,6 +56,7 @@ public class CallNumberActivity extends ActionBarActivity {
      * 设置拨号键
      */
     public void setClickNumber() {
+        numberInput = (TextView) findViewById(R.id.number_input);
         Button numberofOne = (Button) findViewById(R.id.number_1);
         Button numberofTwo = (Button) findViewById(R.id.number_2);
         Button numberofThree = (Button) findViewById(R.id.number_3);
