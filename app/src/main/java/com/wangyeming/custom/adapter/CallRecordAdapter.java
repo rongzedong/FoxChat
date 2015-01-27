@@ -63,6 +63,8 @@ public class CallRecordAdapter extends RecyclerView.Adapter<CallRecordAdapter.Vi
         Uri avatarUri = (Uri) callRecordsDisplay.get(i).get("avatarUri");
         if (avatarUri != null) {
             vh.avatar.setImageURI(avatarUri);
+        } else {
+            vh.avatar.setImageResource(R.drawable.ic_person_black_18dp);
         }
         //设置姓名
         String name = (String) callRecordsDisplay.get(i).get("name");

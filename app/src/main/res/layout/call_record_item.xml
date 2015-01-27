@@ -24,7 +24,7 @@
             android:id="@+id/avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/white_fox"
+            android:src="@drawable/ic_person_black_18dp"
             app:border_color="#FFFFFF"
             app:border_width="2dp" />
 

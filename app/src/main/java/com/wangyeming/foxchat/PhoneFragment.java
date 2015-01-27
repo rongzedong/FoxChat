@@ -286,6 +286,11 @@ public class PhoneFragment extends Fragment {
             callRecordsMap.put("type", type);
             callRecordsMap.put("isToday", isTodaySp);
 //            callRecordsMap.put("timeapart", apart);
+            String logString = "";
+            for (String key : callRecordsMap.keySet()) {
+                logString = logString + " " + key + " " + callRecordsMap.get(key);
+            }
+            Log.d("wym", logString);
             callRecordsDisplay.add(callRecordsMap);
         }
         cursor.close();
@@ -303,6 +308,23 @@ public class PhoneFragment extends Fragment {
         }
         cursor.close();
         return avatarUri;
+    }
+
+    //通过电话号码获得头像
+    public String numberToAvatar(String number) {
+        //Log.d(this.getTag(), "address1 " + address);
+        number = number.replaceAll(" ", "");//去除电话号码的空格
+        String regex = "\\+\\d\\d";
+        number = number.replaceFirst(regex, ""); //去除电话号码的国家区号
+        //Log.d(this.getTag(), "address2 " + address);
+        Cursor cursor = cr.query(CONTENT_URI, new String[]{"photoThumbUri"},
+                ContactsContract.CommonDataKinds.Phone.NUMBER + "=?", new String[]{number}, null, null);
+        String photoThumbUri = null;
+        if (cursor.moveToFirst()) {
+            photoThumbUri = cursor.getString(cursor.getColumnIndex("photoThumbUri"));
+        }
+        cursor.close();
+        return photoThumbUri;
     }
 
     public void setRecyclerView() {

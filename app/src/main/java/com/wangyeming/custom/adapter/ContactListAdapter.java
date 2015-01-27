@@ -58,6 +58,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         String photoThumbUri = (String) contactList.get(i).get("photoThumbUri");
         if (photoThumbUri != null) {
             vh.avatar.setImageURI(Uri.parse(photoThumbUri));
+        } else {
+            vh.avatar.setImageResource(R.drawable.ic_person_black_18dp);
         }
         //设置分割线
         if (i == starNum - 1) {

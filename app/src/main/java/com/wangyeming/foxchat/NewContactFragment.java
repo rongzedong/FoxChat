@@ -282,7 +282,7 @@ public class NewContactFragment extends Fragment {
              //ContactEdit contactEdit = new ContactEdit(lookUpKey, cr);
              ContactEdit contactEdit = new ContactEdit(_id, cr);
              String sortKey = HanZiToPinYin.getPinyin(displayName);
-             Log.d("wym", "拼音 " + sortKey);
+             //Log.d("wym", "拼音 " + sortKey);
              if(displayName.equals("ZTE客服2")) {
                  contactEdit.updateContactPinyin(sortKey);
              }
