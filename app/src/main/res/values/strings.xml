@@ -90,5 +90,7 @@
     <string name="im">Instant message</string>
     <string name="all">All</string>
     <string name="title_activity_call_number">CallNumberActivity</string>
+    <string name="title_activity_welcome">WelcomeActivity</string>
+    <string name="welcome">Welcome you! Fox chat</string>
 
 </resources>

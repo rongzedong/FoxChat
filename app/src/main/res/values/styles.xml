@@ -39,6 +39,11 @@
         <item name="bottomSheetStyle">@style/BottomSheet.StyleDialog</item>
         <!--spinner样式-->
         <!--item name="android:spinnerStyle">@style/CustomSpinnerStyle</item-->
+        <!--progressBar样式-->
+        <item name="android:progressBarStyle">@style/MyProgressBarStyle</item>
+    </style>
+
+    <style name="MyProgressBarStyle" parent="android:style/Widget.Material.ProgressBar.Large">
     </style>
 
     <style name="buttonStyle" parent="android:style/Widget.Material.Button">
