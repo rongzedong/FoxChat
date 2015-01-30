@@ -3,11 +3,8 @@ package com.wangyeming.Help;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.wangyeming.foxchat.R;
 
 /**
  * 固定RecyclerView高度
@@ -78,7 +75,7 @@ public class RecyclerViewLayoutManager extends LinearLayoutManager {
         height += this.getPaddingTop() + this.getPaddingBottom();
         this.layoutWidth = width;
         this.layoutHeight = height;
-        Log.d("wym", "layoutHeight " + layoutHeight);
+        //Log.d("wym", "layoutHeight " + layoutHeight);
         setMeasuredDimension(width, height);
     }
 

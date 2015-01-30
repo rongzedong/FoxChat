@@ -3,7 +3,9 @@ package com.wangyeming.foxchat;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -117,7 +119,7 @@ public class CallNumberActivity extends ActionBarActivity {
         buttonFloat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharSequence number = (String) numberInput.getText();
+                final CharSequence number = (String) numberInput.getText();
                 Log.d("wym", "number " + number);
                 if(number.equals("")) {
                     return;
@@ -130,6 +132,9 @@ public class CallNumberActivity extends ActionBarActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //选择卡一
+                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:"
+                                        + number.toString()));
+                                CallNumberActivity.this.startActivity(intent);
                             }
                         }).setNegativeButton("卡二", new DialogInterface.OnClickListener() {
                              @Override

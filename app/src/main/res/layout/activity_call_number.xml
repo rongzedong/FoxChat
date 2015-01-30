@@ -38,6 +38,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:background="@drawable/rect_shape_white"
                 android:src="@drawable/ic_backspace_grey600_18dp" />
 
         </LinearLayout>

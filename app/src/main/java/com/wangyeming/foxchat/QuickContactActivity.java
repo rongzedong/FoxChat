@@ -13,7 +13,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -178,7 +177,8 @@ public class QuickContactActivity extends ActionBarActivity {
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.width = displayWidth;
         params.height = layoutHeight > halfHeight ? halfHeight : layoutHeight;
-        params.gravity = Gravity.BOTTOM;
+        Log.d("wym", "width " + params.width + " height " + params.height);
+        //params.gravity = Gravity.BOTTOM;
         this.getWindow().setAttributes(params);
     }
 
