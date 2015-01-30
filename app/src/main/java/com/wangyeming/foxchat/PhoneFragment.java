@@ -304,7 +304,9 @@ public class PhoneFragment extends Fragment {
         if (cursor.moveToFirst()) {
             String avatarString = cursor.getString(cursor.getColumnIndex(
                     ContactsContract.CommonDataKinds.Photo.PHOTO_URI)); //获取联系人头像
-            avatarUri = Uri.parse(avatarString);
+            if(avatarString != null ) {
+                avatarUri = Uri.parse(avatarString);
+            }
         }
         cursor.close();
         return avatarUri;

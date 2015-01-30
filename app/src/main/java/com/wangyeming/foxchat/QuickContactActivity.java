@@ -10,7 +10,6 @@ import android.os.Message;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Display;
@@ -24,8 +23,6 @@ import android.widget.TextView;
 
 import com.wangyeming.Help.RecyclerViewLayoutManager;
 import com.wangyeming.custom.CircleImageView;
-import com.wangyeming.custom.adapter.EmailAdapter;
-import com.wangyeming.custom.adapter.PhoneAdapter;
 import com.wangyeming.custom.adapter.QuickEmailAdapter;
 import com.wangyeming.custom.adapter.QuickPhoneAdapter;
 
@@ -165,9 +162,10 @@ public class QuickContactActivity extends ActionBarActivity {
     //设置界面显示
     public void setWindows() {
         Display display = getWindowManager().getDefaultDisplay();
+        //获取设备的宽和高
         int displayWidth = display.getWidth();
         int displayHeight = display.getHeight();
-        int halfHeight = (int) (displayHeight *0.7);
+        int halfHeight = (int) (displayHeight *0.7); //设置显示的最大高度
         int layoutHeight = 0;
         //获取recyclerView实际高度
         int recyclerViewHeight = phoneLayoutManager.getHeight() + emailLayoutManager.getHeight();

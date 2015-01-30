@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="#FFF"
     android:orientation="vertical"
-    tools:context="com.wangyeming.foxchat.QucikContactActivity">
+    tools:context="com.wangyeming.foxchat.QuickContactActivity">
 
     <LinearLayout
         android:id="@+id/avatar_and_name"

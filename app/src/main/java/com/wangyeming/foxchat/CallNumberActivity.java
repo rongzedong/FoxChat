@@ -1,8 +1,12 @@
 package com.wangyeming.foxchat;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +54,7 @@ public class CallNumberActivity extends ActionBarActivity {
 
     public void init() {
         setClickNumber();//设置拨号盘点击
+        callPhone();//
     }
 
     /**
@@ -100,6 +105,39 @@ public class CallNumberActivity extends ActionBarActivity {
             public void onClick(View v) {
                 CharSequence display = numberInput.getText();
                 numberInput.setText(display + number);
+            }
+        });
+    }
+
+    /**
+     * 拨打电话
+     */
+    public void callPhone() {
+        ButtonFloat buttonFloat = (ButtonFloat) findViewById(R.id.call);
+        buttonFloat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CharSequence number = (String) numberInput.getText();
+                Log.d("wym", "number " + number);
+                if(number.equals("")) {
+                    return;
+                }
+                //弹出选择卡
+                Dialog alertDialog = new AlertDialog.Builder(
+                        CallNumberActivity.this).setTitle("打电话给" + number + "?").
+                        setIcon(android.R.drawable.ic_dialog_info).
+                        setPositiveButton("卡一", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //选择卡一
+                            }
+                        }).setNegativeButton("卡二", new DialogInterface.OnClickListener() {
+                             @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //选择卡二
+                            }
+                        }).create();
+                alertDialog.show();
             }
         });
     }
