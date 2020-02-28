@@ -1,5 +1,6 @@
 # FoxChat
 一款好看的安卓通讯录（开发中）
+fork from https://github.com/wangyeming/FoxChat/
 
 ## 介绍
 安卓通讯录，包括通话记录、联系人、短信。
